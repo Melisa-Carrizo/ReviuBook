@@ -1,0 +1,35 @@
+.footer {
+  background-color: #d60000;
+  color: white;
+  text-align: center;
+  padding: 1rem 0.5rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+
+.footer .brand {
+  font-weight: bold;
+}
+
+.footer-links {
+  margin-top: 0.5rem;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  margin: 0 4px;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.footer .creators {
+  display: block;
+  margin-top: 0.3rem;
+}
+
+.footer i {
+  margin-right: 4px;
+}
