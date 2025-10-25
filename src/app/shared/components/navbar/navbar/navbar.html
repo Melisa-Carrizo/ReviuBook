@@ -1,1 +1,12 @@
-<p>navbar works!</p>
+<nav class="navbar">
+  <div class="navbar-left">
+    <a class="brand" routerLink="/">ReviuBook</a>
+  </div>
+  <div class="navbar-right">
+    <!-- Aca de podria usar un defer o condicional 
+     para renderizar el boton segun si esta logueado o no-->
+    <button class="login-btn" routerLink="/login">
+      Login
+    </button>
+  </div>
+</nav>

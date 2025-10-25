@@ -1,0 +1,37 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 2rem;
+  background-color: white;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #d60000; /* rojo principal */
+  text-decoration: none;
+}
+
+.login-btn {
+  background-color: #d60000;
+  border: none;
+  color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.login-btn:hover {
+  background-color: #b00000;
+}
+
+.login-btn i {
+  margin-right: 6px;
+}
