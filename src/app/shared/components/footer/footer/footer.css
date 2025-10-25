@@ -33,3 +33,9 @@
 .footer i {
   margin-right: 4px;
 }
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
