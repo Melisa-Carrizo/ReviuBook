@@ -1,6 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { BookService } from '../../../core/services/book-service';
 import { BookSheet } from '../../../core/models/BookSheet';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-book-sheet',
@@ -10,13 +13,16 @@ import { BookSheet } from '../../../core/models/BookSheet';
 })
 export class BookSheetComponent {
   private _bookService = inject(BookService);
-  book! : BookSheet;
+  private route = inject(ActivatedRoute);
+  //book! : BookSheet;
+
+  book = toSignal(
+    this.route.paramMap.pipe(
+      switchMap(params => this._bookService.getBookSheet(params.get('id')!))
+    ),
+    {initialValue : undefined}
+  );
 
 
-  getById() {
-    // harcodeo para probar
-    this._bookService.getBookSheet("11").subscribe({
-      next: data => this.book = data
-    })
-  }
+  
 }

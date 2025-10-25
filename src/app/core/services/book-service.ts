@@ -7,9 +7,9 @@ import { BookSheet } from '../models/BookSheet';
 })
 export class BookService {
   private http = inject(HttpClient);
-  baseUrl = 'http://localhost:8080';
+  baseUrl = 'http://localhost:8080/libros';
 
   getBookSheet(id: string) {
-    return this.http.get<BookSheet>(`${this.baseUrl}/${id}`);
+    return this.http.get<BookSheet>(`${this.baseUrl}/bookSheet/${id}`);
   }
 }
