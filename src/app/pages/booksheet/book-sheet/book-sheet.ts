@@ -18,7 +18,7 @@ export class BookSheetComponent {
 
   book = toSignal(
     this.route.paramMap.pipe(
-      switchMap(params => this._bookService.getBookSheet(params.get('id')!))
+      switchMap(params => this._bookService.getBookSheetById(params.get('id')!))
     ),
     {initialValue : undefined}
   );
