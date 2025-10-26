@@ -1,0 +1,10 @@
+<div class="review-item">
+  <div class="review-header">
+    <!--Aca deberia ir el nombre del usuario-->
+    <span class="review-author">{{review()?.idUser}}</span>
+    <span class="review-rating">
+      <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> ({{review()?.rating}})
+    </span>
+  </div>
+  <p class="review-body">{{review()?.content}}</p>
+</div>

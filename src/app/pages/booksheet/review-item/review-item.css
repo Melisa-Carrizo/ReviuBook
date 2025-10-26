@@ -1,0 +1,35 @@
+.review-item {
+  background-color: #ffffff;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 15px; /* Separación entre reseñas */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Sombra ligera */
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed #ddd;
+  padding-bottom: 5px;
+}
+
+.review-author {
+  font-weight: 700;
+  color: #000;
+}
+
+.review-rating {
+  color: gold; /* O el color que uses para las estrellas */
+  font-size: 1.1rem;
+}
+
+.review-body {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+

@@ -1,0 +1,17 @@
+:host {
+    /* El :host selecciona el componente app-review-list */
+    display: block; /* Asegura que el contenedor tome el ancho completo */
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+.review-list-header {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #d60000; /* Línea de color para destacar el título */
+    padding-bottom: 5px;
+}

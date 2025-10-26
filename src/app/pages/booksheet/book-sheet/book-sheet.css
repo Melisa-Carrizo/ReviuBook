@@ -1,22 +1,16 @@
-/* Contenedor principal de la ficha (opcional, para centrar o controlar ancho) */
 .book-card-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column; 
+  align-items: center;
   padding: 20px;
-  background-color: #f5f5f5; /* Un fondo suave para que la ficha resalte */
-  min-height: 100vh; /* Para que ocupe toda la altura de la vista si no hay más contenido */
-  align-items: flex-start; /* Alinea la tarjeta al inicio si hay espacio vertical */
+  background-color: #f5f5f5;
+  min-height: 100vh; 
 }
 
 .book-card {
-  display: flex; /* Para que la imagen y los detalles estén uno al lado del otro */
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  padding: 20px;
-  max-width: 800px; /* Ancho máximo de la ficha */
+  max-width: 800px;
   width: 100%;
-  gap: 20px; /* Espacio entre la imagen y los detalles */
+  margin-bottom: 30px; 
 }
 
 .book-image-wrapper {
