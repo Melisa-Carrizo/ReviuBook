@@ -9,4 +9,8 @@ import { Review } from '../../../core/models/Review';
 })
 export class ReviewItem {
   review = input<Review>();
+
+  //Agregar funcion para obtener un usuario por su ID
+  
+
 }

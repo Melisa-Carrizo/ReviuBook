@@ -3,8 +3,8 @@
   border: 1px solid #eee;
   border-radius: 6px;
   padding: 15px;
-  margin-bottom: 15px; /* Separación entre reseñas */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Sombra ligera */
+  margin-bottom: 15px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); 
 }
 
 .review-header {
@@ -22,8 +22,15 @@
 }
 
 .review-rating {
-  color: gold; /* O el color que uses para las estrellas */
   font-size: 1.1rem;
+}
+
+.review-rating .filled {
+  color: #ffc107; 
+}
+
+.review-rating .empty {
+  color: #ccc; 
 }
 
 .review-body {
