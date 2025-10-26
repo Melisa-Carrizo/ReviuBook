@@ -1,0 +1,7 @@
+<h3 class="review-list-header">Reseñas de Usuarios</h3>
+
+@for (r of reviews(); track r.idReview) {
+    <app-review-item
+      [review]="r"
+    ></app-review-item>
+}

@@ -1,0 +1,16 @@
+<div class="review-item">
+  <div class="review-header">
+    <!--Aca deberia ir el nombre del usuario-->
+    <span class="review-author">(esto tendria que ser el username){{review()?.idUser}}</span>
+    <span class="review-rating">
+      
+      @for (i of [1, 2, 3, 4, 5]; track i) {
+        @if (review() && review()!.rating >= i) {
+          <i class="fas fa-star filled"></i> } @else {
+          <i class="far fa-star empty"></i> }
+      }
+      ({{review()?.rating}})
+    </span>
+  </div>
+  <p class="review-body">{{review()?.content}}</p>
+</div>
