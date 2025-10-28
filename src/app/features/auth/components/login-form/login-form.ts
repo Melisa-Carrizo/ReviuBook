@@ -1,13 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ApiConnectionAuth } from '../../../../core/service/apiConnection/api-connection-auth';
+import { ApiConnectionAuth } from '../../../../core/service/apiConnection/auth-service';
 import { LoginRequest } from '../../models/login-request';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatError, MatFormField, MatLabel ,MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-login-form',
-  imports: [ ReactiveFormsModule, MatDialogModule, MatButtonModule ],
+  imports: [ ReactiveFormsModule, MatDialogModule, MatButtonModule, MatButtonModule, MatFormField, MatLabel, MatError, MatInputModule, MatFormFieldModule ],
   templateUrl: './login-form.html',
   styleUrl: './login-form.css',
 })

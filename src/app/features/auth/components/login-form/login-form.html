@@ -1,20 +1,47 @@
-<h2 mat-dialog-title>Iniciar Sesión (Estilo v17+)</h2>
+<!-- 
+  Este es el contenido de la pestaña "Login".
+  Asume que está dentro de un <mat-tab> en el AuthModalComponent.
+-->
+<div class="tab-content-wrapper">
+  <h2 class="dialog-title">Welcome Back!</h2>
 
-<mat-dialog-content>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmint()" class="form-container">
+    
+    <!-- 
+      Usamos 'mat-form-field' de Angular Material.
+      'appearance="outline"' le da el borde.
+    -->
+    <mat-form-field appearance="outline">
+      <mat-label>Email address</mat-label>
+      <input matInput formControlName="email" type="email" placeholder="tu@email.com">
+      
+      <!-- 
+        Validaciones con el nuevo block @if / @else if (Angular 17+).
+        Muestra solo un error a la vez.
+      -->
+      @if (loginForm.get('email')?.hasError('required')) {
+        <mat-error>Email is required</mat-error>
+      } @else if (loginForm.get('email')?.hasError('email')) {
+        <mat-error>Please enter a valid email</mat-error>
+      }
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" type="password" placeholder="Tu contraseña">
+      
+      <!-- Validación con @if para password -->
+      @if (loginForm.get('password')?.hasError('required')) {
+        <mat-error>Password is required</mat-error>
+      }
+    </mat-form-field>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmint()">
-        <div>
-            <label for="email">Email:</label>
-            <input id="email" formControlName="email" type="email" />
-        </div>
-        <div>
-            <label for="password">Password:</label>
-            <input id="password" formControlName="password" type="password" />
-        </div>
-        <button type="submit">Login</button>
-    </form>
-
-    <button mat-button (click)="closeDialog()">Cancelar</button>
-    <button mat-flat-button color="primary">Ingresar</button>
-
-</mat-dialog-content>
+    <!-- 
+      Tu botón de submit original, ahora con la clase
+      de estilo para que sea rojo y grande.
+    -->
+    <button mat-flat-button class="submit-btn" type="submit">
+      Sign In
+    </button>
+  </form>
+</div>
