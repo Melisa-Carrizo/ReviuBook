@@ -14,7 +14,6 @@ export class ApiConnectionAuth {
   private apiUrl = 'http://localhost:8080/auth'
   private http = inject(HttpClient);
 
-
   login(credentials : LoginRequest): Observable<Token> {
 
     return this.http.post<Token>(`${this.apiUrl}/login`, credentials).pipe(
@@ -33,9 +32,13 @@ export class ApiConnectionAuth {
 
   }
 
-  register(data: Partial<RegisterRequest>): Observable<RegisterRequest> {
-    return this.http.post<RegisterRequest>(`${this.apiUrl}/register`, data)
-  }
+  register(data: Partial<RegisterRequest>): Observable<string> {
+  return this.http.post(
+    `${this.apiUrl}/register`, 
+    data,
+    { responseType: 'text' } 
+  );
+}
 
 
 }
