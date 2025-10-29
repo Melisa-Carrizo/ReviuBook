@@ -25,3 +25,30 @@ body {
     background-color: var(--bg-color-white);
 }
 
+/* Estilos para el SnackBar de ÉXITO (verde).
+  La clase 'success-snackbar' la definimos en el 'panelClass' de TypeScript.
+*/
+.success-snackbar {
+  background-color: #4CAF50; 
+  color: white; 
+  font-weight: 600;
+
+  /* Estilos para el botón (ej. "Cerrar") */
+  .mdc-snackbar__action {
+    color: white;
+    font-weight: bold;
+  }
+}
+
+/* Estilos para el SnackBar de ERROR (rojo).
+*/
+.error-snackbar {
+  background-color: var(--darker-red); 
+  color: white;
+  font-weight: 600;
+
+  .mdc-snackbar__action {
+    color: white;
+    font-weight: bold;
+  }
+}
