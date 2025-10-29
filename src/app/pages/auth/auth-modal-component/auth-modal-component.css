@@ -8,8 +8,8 @@
   color: #aaa; 
 }
 
-/* ¡ESTO QUITA EL SCROLL!
-  Ajusta el padding y oculta el desbordamiento.
+/* saca el scrollbar horizontal y
+  ajusta el padding y oculta el desbordamiento.
 */
 :host ::ng-deep mat-dialog-content {
   padding: 0 24px 24px 24px !important;

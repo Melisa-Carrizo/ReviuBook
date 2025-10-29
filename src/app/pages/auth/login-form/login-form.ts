@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ApiConnectionAuth } from '../../../../core/service/apiConnection/auth-service';
-import { LoginRequest } from '../../models/login-request';
+import { ApiConnectionAuth } from '../../../core/services/auth-service';
+import { LoginRequest } from '../../../core/models/login-request';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel ,MatFormFieldModule } from '@angular/material/form-field';

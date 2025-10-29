@@ -14,7 +14,7 @@
       <!-- 
         Cargamos tu componente de Login.
         Escuchamos el evento (loginSuccess) que DEBE ser emitido 
-        por tu LoginFormComponent.
+        por tu LoginFormComponent
       -->
       <app-login-form 
         (loginSuccess)="onLoginSuccess($event)">
@@ -24,7 +24,7 @@
     <mat-tab label="Register">
       <!-- 
         Cargamos tu componente de Registro.
-        (registerSuccess) debe ser un @Output() de tu RegisterFormComponent.
+        (registerSuccess) debe ser un @Output() de tu RegisterFormComponent
       -->
       <app-register-form 
         (registerSuccess)="onRegisterSuccess($event)">

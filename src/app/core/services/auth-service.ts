@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LoginRequest } from '../../../features/auth/models/login-request';
-import { Token } from '../../../features/auth/models/token';
+import { LoginRequest } from '../models/login-request';
+import { Token } from '../models/token';
 import { tap } from 'rxjs/operators';
-import { RegisterRequest } from '../../../features/auth/models/register-request';
+import { RegisterRequest } from '../models/register-request';
 
 @Injectable({
   providedIn: 'root'
