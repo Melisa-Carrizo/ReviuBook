@@ -1,0 +1,27 @@
+.dialog-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 8px 0; 
+}
+
+.close-btn {
+  color: #aaa; 
+}
+
+/* ¡ESTO QUITA EL SCROLL!
+  Ajusta el padding y oculta el desbordamiento.
+*/
+:host ::ng-deep mat-dialog-content {
+  padding: 0 24px 24px 24px !important;
+  overflow: hidden !important; 
+}
+
+:host ::ng-deep .mat-mdc-tab-labels {
+  justify-content: center;
+}
+
+
+:host ::ng-deep .mat-mdc-tab-body-content {
+  padding-top: 2rem;
+  overflow: hidden !important; 
+}
