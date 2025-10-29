@@ -1,7 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+:root{
+    --bg-color-white: #F9FAFC;
+    --line-gray: #ECECEC;
+    --main-red: #d60000;
+    --darker-red:#b00000;
+    --gray-filter:#f5f5f5;
+    --text-gray:#666;
+    --bg-gray:#cccbcb;
+}
+
 * {
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
     box-sizing: border-box;
 }
+
+html, body { 
+    height: 100%; 
+}
+
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: var(--bg-color-white);
+}
+
