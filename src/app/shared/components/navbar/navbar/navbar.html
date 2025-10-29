@@ -14,9 +14,9 @@
   <div class="navbar-right">
     <!-- Aca de podria usar un defer o condicional 
      para renderizar el boton segun si esta logueado o no-->
-    <button class="login-btn" routerLink="/login">
-      <i class="fas fa-user"></i> Login
-    </button>
+    <button class="login-btn" mat-button (click)="openLoginModal()">
+    <i class="fas fa-user"></i> Login
+</button>
   </div>
-  
+
 </nav>

@@ -1,0 +1,25 @@
+<div class="book-card-container">
+  <div class="book-card">
+    <div class="book-image-wrapper">
+      <img src="{{book()?.urlImage}}" alt="{{book()?.title}} Cover" class="book-image">
+    </div>
+    <div class="book-details">
+      <h2 class="book-title">{{book()?.title}}</h2>
+      <p class="book-description">
+        {{book()?.description}}
+      </p>
+      <div class="book-meta">
+        <span class="book-author">By {{book()?.author}}</span>
+        <span class="book-date">Published: {{book()?.releaseDate}}</span>
+      </div>
+      <button class="add-to-favorites-btn">
+        <i class="fas fa-star"></i> Agregar a favoritos
+      </button>
+    </div>
+  </div>
+
+  <app-review-list
+    [reviews]="book()?.reviewsDTO" 
+  ></app-review-list>
+
+</div>
