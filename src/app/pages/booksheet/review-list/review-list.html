@@ -1,5 +1,12 @@
 <h3 class="review-list-header">Reseñas de Usuarios</h3>
 
+@if(userReview()) {
+  <p>Muestro componente para editar</p>
+}
+@else {
+  <p>Muestro componente para crear</p>
+}
+
 @for (r of reviews(); track r.idReview) {
     <app-review-item
       [review]="r"
