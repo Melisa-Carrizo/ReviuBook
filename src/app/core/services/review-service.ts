@@ -17,5 +17,8 @@ export class ReviewService {
     return this.http.get<Review[]>(`${this.apiUrl}/all/${idBook}`);
   }
 
-  
+  // ID del libro para obtener reseña activa del usuario
+  getUserReviewByBookAndStatusActive(idBook: string) {
+    return this.http.get<Review>(`${this.apiUrl}/userReview/${idBook}`);
+  }
 }
