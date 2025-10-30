@@ -21,4 +21,8 @@ export class ReviewService {
   getUserReviewByBookAndStatusActive(idBook: string) {
     return this.http.get<Review>(`${this.apiUrl}/userReview/${idBook}`);
   }
+
+  addReview(dto: Partial<Review>) {
+    return this.http.post<Review>(`${this.apiUrl}`, dto);
+  }
 }

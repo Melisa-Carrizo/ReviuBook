@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -9,6 +9,9 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 })
 export class AddReview {
   private fb = inject(NonNullableFormBuilder);
+  idBook = input<number>();
+  idUser = input<number>()
+
 
   form = this.fb.group(
     {
@@ -17,5 +20,22 @@ export class AddReview {
     }
   );
 
-  
+  getContent() {
+    return this.form.controls.content;
+  }
+
+  getRating() {
+    return this.form.controls.rating;
+  }
+
+  submitReview() {
+    if (!this.form.valid) return;
+    const review = {
+      rating: this.getRating().value,
+      content: this.getContent().value,
+      idUser: this.idUser()!.toString(),
+      idBook: this.idBook()!.toString()
+    };
+    
+  }
 }
