@@ -1,22 +1,36 @@
 <nav class="navbar">
-  
-  <div class="navbar-left">
-    <a class="brand" routerLink="/">ReviuBook</a>
-  </div>
-  
+  <div class="navbar-left"><a class="brand" routerLink="/">ReviuBook</a></div>
+
   <div class="navbar-center">
     <form class="search-form">
       <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" placeholder="Buscar..." class="search-input">
+      <input type="text" placeholder="Buscar..." class="search-input" />
     </form>
   </div>
 
   <div class="navbar-right">
-    <!-- Aca de podria usar un defer o condicional 
-     para renderizar el boton segun si esta logueado o no-->
-    <button class="login-btn" mat-button (click)="openLoginModal()">
-    <i class="fas fa-user"></i> Login
-</button>
-  </div>
 
+    @if (currentUser(); as user) {
+      <button mat-button class="navbar-username" [matMenuTriggerFor]="userMenu">
+        <span>¡Hola, {{ user.username }}!</span>
+        <i class="fas fa-caret-down"></i>
+      </button>
+
+      <mat-menu #userMenu="matMenu" panelClass="user-menu-panel">
+        
+        <button mat-menu-item> 
+          <i class="fas fa-user-circle" style="margin-right: 8px;"></i>Ver mi perfil
+        </button>
+
+        <button mat-menu-item>
+          <i class="fas fa-sign-out-alt" style="margin-right: 8px;"></i>Cerrar Sesión
+        </button>
+      </mat-menu>
+
+    } @else {
+      <button class="login-btn" mat-button (click)="openLoginModal()">
+        <i class="fas fa-user"></i> Login
+      </button>
+    }
+  </div>
 </nav>

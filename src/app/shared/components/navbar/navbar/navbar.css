@@ -24,7 +24,7 @@
   display: flex;
   align-items: center;
   /* El ancho se puede ajustar al gusto. 
-     Se usa max-width para que no sea demasiado grande en pantallas amplias */
+       Se usa max-width para que no sea demasiado grande en pantallas amplias */
   max-width: 400px; 
   width: 100%;
   border: 1px solid #ccc;
@@ -71,4 +71,25 @@
 
 .login-btn i {
   margin-right: 6px;
+}
+
+.navbar-username {
+  color: black; 
+  background-color: transparent;
+  padding: 0.4rem 0.6rem; 
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.navbar-username:hover {
+  background-color: #f0f0f0; 
+}
+
+.navbar-username .fas.fa-caret-down {
+  margin-left: 5px;
+  font-size: 0.8rem;
 }
