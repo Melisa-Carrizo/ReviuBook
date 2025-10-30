@@ -14,5 +14,8 @@ export class ReviewList {
   private _reviewService = inject(ReviewService);
   idBook = input<number>();
   reviews = input<Review[]>();
-  
+  userReview = toSignal(
+    this._reviewService.getUserReviewByBookAndStatusActive(this.idBook()!.toString()),
+    {initialValue : undefined}
+  );
 }
