@@ -1,1 +1,50 @@
-<p>register-form works!</p>
+<div class="tab-content-wrapper">
+  <h2 class="dialog-title">Crea tu cuenta</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-container">
+    
+    <!-- campo nombre de usuario -->
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre de usuario</mat-label>
+    <input matInput formControlName="username" type="text" placeholder="Nombre de usuario">
+
+      <!-- validacion  -->
+      @if (registerForm.get('username')?.hasError('required')) {
+        <mat-error>El nombre de usuario es obligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- campo email -->
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email" placeholder="tu@email.com">
+      
+      <!-- validaciones para email -->
+      @if (registerForm.get('email')?.hasError('required')) {
+        <mat-error>El email es obligatorio</mat-error>
+      } @else if (registerForm.get('email')?.hasError('email')) {
+        <mat-error>Por favor, introduce un email válido</mat-error>
+      }
+    </mat-form-field>
+    
+    <!-- campo contraseña -->
+    <mat-form-field appearance="outline">
+      <mat-label>Contraseña</mat-label>
+      <input matInput formControlName="password" type="password" placeholder="Tu contraseña">
+
+      <!-- validaciones para contraseña -->
+      @if (registerForm.get('password')?.hasError('required')) {
+        <mat-error>La contraseña es obligatoria</mat-error>
+      } @else if (registerForm.get('password')?.hasError('minlength')) {
+        <mat-error>La contraseña debe tener al menos 6 caracteres</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- boton de submit -->
+    <button mat-flat-button class="submit-btn" type="submit" (submit)="onSubmit()">
+      Registrarse
+    </button>
+  </form>
+</div>
+
+
+

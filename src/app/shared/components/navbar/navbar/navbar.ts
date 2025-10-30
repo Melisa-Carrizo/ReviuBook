@@ -2,36 +2,48 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthModalComponent } from '../../../../pages/auth/auth-modal-component/auth-modal-component';
+import { ApiConnectionAuth } from '../../../../core/services/auth-service';
+import { Observable } from 'rxjs';
+import { User } from '../../../../core/models/User';
+import { CommonModule } from '@angular/common'; // Para @if y | async
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu'; // <--- 1. IMPORTANTE: Añadir MatMenu
+import { MatIconModule } from '@angular/material/icon';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-navbar',
-  imports: [ MatButtonModule ],
+  imports: [ 
+    CommonModule, 
+    MatButtonModule, 
+    MatToolbarModule,
+    MatMenuModule,
+    MatIconModule
+  ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
 export class Navbar {
 
   readonly #dialog = inject(MatDialog);
+  private authService = inject(ApiConnectionAuth);
+  currentUser = this.authService.currentUser;
+
+  openAuthModal(): void {
+    const dialogRef = this.#dialog.open(AuthModalComponent, {
+      width: '450px',
+      autoFocus: false,
+      panelClass: 'auth-dialog-container'
+    });
+  }
 
   openLoginModal(): void {
     
     const dialogRef = this.#dialog.open(AuthModalComponent, {
       width: '450px',
-      autoFocus: false, // Evita que enfoque el primer campo automáticamente
-
-      //    Añade la 'panelClass' que definimos en styles.css
-      //    Esto es clave para que el diseño (sin padding) funcione
+      autoFocus: false, 
       panelClass: 'auth-dialog-container' 
     });
-
-    //    Así es como tu Header "escucha" cuando el login es exitoso
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Login/Registro exitoso, datos:', result);
-        // Aquí podrías actualizar la UI del header según el estado de autenticación
-      } else {
-        console.log('Modal cerrado sin acción');
-      }
-    });
   }
+
 }

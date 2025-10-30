@@ -1,41 +1,66 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Injectable, signal, computed } from '@angular/core';
+import { Observable, switchMap, tap } from 'rxjs';
 import { LoginRequest } from '../models/login-request';
-import { Token } from '../models/token';
-import { tap } from 'rxjs/operators';
 import { RegisterRequest } from '../models/register-request';
+import { Token } from '../models/token';
+import { User } from '../models/User';
+import { jwtDecode } from 'jwt-decode';
+import { UserService } from './user-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiConnectionAuth {
 
-  private apiUrl = 'http://localhost:8080/auth'
+  private apiUrl = 'http://localhost:8080/auth';
   private http = inject(HttpClient);
+  private userService = inject(UserService);
+  currentUser = signal<User | null>(this.getUserFromStorage());
+  isLoggedIn = computed(() => this.currentUser() !== null);
 
-
-  login(credentials : LoginRequest): Observable<Token> {
-
+  login(credentials: LoginRequest): Observable<User> { 
     return this.http.post<Token>(`${this.apiUrl}/login`, credentials).pipe(
-      // aca puedes manejar la respuesta, guardar tokens, etc.
-      tap(response =>{
-        // si hay una respuesta y si la respuesta tiene un token
-        if(response && response.token){
-
-          // guardo el token en el localStorage
-          localStorage.setItem('authToken',response.token)
-
+      tap(response => {
+        if (response && response.token) {
+          localStorage.setItem('authToken', response.token);
         }
-       })
-
+      }),
+      switchMap(() => this.userService.getUserProfileByToken()),
+      tap(user => {
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.currentUser.set(user);
+      })
     );
+}
 
+  register(data: Partial<RegisterRequest>): Observable<string> {
+    return this.http.post(`${this.apiUrl}/register`, data, {
+      responseType: 'text'
+    });
   }
 
-  register(data: Partial<RegisterRequest>): Observable<RegisterRequest> {
-    return this.http.post<RegisterRequest>(`${this.apiUrl}/register`, data)
+  logout(): void {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('currentUser');
+    this.currentUser.set(null);
   }
 
+  private getUserFromStorage(): User | null {
+    const userJson = localStorage.getItem('currentUser');
+    return userJson ? (JSON.parse(userJson) as User) : null;
+  }
 
+  private decodeToken(token: string): User {
+    try {
+      const decoded: any = jwtDecode(token);
+      return {
+        username: decoded.username || decoded.sub || 'Usuario',
+        email: decoded.email || ''
+      };
+    } catch (error) {
+      console.error('Error decodificando el token:', error);
+      return { username: 'Usuario', email: 'error@mail.com' };
+    }
+  }
 }
