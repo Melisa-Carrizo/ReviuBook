@@ -22,12 +22,15 @@
 
 
     <!-- Botón de "editar perfil" enmarcado -->
-    <button mat-button class="edit-profile-button">
+    <button mat-button class="edit-profile-button" (click)="showEdit.set(true)">
       editar perfil
     </button>
 
     <div class="profile-details">
-      <!-- Aquí iría el resto del contenido del perfil -->
+      @if (showEdit()) {
+        <app-edit-user (cancel)="showEdit.set(false)"></app-edit-user>
+      } @else {
+      }
     </div>
   </mat-card>
 </div>
