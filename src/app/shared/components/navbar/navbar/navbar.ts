@@ -46,4 +46,8 @@ export class Navbar {
     });
   }
 
+  logout(): void {
+    this.authService.logout();
+  }
+
 }
