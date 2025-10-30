@@ -13,7 +13,7 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class UserService {
 
-  private apiUrl = 'http://localhost:8080/user/logged';
+  private apiUrl = 'http://localhost:8080/user';
   private http = inject(HttpClient);
 
   getUserProfileByToken(): Observable<User> {
@@ -29,4 +29,9 @@ export class UserService {
       })
     );  
   }
+
+  updateUserProfile(user: User): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}`, user);
+  }
+
 }

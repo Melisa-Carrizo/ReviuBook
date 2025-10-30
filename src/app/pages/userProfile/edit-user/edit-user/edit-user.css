@@ -1,0 +1,93 @@
+/* Usa variables globales definidas en la app (user-profile.css) */
+
+.edit-user-form {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label {
+  font-weight: 600;
+  color: var(--toolbar-text-color);
+}
+
+input {
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid var(--line-gray);
+  border-radius: 6px;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--main-red);
+  box-shadow: 0 0 0 3px rgba(214, 0, 0, 0.08);
+}
+
+.error {
+  color: var(--darker-red);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.form-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+button {
+  border: none;
+  border-radius: 25px;
+  padding: 8px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--main-red);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--darker-red);
+}
+
+.btn-secondary {
+  background-color: var(--gray-filter);
+  color: var(--toolbar-text-color);
+}
+
+.btn-secondary:hover {
+  background-color: #e8e8e8;
+}
+
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .edit-user-form {
+    max-width: 100%;
+    padding: 0 8px;
+  }
+
+  .form-actions {
+    justify-content: stretch;
+  }
+
+  .form-actions button {
+    flex: 1;
+  }
+}

@@ -11,6 +11,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { ApiConnectionAuth } from '../../../core/services/auth-service';
+import { EditUser } from '../edit-user/edit-user/edit-user';
 
 // --- Otros servicios (ej. AuthService) ---
 // ... otros imports de modelos o servicios ..
@@ -27,7 +28,8 @@ import { ApiConnectionAuth } from '../../../core/services/auth-service';
     MatCardModule,
     MatListModule,
     MatDividerModule,
-    MatButtonModule
+  MatButtonModule,
+  EditUser
    ],
   templateUrl: './user-profile.html',
   styleUrl: './user-profile.css',
@@ -38,5 +40,8 @@ export class UserProfile {
   
   // Acceso al Signal del usuario para el binding en el HTML
   currentUser = this.authService.currentUser;
+
+  // Mostrar/ocultar formulario de edición
+  showEdit = signal(false);
 
 }

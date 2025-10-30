@@ -5,9 +5,7 @@ import { LoginRequest } from '../models/login-request';
 import { RegisterRequest } from '../models/register-request';
 import { Token } from '../models/token';
 import { User } from '../models/User';
-import { jwtDecode } from 'jwt-decode';
 import { UserService } from './user-service';
-import { authGuard } from '../guards/auth-guard';
 
 @Injectable({
   providedIn: 'root'
@@ -56,4 +54,11 @@ export class ApiConnectionAuth {
     return userJson ? (JSON.parse(userJson) as User) : null;
   }
 
+  refreshCurrentUser(): void {
+    this.userService.getUserProfileByToken().subscribe(user => {
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      this.currentUser.set(user);
+    });
+  }
+  
 }
