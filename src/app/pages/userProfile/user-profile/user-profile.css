@@ -1,0 +1,187 @@
+:root {
+  --primary-red: #d00000;
+  --light-text: #888;
+  --toolbar-text-color: #333;
+  --secondary-gray: #f5f5f5;
+
+  --bg-color-white: #F9FAFC;
+  --line-gray: #ECECEC;
+  --main-red: #d60000;
+  --darker-red: #b00000;
+  --gray-filter: #f5f5f5;
+  --text-gray: #666;
+  --bg-gray: #cccbcb;
+}
+
+.control-icon {
+  color: var(--toolbar-text-color);
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.welcome-message {
+  font-size: 14px;
+  color: var(--toolbar-text-color);
+  font-weight: 500;
+}
+
+/* ----------------------------------- */
+/* --- MAIN CONTENT (PROFILE VIEW) --- */
+/* ----------------------------------- */
+.main-content-profile {
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.profile-card {
+  width: 80%;
+  max-width: 1000px;
+  min-height: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+  padding: 0;
+  position: relative;
+  overflow: visible;
+  border-radius: 4px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* permite colocar el botón al fondo */
+}
+
+/* 1. BANNER */
+.profile-banner {
+  width: 100%;
+  height: 160px;
+  background-color: #8d8d8d;
+  border-radius: 4px 4px 0 0;
+}
+
+/* 2. INFO DEL USUARIO */
+.user-info-header {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 130px;
+  left: 30px;
+}
+
+/* 3. AVATAR */
+.profile-avatar-wrapper {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #f3f3f3;
+  border: 3px solid #a7a7a7;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  fill: #a0a0a0;
+}
+
+.user-name-display {
+  font-size: 24px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+/* 4. BOTÓN DE EDITAR PERFIL */
+.edit-profile-button {
+  position: absolute;
+  top: 21vh;
+  right: 5vh;
+  border: none;
+  border-radius: 25px;
+  background-color: var(--main-red);
+  color: white;
+  padding: 8px 20px;
+  line-height: 1.5;
+  text-transform: capitalize;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.edit-profile-button:hover {
+  background-color: var(--darker-red);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.profile-details {
+  padding: 60px 30px 30px 30px;
+  margin-top: 50px;
+}
+
+/* ------------------------------ */
+/* --- RESPONSIVE DESIGN --- */
+/* ------------------------------ */
+
+
+/* Celulares */
+@media (max-width: 600px) {
+  .main-content-profile {
+    padding: 30px 10px;
+  }
+
+  .profile-card {
+    width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .profile-banner {
+    height: 120px;
+    border-radius: 0;
+  }
+
+  .user-info-header {
+    position: relative;
+    top: -40px;
+    left: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  .profile-avatar-wrapper {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 10px auto;
+  }
+
+  .user-name-display {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 5px;
+  }
+
+  /* Botón centrado al fondo */
+  .edit-profile-button {
+    position: relative;
+    margin: 25px auto 20px auto;
+    top: 0;
+    right: 0;
+    font-size: 13px;
+    padding: 7px 18px;
+    display: block;
+    align-self: center;
+  }
+
+  .profile-details {
+    padding: 30px 15px 20px 15px;
+    margin-top: 10px;
+    width: 100%;
+  }
+}
