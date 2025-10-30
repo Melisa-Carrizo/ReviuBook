@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { BookService } from './core/services/book-service';
 import { authInterceptor } from './core/services/interceptor/auth-interceptor';
+import { authGuard } from './core/guards/auth-guard';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,9 +16,7 @@ export const appConfig: ApplicationConfig = {
     {provide: BookService},
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withComponentInputBinding()),
-    
-    // AÑADE ESTA LÍNEA CLAVE: Registra el interceptor
-    provideHttpClient(withInterceptors([authInterceptor]))
-  
+    provideHttpClient(withInterceptors([authInterceptor])),
+    { provide: authGuard, useValue: authGuard }
   ]
 };

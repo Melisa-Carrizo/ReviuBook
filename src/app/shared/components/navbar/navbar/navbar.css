@@ -1,35 +1,52 @@
-/* navbar gral */
+/* ---------------------------- */
+/* 🌐 NAVBAR GENERAL */
+/* ---------------------------- */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.8rem 2rem;
+  padding: 0.8rem 1.2rem;
   background-color: white;
   border-bottom: 1px solid #eee;
   position: sticky;
   top: 0;
   z-index: 1000;
   box-shadow: 1px 0px 15px var(--line-gray);
+  flex-wrap: nowrap; /* ✅ evita que los elementos bajen */
+  gap: 1rem;
+  overflow: hidden;
 }
 
-/* buscador */
+/* ---------------------------- */
+/* 🔴 LOGO */
+/* ---------------------------- */
+.brand {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #d60000;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* ---------------------------- */
+/* 🔎 BUSCADOR */
+/* ---------------------------- */
 .navbar-center {
-  /* Permite que el elemento se expanda y ocupe el espacio central */
-  flex-grow: 1; 
+  flex-grow: 1;
   display: flex;
-  justify-content: center; /* Centra el formulario dentro del espacio disponible */
+  justify-content: center;
 }
 
 .search-form {
   display: flex;
   align-items: center;
-  /* El ancho se puede ajustar al gusto. 
-       Se usa max-width para que no sea demasiado grande en pantallas amplias */
-  max-width: 400px; 
+  max-width: 400px;
   width: 100%;
   border: 1px solid #ccc;
-  border-radius: 4px; /* Bordes ligeramente redondeados */
+  border-radius: 6px;
   padding: 0 10px;
+  background-color: white;
+  transition: max-width 0.3s ease;
 }
 
 .search-form i {
@@ -41,28 +58,58 @@
   border: none;
   padding: 8px 0;
   font-size: 1rem;
-  width: 100%; /* El input ocupa todo el espacio restante */
-  outline: none; /* Quita el borde de enfoque por defecto */
+  width: 100%;
+  outline: none;
 }
 
-/* logo ReviuBook */
-.brand {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #d60000; /* rojo principal */
-  text-decoration: none;
+/* ---------------------------- */
+/* 👤 USUARIO / LOGIN */
+/* ---------------------------- */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
 }
 
-/* boton login */
+/* usuario logueado */
+.navbar-username {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  border-radius: 5px;
+  transition: background-color 0.2s ease-in-out;
+  font-weight: 500;
+  color: black;
+}
+
+.navbar-username:hover {
+  background-color: #f0f0f0;
+}
+
+.navbar-username mat-icon {
+  font-size: 22px;
+}
+
+.navbar-username .fas.fa-caret-down {
+  font-size: 0.9rem;
+}
+
+/* botón login */
 .login-btn {
   background-color: #d60000;
   border: none;
   color: white;
   padding: 0.4rem 1rem;
-  border-radius: 5px;
+  border-radius: 6px;
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
+  white-space: nowrap;
 }
 
 .login-btn:hover {
@@ -73,23 +120,53 @@
   margin-right: 6px;
 }
 
-.navbar-username {
-  color: black; 
-  background-color: transparent;
-  padding: 0.4rem 0.6rem; 
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-  display: flex;
-  align-items: center;
-  font-weight: 500;
+/* ---------------------------- */
+/* 📱 RESPONSIVE */
+/* ---------------------------- */
+@media (max-width: 768px) {
+  .navbar {
+    gap: 0.6rem;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .brand {
+    font-size: 1.3rem;
+  }
+
+  .search-form {
+    max-width: 200px; /* ✅ se achica pero no baja */
+  }
+
+  .search-input {
+    font-size: 0.9rem;
+  }
+
+  .navbar-username {
+    font-size: 0; /* oculta el nombre */
+    gap: 4px;
+  }
+
+  .navbar-username mat-icon {
+    font-size: 24px;
+  }
+
+  .navbar-username .fa-caret-down {
+    display: inline-block;
+    font-size: 13px;
+  }
+
+  .login-btn {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.9rem;
+  }
 }
 
-.navbar-username:hover {
-  background-color: #f0f0f0; 
-}
+@media (max-width: 480px) {
+  .search-form {
+    max-width: 150px; /* ✅ aún más chico en pantallas pequeñas */
+  }
 
-.navbar-username .fas.fa-caret-down {
-  margin-left: 5px;
-  font-size: 0.8rem;
+  .brand {
+    font-size: 1.1rem;
+  }
 }
