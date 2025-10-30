@@ -3,10 +3,11 @@ import { Review } from '../../../core/models/Review';
 import { ReviewItem } from '../review-item/review-item';
 import { ReviewService } from '../../../core/services/review-service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { AddReview } from '../../review/add-review/add-review';
 
 @Component({
   selector: 'app-review-list',
-  imports: [ReviewItem],
+  imports: [ReviewItem, AddReview],
   templateUrl: './review-list.html',
   styleUrl: './review-list.css',
 })

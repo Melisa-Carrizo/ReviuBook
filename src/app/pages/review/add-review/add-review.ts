@@ -35,7 +35,7 @@ export class AddReview {
     const review = {
       rating: this.getRating().value,
       content: this.getContent().value,
-      idUser: this.idUser(),
+      //idUser: this.idUser(),
       idBook: this.idBook()
     };
     this._reviewService.addReview(review).subscribe({
