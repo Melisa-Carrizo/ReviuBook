@@ -11,21 +11,12 @@
   <mat-tab-group mat-stretch-tabs="false" animationDuration="500ms">
     
     <mat-tab label="Login">
-      <!-- 
-        Cargamos tu componente de Login.
-        Escuchamos el evento (loginSuccess) que DEBE ser emitido 
-        por tu LoginFormComponent
-      -->
       <app-login-form 
         (loginSuccess)="onLoginSuccess($event)">
       </app-login-form>
     </mat-tab>
     
     <mat-tab label="Register">
-      <!-- 
-        Cargamos tu componente de Registro.
-        (registerSuccess) debe ser un @Output() de tu RegisterFormComponent
-      -->
       <app-register-form 
         (registerSuccess)="onRegisterSuccess($event)">
       </app-register-form>
