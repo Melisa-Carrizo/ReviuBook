@@ -12,19 +12,20 @@
 
     @if (currentUser(); as user) {
       <button mat-button class="navbar-username" [matMenuTriggerFor]="userMenu">
-        <span>¡Hola, {{ user.username }}!</span>
+        <mat-icon>person</mat-icon>
+        {{ user.username }}
         <i class="fas fa-caret-down"></i>
       </button>
 
       <mat-menu #userMenu="matMenu" panelClass="user-menu-panel">
-        
-        <button mat-menu-item> 
-          <i class="fas fa-user-circle" style="margin-right: 8px;"></i>Ver mi perfil
-        </button>
 
-        <button mat-menu-item (click)="logout()">
+        <a mat-menu-item routerLink="/profile">
+          <i class="fas fa-user-circle" style="margin-right: 8px;"></i>Ver mi perfil
+        </a>
+
+        <a mat-menu-item (click)="logout()">
           <i class="fas fa-sign-out-alt" style="margin-right: 8px;"></i>Cerrar Sesión
-        </button>
+        </a>
       </mat-menu>
 
     } @else {
