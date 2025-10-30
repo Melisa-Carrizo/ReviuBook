@@ -1,5 +1,6 @@
 import { Component, inject, input } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReviewService } from '../../../core/services/review-service';
 
 @Component({
   selector: 'app-add-review',
@@ -8,6 +9,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './add-review.css',
 })
 export class AddReview {
+  private _reviewService = inject(ReviewService);
   private fb = inject(NonNullableFormBuilder);
   idBook = input<number>();
   idUser = input<number>()
@@ -33,9 +35,12 @@ export class AddReview {
     const review = {
       rating: this.getRating().value,
       content: this.getContent().value,
-      idUser: this.idUser()!.toString(),
-      idBook: this.idBook()!.toString()
+      idUser: this.idUser(),
+      idBook: this.idBook()
     };
-    
+    this._reviewService.addReview(review).subscribe({
+      next: () => console.log("Review creada con exito"),
+      error: err => console.log("Error al crear la review: " + err)
+    })
   }
 }
