@@ -4,10 +4,10 @@ import { ApiConnectionAuth } from '../../../core/services/auth-service';
 import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { LoginRequest } from '../../../core/models/login-request';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
+import { SnackbarService } from '../../../core/services/snackbar-service';
 
 @Component({
   selector: 'app-register-form',
@@ -28,7 +28,7 @@ export class RegisterForm {
 
   private authService = inject(ApiConnectionAuth);
   private fb = inject(FormBuilder);
-  private snackBar = inject(MatSnackBar); 
+  private snackBar = inject(SnackbarService); 
   public dialogRef = inject(MatDialogRef<RegisterForm>);
 
   registerForm = this.fb.group({
@@ -39,7 +39,7 @@ export class RegisterForm {
 
   onSubmit(): void {
   if (this.registerForm.invalid) {
-    this.openErrorSnackBar("Por favor, completá el formulario correctamente.");
+    this.snackBar.openErrorSnackBar("Por favor, completá el formulario correctamente.");
     return;
   }
 
@@ -54,33 +54,16 @@ export class RegisterForm {
       this.authService.login({ email: registerData.email, password: registerData.password })
     ),
     tap(() => {
-      this.openSuccessSnackBar("¡Usuario registrado e iniciado sesión con éxito!");
+      this.snackBar.openSuccessSnackBar("¡Usuario registrado e iniciado sesión con éxito!");
       this.registerForm.reset();
       this.dialogRef.close();
     }),
     catchError((error) => {
       console.error('Error en el registro o login:', error);
-      this.openErrorSnackBar("Hubo un problema en el registro o inicio de sesión.");
+      this.snackBar.openErrorSnackBar("Hubo un problema en el registro o inicio de sesión.");
       return of(null);
     })
   ).subscribe();
 }
   
-  openSuccessSnackBar(message: string) {
-    this.snackBar.open(message, 'Cerrar', {
-      duration: 5000, 
-      verticalPosition: 'top', 
-      horizontalPosition: 'center', 
-      panelClass: ['success-snackbar'] 
-    });
-  }
-
-  openErrorSnackBar(message: string) {
-    this.snackBar.open(message, 'Cerrar', {
-      duration: 7000, 
-      verticalPosition: 'top',
-      horizontalPosition: 'center',
-      panelClass: ['error-snackbar'] 
-    });
-  }
 }
