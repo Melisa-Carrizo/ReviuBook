@@ -6,23 +6,25 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { AddReview } from '../../review/add-review/add-review';
 import { filter, switchMap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { ModifyReview } from '../../review/modify-review/modify-review';
 
 @Component({
   selector: 'app-review-list',
-  imports: [ReviewItem, AddReview],
+  imports: [ReviewItem, AddReview, ModifyReview],
   templateUrl: './review-list.html',
   styleUrl: './review-list.css',
 })
 export class ReviewList {
   private _reviewService = inject(ReviewService);
+  //Recibo las reviews y el id del libro desde BookSheet:
   reviews = input<Review[]>();
   idBook = input<number>();
-  // Obtiene la Reseña del usuario:
+  // Obtiene la Reseña del usuario, si es que tiene:
   private idBook$ = toObservable(this.idBook).pipe(
     filter((id): id is number => id !== undefined && id !== null), 
     switchMap(id => this._reviewService.getUserReviewByBookAndStatusActive(id))
   );
-  // Se inicializa con un Observable reactiva,
+  // Se inicializa con un Observable reactivo,
   // o sea que si cambia el ID cambia la Review
   userReview = toSignal(this.idBook$, { initialValue: undefined });
   
@@ -30,5 +32,6 @@ export class ReviewList {
   actualizar(newReview: Review) {
     this.userReview = signal<Review>(newReview);
   }
+  
 
 }

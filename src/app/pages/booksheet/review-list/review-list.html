@@ -4,7 +4,10 @@
   <p>Cargando reseña del usuario</p>
 }
 @else if (userReview()) {
-  <p>Mostrar componente para editar</p>
+  <app-modify-review
+    [review]="userReview()"
+  >
+  </app-modify-review>
 }
 @else {
   <app-add-review
