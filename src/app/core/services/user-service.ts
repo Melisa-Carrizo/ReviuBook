@@ -36,8 +36,13 @@ export class UserService {
 
   getUsernameById(id: number): Observable<string> {
     return this.http.get<User>(`${this.apiUrl}/${id}`).pipe(
-        // Transforma el objeto User completo a solo el string del username
+        // solo traea el nombre de usuario
         map(user => user.username) 
     );
-}
+  }
+
+  updateUserProfile(user: User): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}`, user);
+  }
+
 }

@@ -10,6 +10,8 @@
       <!-- validacion  -->
       @if (registerForm.get('username')?.hasError('required')) {
         <mat-error>El nombre de usuario es obligatorio</mat-error>
+      } @else if (registerForm.get('username')?.hasError('minlength')) {
+        <mat-error>El nombre de usuario debe tener al menos 2 letras</mat-error>
       }
     </mat-form-field>
 
@@ -23,6 +25,8 @@
         <mat-error>El email es obligatorio</mat-error>
       } @else if (registerForm.get('email')?.hasError('email')) {
         <mat-error>Por favor, introduce un email válido</mat-error>
+      } @else if (registerForm.get('email')?.hasError('maxlength')) {
+        <mat-error>El email no puede tener más de 30 caracteres</mat-error>
       }
     </mat-form-field>
     
