@@ -6,6 +6,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { noFutureDateValidator } from '../../../core/validators/bookDate.validator';
 import { GENRES } from '../../../core/models/Genres';
 import { Book } from '../../../core/models/Book';
+import { SnackbarService } from '../../../core/services/snackbar-service';
 
 @Component({
   selector: 'app-edit-book-component',
@@ -18,6 +19,7 @@ export class EditBookComponent {
   private _routerActivated = inject(ActivatedRoute);
   private _router = inject(Router);
   private fb = inject(NonNullableFormBuilder);
+  private snackService = inject(SnackbarService);
   book = toSignal(this._bookService.getBookById(this._routerActivated.snapshot.paramMap.get('id')!));
   genre = GENRES;
 
@@ -82,10 +84,11 @@ export class EditBookComponent {
 
     this._bookService.update(book).subscribe({
       next: () => {
+        this.snackService.openSuccessSnackBar("¡Libro actualizado!");
         this._router.navigate(['admin/libros']);
       },
       error: (err) => {
-        //aca poner el snack
+        this.snackService.openErrorSnackBar("Ocurrió un error al actualizar")
         this._router.navigate(['admin/libros']); 
       }
     });
