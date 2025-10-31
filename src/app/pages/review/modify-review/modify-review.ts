@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { ReviewService } from '../../../core/services/review-service';
 import { Review } from '../../../core/models/Review';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -17,12 +17,23 @@ export class ModifyReview {
 
   edit = this.fb.group(
     {
-      content: [this.review()?.content, 
-        [Validators.required, Validators.minLength(1), Validators.maxLength(250)]],
-      rating: [this.review()?.rating, 
-        [Validators.required, Validators.min(1), Validators.max(5)]]
+      content: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(250)]],
+      rating: [0, [Validators.required, Validators.min(1), Validators.max(5)]]
     }
   );
+
+  constructor() {
+    // Se ejecuta cada vez que el input review cambia
+    effect(() => {
+      const currentReview = this.review();
+      if (currentReview) {
+        this.edit.patchValue({
+          content: currentReview.content,
+          rating: currentReview.rating 
+        }, { emitEvent: false }); // esto es para evitar bucles
+      }
+    });
+  }
 
   getContent() {
     return this.edit.controls.content;
@@ -33,7 +44,7 @@ export class ModifyReview {
   }
 
   cambiarVista() {
-    this.editar = true;
+    this.editar = !this.editar;
   }
 
   editReview() {
@@ -47,7 +58,8 @@ export class ModifyReview {
     };
     this._reviewService.updateReview(update).subscribe({
       next: (data) => {
-        alert("Reseña actualizada: " + data)
+        alert("Reseña actualizada: " + data),
+        this.cambiarVista()
       },
       error: err => console.log("Error al actualizar la review: " + err)
     })
