@@ -14,21 +14,20 @@
 
 mat-form-field {
   width: 100%;
+}
 
-  & ::ng-deep .mdc-notched-outline {
-    border-radius: 12px !important;
-  }
+/* estilos anidados reescritos en CSS plano para alinearlo al register */
+mat-form-field ::ng-deep .mdc-notched-outline {
+  border-radius: 12px !important;
+}
 
+mat-form-field ::ng-deep .mat-mdc-text-field-wrapper {
+  height: 55px; /* igual que register */
+}
 
-  & ::ng-deep .mat-mdc-text-field-wrapper {
-    height: 50px;
-  }
-
-  & ::ng-deep .mat-mdc-form-field-flex {
-
-    align-items: center;
-    padding-left: 5px; 
-  }
+mat-form-field ::ng-deep .mat-mdc-form-field-flex {
+  align-items: center;
+  padding-left: 5px;
 }
 
 .submit-btn {
@@ -40,14 +39,65 @@ mat-form-field {
   line-height: 1;
   margin-top: 1rem;
   border-radius: 12px;
+}
 
-  &:hover:not([disabled]) {
-    background-color: #b00322;
-  }
+.submit-btn:hover:not([disabled]) {
+  background-color: var(--darker-red);
 }
 
 mat-error {
   font-size: 0.875rem;
   color: #D90429;
   padding-left: 0px;
+}
+
+/* estilos para mensajes de error */
+mat-form-field ::ng-deep .mat-mdc-form-field-error-wrapper {
+  padding-top: 3px; 
+  margin-top: -3px; 
+  padding-left: 0px; 
+  color: var(--darker-red); 
+}
+
+/* ------------------------------ */
+/* Responsive tweaks (solo ajustes mínimos) */
+/* ------------------------------ */
+@media (max-width: 600px) {
+  .dialog-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .form-container {
+    gap: 0.875rem;
+  }
+
+  mat-form-field ::ng-deep .mat-mdc-text-field-wrapper {
+    height: 46px;
+  }
+
+  .submit-btn {
+    padding: 1rem 0;
+    border-radius: 10px;
+    margin-top: 0.875rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .dialog-title {
+    font-size: 1.25rem;
+  }
+
+  .form-container {
+    gap: 0.75rem;
+  }
+
+  mat-form-field ::ng-deep .mat-mdc-text-field-wrapper {
+    height: 42px;
+  }
+
+  .submit-btn {
+    padding: 0.85rem 0;
+    border-radius: 10px;
+  }
 }
