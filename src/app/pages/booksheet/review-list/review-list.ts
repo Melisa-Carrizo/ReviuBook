@@ -43,6 +43,10 @@ export class ReviewList {
   actualizar(newReview: Review) {
     this.userReview = signal<Review>(newReview);
   }
+
+  eliminar(reviewDeleted: Review) {
+    
+  }
   
 
 }

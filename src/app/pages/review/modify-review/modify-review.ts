@@ -14,7 +14,7 @@ export class ModifyReview {
   private fb = inject(NonNullableFormBuilder);
   review = input<Review>()
   reviewUpdate = output<Review>();
-  
+  reviewDelete = output<Review>();
   editar = false;
 
   edit = this.fb.group(
@@ -68,5 +68,16 @@ export class ModifyReview {
     })
   }
 
+  delete() {
+    if(confirm("Desea eliminar la reseña?")) {
+        this._reviewService.deleteReview(this.review()!.idReview).subscribe({
+          next: (data) => {
+            alert("Reseña eliminada con exito"),
+            this.reviewDelete.emit(data)
+          },
+          error: err => alert("Error al eliminar la reseña")
+        })
+    }
+  }
   
 }
