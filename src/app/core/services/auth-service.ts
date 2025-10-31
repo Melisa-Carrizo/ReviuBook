@@ -5,7 +5,6 @@ import { LoginRequest } from '../models/login-request';
 import { RegisterRequest } from '../models/register-request';
 import { Token } from '../models/token';
 import { User } from '../models/User';
-import { jwtDecode } from 'jwt-decode';
 import { UserService } from './user-service';
 import { authGuard } from '../guards/auth-guard';
 
@@ -21,6 +20,7 @@ export class ApiConnectionAuth {
 
   currentUser = signal<User | null>(this.getUserFromStorage());
   isLoggedIn = computed(() => !!this.authToken());
+  isAdmin = computed(()=>this.currentUser()?.role==='ADMIN');
   
   login(credentials: LoginRequest): Observable<User> { 
     return this.http.post<Token>(`${this.apiUrl}/login`, credentials).pipe(
