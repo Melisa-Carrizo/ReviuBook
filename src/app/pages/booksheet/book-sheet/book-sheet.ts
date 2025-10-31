@@ -15,7 +15,6 @@ import { ReviewList } from '../review-list/review-list';
 export class BookSheetComponent {
   private _bookService = inject(BookService);
   private route = inject(ActivatedRoute);
-  //book! : BookSheet;
 
   book = toSignal(
     this.route.paramMap.pipe(
@@ -23,7 +22,6 @@ export class BookSheetComponent {
     ),
     {initialValue : undefined}
   );
-
 
   
 }

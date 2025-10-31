@@ -6,7 +6,7 @@ import { LoginRequest } from '../models/login-request';
 import { RegisterRequest } from '../models/register-request';
 import { Token } from '../models/token';
 import { User } from '../models/User';
-import { jwtDecode } from 'jwt-decode';
+//import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,17 @@ export class UserService {
         return publicUserData;
       })
     );  
+  }
+
+  getById(id: number) {
+    return this.http.get<User>(`${this.apiUrl}/${id}`)
+  }
+
+  getUsernameById(id: number): Observable<string> {
+    return this.http.get<User>(`${this.apiUrl}/${id}`).pipe(
+        // solo traea el nombre de usuario
+        map(user => user.username) 
+    );
   }
 
   updateUserProfile(user: User): Observable<User> {

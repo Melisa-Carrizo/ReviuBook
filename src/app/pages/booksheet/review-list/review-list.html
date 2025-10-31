@@ -1,6 +1,22 @@
 <h3 class="review-list-header">Reseñas de Usuarios</h3>
 
-@for (r of reviews(); track r.idReview) {
+@if (userReview()) {
+  <app-modify-review
+    [review]="userReview()"
+    (reviewUpdate)="actualizar($event)"
+    (reviewDelete)="eliminar($event)"
+  >
+  </app-modify-review>
+}
+@else {
+  <app-add-review
+    [idBook]="idBook()"
+    (reviewCreated)="actualizar($event)"
+  ></app-add-review>
+  <p></p>
+}
+
+@for (r of filterReviews(); track r.idReview) {
     <app-review-item
       [review]="r"
     ></app-review-item>
