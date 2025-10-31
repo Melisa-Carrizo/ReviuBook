@@ -1,0 +1,21 @@
+<div class="admin-dashboard">
+    <h1>Bienvenido, {{user()?.username}}!</h1>
+    <p>Selecciona una opción y comienza a gestionar</p>
+
+<div class="admin-cards">
+    <div class="admin-card" routerLink="usuarios">
+        <div class="icon">
+            <i class="fa-solid fa-users"></i>
+        </div>
+        <h3>Gestionar Usuarios</h3>
+        <p>Ver usuarios</p>
+    </div>
+
+    <div class="admin-card" routerLink="libros">
+        <div class="icon">
+            <i class="fa-solid fa-book"></i>
+        </div>
+        <h3>Gestionar Libros</h3>
+        <p>Añadir nuevos libros, modificar y eliminar los existentes, y manejar el catálogo</p>
+    </div>
+</div>

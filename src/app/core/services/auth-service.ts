@@ -20,6 +20,7 @@ export class ApiConnectionAuth {
 
   currentUser = signal<User | null>(this.getUserFromStorage());
   isLoggedIn = computed(() => !!this.authToken());
+  isAdmin = computed(()=>this.currentUser()?.role==='ADMIN');
   
   login(credentials: LoginRequest): Observable<User> { 
     return this.http.post<Token>(`${this.apiUrl}/login`, credentials).pipe(

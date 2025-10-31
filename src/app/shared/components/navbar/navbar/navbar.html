@@ -22,7 +22,13 @@
         <a mat-menu-item routerLink="/profile">
           <i class="fas fa-user-circle" style="margin-right: 8px;"></i>Ver mi perfil
         </a>
-
+        @if (isAdmin()) {
+          
+          <a mat-menu-item routerLink="admin">
+          <i class="fa-solid fa-gear" style="margin-right: 8px;"></i>Panel admin
+        </a>
+        }
+        
         <a mat-menu-item (click)="logout()">
           <i class="fas fa-sign-out-alt" style="margin-right: 8px;"></i>Cerrar Sesión
         </a>

@@ -53,4 +53,7 @@ export class Navbar {
     this.router.navigate(['/home']);
   }
 
-}
+  isAdmin(){
+    return this.authService.isAdmin();
+  }
+} 

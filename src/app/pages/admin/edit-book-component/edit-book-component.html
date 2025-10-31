@@ -1,0 +1,99 @@
+<div class="add-book-container">
+  <div class="form-card">
+    <h2>Actualizar libro</h2>
+
+    <form [formGroup]="form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="title">Título</label>
+          <input formControlName="title" type="text" id="title" placeholder="Ingresa el título"/>
+          @if (form.get("title")?.touched) {
+            @if (form.get("title")?.hasError('required')) {
+              <p class="error-message">El campo es obligatorio</p>
+            }@else if (form.get("title")?.hasError('maxlength')) {
+              <p class="error-message">El título es muy largo</p>
+            }
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="publicationDate">Fecha de publicación</label>
+          <input formControlName="realeaseDate" type="date" id="publicationDate" />
+          @if (form.get("realeaseDate")?.touched) {
+            @if (form.get("realeaseDate")?.hasError('futureDate')) {
+              <p class="error-message">La fecha no puede ser futura</p>
+            }
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="author">Autor</label>
+          <input formControlName="author" type="text" id="author" placeholder="Ingresa el autor"  />
+          @if (form.get("author")?.touched) {
+            @if (form.get("author")?.hasError('required')) {
+              <p class="error-message">El campo es obligatorio</p>
+            }@else if (form.get("author")?.hasError('minlength')) {
+              <p class="error-message">El nombre del autor es muy corto</p>
+            }@else if (form.get("author")?.hasError('maxlength')) {
+              <p class="error-message">El nombre del autor es muy largo</p>
+            }
+          }
+        </div>
+
+        <div class="form-group description">
+          <label for="description">Descripción</label>
+          <textarea formControlName="description" id="description" placeholder="Ingresa la description"></textarea>
+          @if (form.get("description")?.touched) {
+            @if (form.get("description")?.hasError('required')) {
+              <p class="error-message">El campo es obligatorio</p>
+            }@else if (form.get("description")?.hasError('maxlength')) {
+              <p class="error-message">La descripción es muy larga</p>
+            }
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="genre">Género</label>
+          <select formControlName="category" id="genre">
+            <option value="" disabled selected>Selecciona un género</option>
+            @for (g of genre; track g) {
+              <option [value]="g">{{g}}</option>
+            }
+          </select>
+
+          @if (form.get("category")?.touched) {
+            @if (form.get("category")?.hasError('required')) {
+              <p class="error-message">Debes seleccionar un género</p>
+            }
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="publisher">Editorial</label>
+          <input formControlName="publishingHouse" type="text" id="publisher" placeholder="Ingresa la editorial" />
+          @if (form.get("publishingHouse")?.touched) {
+            @if (form.get("publishingHouse")?.hasError('required')) {
+              <p class="error-message">El campo es obligatorio</p>
+            }@else if (form.get("publishingHouse")?.hasError('maxlength')) {
+              <p class="error-message">El nombre de la editorial es muy larga</p>
+            }
+          }
+        </div>
+        
+        @if (!this.book()?.status) {
+          <div class="form-group enable-checkbox-group">
+              <div class="re-enable-container">
+                <input type="checkbox" id="reEnable" formControlName="status" />
+                <label for="reEnable">Volver a habilitar</label>
+              </div>
+          </div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="button" (click)="cancel()" class="btn cancel">Cancelar</button>
+        <button type="submit" (click)="onSubmit()" [class.btn-disabled]="form.invalid" [disabled]="form.invalid" class="btn save">Guardar cambios</button>
+      </div>
+    </form>
+  </div>
+</div>

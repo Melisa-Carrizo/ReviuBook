@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="column cover">
+        @if (book().urlImage) {
+        <img [src]="book().urlImage" [alt]="book().title" class="cover-img" />
+        } @else {
+        <div class="cover-initials">
+            {{ book().title.slice(0, 2).toUpperCase() }}
+        </div>
+        }
+    </div>
+
+    <div class="column title">{{ book().title }}</div>
+    <div class="column author">{{ book().author }}</div>
+    <div class="column isbn">{{ book().ISBN }}</div>
+    <div class="column published">
+        {{ book().releaseDate | date:'yyyy-MM-dd' }}
+    </div>
+    <div class="column status">
+    <span [class.status-disabled]="!book().status" [class.status-enabled]="book().status">
+        {{ book().status ? 'Habilitado' : 'Deshabilitado' }}
+    </span>
+    </div>
+    <div class="column actions">
+        <button type="button" class="action-link" (click)="onEdit()">Editar</button>
+        <button type="button" class="action-link delete" [disabled]="!book().status" [class.btn-disabled]="!book().status" (click)="onDelete()">Eliminar</button>
+    </div>
+</div>

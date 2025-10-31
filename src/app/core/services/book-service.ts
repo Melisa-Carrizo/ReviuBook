@@ -14,7 +14,31 @@ export class BookService {
     return this.http.get<Book[]>(`${this.baseUrl}/all/active`);
   }
 
+  getAll():Observable<Book[]>{
+    return this.http.get<Book[]>(`${this.baseUrl}/all`)
+  }
+
+  getBookById(id:string){
+    return this.http.get<Book>(`${this.baseUrl}/${id}`);
+  }
+
   getBookSheetById(id: string) {
     return this.http.get<BookSheet>(`${this.baseUrl}/bookSheet/${id}`);
+  }
+
+  add(book: Book){
+    return this.http.post<Book>(`${this.baseUrl}`,book);
+  }
+
+  addWithGoogleApi(book: Partial<Book>){
+    return this.http.post<Book>(`${this.baseUrl}/create`,book);
+  }
+
+  update(book: Book){
+    return this.http.put<Book>(`${this.baseUrl}/${book.id}`,book);
+  }
+
+  delete(bookId : number){
+    return this.http.delete<void>(`${this.baseUrl}/${bookId}`);
   }
 }

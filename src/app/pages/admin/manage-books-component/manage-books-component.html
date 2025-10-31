@@ -1,0 +1,38 @@
+<div class="book-management-container">
+    <header class="header">
+        <h1>Gestionar Libros</h1>
+        <button (click)="goToAddBook()" class="new-book-button">
+            <span class="icon-plus">+</span> Añadir libro
+        </button>
+    </header>
+
+    @if (isLoading) {
+        <div class="loader-message">Cargando libros...</div>
+    } @else if (!hasBooks) {
+        <div class="no-books-message">
+            <p>No se encontraron libros. ¡Intenta añadir uno nuevo!</p>
+        </div>
+    } @else {
+        <div class="book-table">
+            <div class="row header-row">
+            <div class="column cover">PORTADA</div>
+            <div class="column title">TITULO</div>
+            <div class="column author">AUTOR</div>
+            <div class="column isbn">ISBN</div>
+            <div class="column published">FECHA DE PUBLICACIÓN</div>
+            <div class="column status">ESTADO</div>
+            <div class="column actions">ACCIONES</div>
+    </div>
+            <div class="row header-row">
+                </div>
+
+            @for (book of books; track book.id) {
+                <app-book-preview-component
+                    [book]="book"
+                    (editBook)="onEditBook($event)"
+                    (deleteBook)="onDeleteBook($event)">
+                </app-book-preview-component>
+            }
+        </div>
+    }
+</div>

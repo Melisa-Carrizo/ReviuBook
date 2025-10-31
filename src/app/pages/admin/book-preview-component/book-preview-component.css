@@ -1,0 +1,121 @@
+.row {
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.column {
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.column.cover {
+    width: 8%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cover-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.cover-initials {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: #444;
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.column.status span {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 9999px; 
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-enabled {
+    background-color: #d4edda; 
+    color: #155724;          
+    border: 1px solid #c3e6cb;
+}
+
+.status-disabled {
+    background-color: #f8d7da; 
+    color: #721c24;          
+    border: 1px solid #f5c6cb;
+}
+
+.column.title { width: 22%; }
+.column.author { width: 12%; }
+.column.isbn { width: 13%; }
+.column.published { width: 13%; }
+.column.status { width: 18%; } 
+.column.actions { width: 22%; text-align: right; padding-right: 20px; }
+
+.action-link {
+    color: #007bff;
+    text-decoration: none;
+    margin-left: 10px;
+    font-size: 14px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.action-link.delete {
+    color: var(--main-red);
+}
+
+.action-link.delete.btn-disabled {
+    color: #6c757d; /* Color gris suave, mejor que negro puro para deshabilitado */
+    cursor: not-allowed; 
+    opacity: 0.7;
+}
+
+.btn-disabled {
+    cursor: not-allowed;
+}
+
+.row.header-row .column.status {
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+        border: 1px solid #ddd;
+        margin-bottom: 10px;
+    }
+
+    .column {
+        width: 100% !important;
+        padding: 5px 0;
+        white-space: normal;
+    }
+
+    .column.actions {
+        text-align: left;
+        margin-top: 10px;
+    }
+}

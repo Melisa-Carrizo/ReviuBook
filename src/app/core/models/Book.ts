@@ -8,5 +8,5 @@ export interface Book {
     ISBN: string,
     title: string
     author: string,
-    publishinHouse: string,
+    publishingHouse: string,
 }

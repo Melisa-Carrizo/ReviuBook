@@ -1,0 +1,110 @@
+.book-management-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 30px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+}
+
+.new-book-button {
+    background-color: var(--main-red);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.icon-plus {
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.book-table {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.row {
+    display: flex; 
+    align-items: center;
+    border-bottom: 1px solid #eee; 
+    padding: 10px 20px; 
+}
+
+.row.header-row {
+    background-color: #fff;
+    font-weight: bold;
+    color: #555;
+    text-transform: uppercase;
+    font-size: 12px;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 20px; 
+}
+
+.column {
+    padding-right: 10px;
+    box-sizing: border-box; 
+}
+
+.column.cover {
+    width: 8%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.column.title { width: 22%; }
+.column.author { width: 12%; }
+
+.column.isbn { 
+    width: 13%; 
+    text-align: center; 
+}
+.column.published { 
+    width: 13%; 
+    text-align: center; 
+}
+.column.status { 
+    width: 18%; 
+    text-align: center;
+} 
+
+.column.actions { 
+    width: 22%; 
+    text-align: right; 
+    padding-right: 0; 
+}
+
+
+@media (max-width: 768px) {
+    .new-book-button{
+        width: 70%;
+    }
+    .header{
+        gap: 10px;
+        flex-direction: column;
+    }
+    .row.header-row {
+        display: none; 
+    }
+}

@@ -23,6 +23,7 @@ export class UserService {
         const publicUserData: User = {
           username: user.username,
           email: user.email,
+          role: user.role
           // Agregar otros campos públicos según sea necesario
         };
         return publicUserData;
