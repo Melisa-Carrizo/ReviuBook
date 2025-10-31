@@ -14,6 +14,7 @@ export class ModifyReview {
   private fb = inject(NonNullableFormBuilder);
   review = input<Review>()
   reviewUpdate = output<Review>();
+  
   editar = false;
 
   edit = this.fb.group(
@@ -66,4 +67,6 @@ export class ModifyReview {
       error: err => console.log("Error al actualizar la review: " + err)
     })
   }
+
+  
 }

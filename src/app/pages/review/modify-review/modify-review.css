@@ -52,6 +52,7 @@
 
 .btn-edit:hover {
     background-color: var(--darker-red);
+    cursor: pointer;
 }
 
 .review-item input[type="number"],
@@ -91,14 +92,14 @@
 
 /* Botón principal (Guardar Cambios) */
 .review-body button[type="submit"] {
-    background-color: #28a745; /* Verde para éxito/guardar */
+    background-color: var(--main-red); /* Verde para éxito/guardar */
     color: white;
-    border: 1px solid #28a745;
+    border: 1px solid var(--main-red);
     transition: background-color 0.2s;
 }
 
 .review-body button[type="submit"]:hover {
-    background-color: #218838;
+    background-color: var(--darker-red);
 }
 
 /* Botón secundario (Cancelar) */

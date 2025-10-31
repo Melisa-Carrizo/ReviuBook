@@ -1,9 +1,6 @@
 <h3 class="review-list-header">Reseñas de Usuarios</h3>
 
-@if(userReview() === undefined) {
-  <p>Cargando reseña del usuario</p>
-}
-@else if (userReview()) {
+@if (userReview()) {
   <app-modify-review
     [review]="userReview()"
     (reviewUpdate)="actualizar($event)"
