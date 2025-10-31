@@ -46,9 +46,7 @@ export class AddBookComponent {
     // 1. Suscribirse a los cambios de 'inputMethod'
     this.form.get('inputMethod')!.valueChanges
       .pipe(
-        // Usamos la inyección de DestroyRef (Opción 1)
         takeUntilDestroyed(this.destroyRef) 
-        // Alternativamente, si usas standalone component: takeUntilDestroyed()
       )
       .subscribe(method => {
         this.toggleFormControls(method === 'automatico');
@@ -60,7 +58,6 @@ export class AddBookComponent {
 
   private toggleFormControls(isAutomatic: boolean): void {
       const allControlNames = Object.keys(this.form.controls);
-      // ... (el resto de la implementación de toggleFormControls) ...
       allControlNames.forEach(name => {
           const control = this.form.get(name)!;
 
@@ -98,13 +95,10 @@ export class AddBookComponent {
   }
 
   onSubmit() {
-    // Si el formulario en modo manual no es válido, detenemos el proceso
     if (this.form.get('inputMethod')!.value === 'manual' && this.form.invalid) {
       this.snackService.openErrorSnackBar("Por favor, corrige los errores del formulario.");
       return;
     }
-    
-    // Usamos getRawValue() para obtener los valores de los controles deshabilitados
     const data = this.form.getRawValue();
     const inputMethod = data.inputMethod;
 
@@ -115,7 +109,7 @@ export class AddBookComponent {
         author: data.author,
         category: data.category,
         description: data.description,
-        releaseDate: new Date(data.releaseDate), // Conversión segura
+        releaseDate: new Date(data.releaseDate),
         publishingHouse: data.publishingHouse,
         ISBN: data.ISBN,
         status: true,
@@ -132,8 +126,8 @@ export class AddBookComponent {
         
       // Validación básica para modo automático (solo campos visibles)
       if (this.form.get('ISBN')!.invalid || this.form.get('category')!.invalid || this.form.get('author')!.invalid) {
-         this.snackService.openErrorSnackBar("ISBN, Categoría y Autor son obligatorios en modo automático.");
-         return;
+          this.snackService.openErrorSnackBar("ISBN, Categoría y Autor son obligatorios en modo automático.");
+          return;
       }
 
       const autoData = {

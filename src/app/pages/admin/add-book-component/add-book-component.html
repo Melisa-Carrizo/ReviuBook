@@ -1,118 +1,118 @@
 
 <div class="add-book-container">
-  <div class="form-card">
-    <h2>Añadir nuevo libro</h2>
+    <div class="form-card">
+        <h2>Añadir nuevo libro</h2>
 
-    <form [formGroup]="form">
-      <div class="form-grid">
-        
-        <div class="form-group" style="grid-column: 1 / span 2;">
-            <label for="inputMethod">Tipo de Ingreso</label>
-            <select formControlName="inputMethod" id="inputMethod">
-                <option value="manual">Manual (Ingresar todos los datos)</option>
-                <option value="automatico">Automático (Búsqueda por ISBN)</option>
+        <form [formGroup]="form">
+            <div class="form-grid">
+            
+            <div class="form-group" style="grid-column: 1 / span 2;">
+                <label for="inputMethod">Tipo de Ingreso</label>
+                <select formControlName="inputMethod" id="inputMethod">
+                    <option value="manual">Manual (Ingresar todos los datos)</option>
+                    <option value="automatico">Automático (Búsqueda por ISBN)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+            <label for="title">Título</label>
+            <input formControlName="title" type="text" id="title" placeholder="Ingresa el título"/>
+            @if (form.get("title")?.touched) {
+                @if (form.get("title")?.hasError('required')) {
+                <p class="error-message">El campo es obligatorio</p>
+                }@else if (form.get("title")?.hasError('maxlength')) {
+                <p class="error-message">El título es muy largo</p>
+                }
+            }
+            </div>
+
+            <div class="form-group">
+            <label for="publicationDate">Fecha de publicación</label>
+            <input formControlName="releaseDate" type="date" id="publicationDate" />
+            @if (form.get("releaseDate")?.touched) {
+                @if (form.get("releaseDate")?.hasError('required')) {
+                <p class="error-message">El campo es obligatorio</p>
+                }@else if (form.get("releaseDate")?.hasError('futureDate')) {
+                <p class="error-message">La fecha no puede ser futura</p>
+                }
+            }
+            </div>
+
+            <div class="form-group">
+            <label for="author">Autor</label>
+            <input formControlName="author" type="text" id="author" placeholder="Ingresa el autor"  />
+            @if (form.get("author")?.touched) {
+                @if (form.get("author")?.hasError('required')) {
+                <p class="error-message">El campo es obligatorio</p>
+                }@else if (form.get("author")?.hasError('maxlength')) {
+                <p class="error-message">El nombre del autor es muy largo</p>
+                }
+            }
+            </div>
+
+            <div class="form-group description">
+            <label for="description">Descripción</label>
+            <textarea formControlName="description" id="description" placeholder="Ingresa la descripción"></textarea>
+            @if (form.get("description")?.touched) {
+                @if (form.get("description")?.hasError('required')) {
+                <p class="error-message">El campo es obligatorio</p>
+                }@else if (form.get("description")?.hasError('maxlength')) {
+                <p class="error-message">La descripción es muy larga</p>
+                }
+            }
+            </div>
+
+            <div class="form-group">
+            <label for="genre">Género</label>
+            <select formControlName="category" id="genre">
+                <option value="" disabled selected>Selecciona un género</option>
+                @for (g of genre; track g) {
+                <option [value]="g">{{g}}</option>
+                }
             </select>
-        </div>
-        
-        <div class="form-group">
-          <label for="title">Título</label>
-          <input formControlName="title" type="text" id="title" placeholder="Ingresa el título"/>
-          @if (form.get("title")?.touched) {
-            @if (form.get("title")?.hasError('required')) {
-              <p class="error-message">El campo es obligatorio</p>
-            }@else if (form.get("title")?.hasError('maxlength')) {
-              <p class="error-message">El título es muy largo</p>
+            @if (form.get("category")?.touched) {
+                @if (form.get("category")?.hasError('required')) {
+                <p class="error-message">Debes seleccionar un género</p>
+                }
             }
-          }
+            </div>
+
+            <div class="form-group">
+            <label for="publisher">Editorial</label>
+            <input formControlName="publishingHouse" type="text" id="publisher" placeholder="Ingresa la editorial" />
+            @if (form.get("publishingHouse")?.touched) {
+                @if (form.get("publishingHouse")?.hasError('required')) {
+                <p class="error-message">El campo es obligatorio</p>
+                }@else if (form.get("publishingHouse")?.hasError('maxlength')) {
+                <p class="error-message">El nombre de la editorial es muy larga</p>
+                }
+            }
+            </div>
+            
+            <div class="form-group">
+            <label for="isbn">ISBN</label>
+            <input formControlName="ISBN" type="text" id="isbn" placeholder="Ingresa el ISBN"/>
+            @if (form.get("ISBN")?.touched) {
+                @if (form.get("ISBN")?.hasError('required')) {
+                    <p class="error-message">El ISBN es obligatorio</p>
+                }@else if (form.get("ISBN")?.hasError('invalidIsbn')) {
+                    <p class="error-message">Formato de ISBN inválido (debe ser 10 o 13 dígitos/X).</p>
+                }
+            }
+            </div>
+
         </div>
 
-        <div class="form-group">
-          <label for="publicationDate">Fecha de publicación</label>
-          <input formControlName="releaseDate" type="date" id="publicationDate" />
-          @if (form.get("releaseDate")?.touched) {
-            @if (form.get("releaseDate")?.hasError('required')) {
-              <p class="error-message">El campo es obligatorio</p>
-            }@else if (form.get("releaseDate")?.hasError('futureDate')) {
-              <p class="error-message">La fecha no puede ser futura</p>
-            }
-          }
+        <div class="form-actions">
+            <button type="button" (click)="cancel()" class="btn cancel">Cancelar</button>
+            <button type="submit" (click)="onSubmit()" [class.btn-disabled]="form.invalid && form.get('inputMethod')?.value === 'manual'" [disabled]="form.invalid && form.get('inputMethod')?.value === 'manual'" class="btn save">
+                @if (form.get('inputMethod')?.value === 'automatico') {
+                    Buscar y Crear
+                } @else {
+                    Crear Libro
+                }
+            </button>
         </div>
-
-        <div class="form-group">
-          <label for="author">Autor</label>
-          <input formControlName="author" type="text" id="author" placeholder="Ingresa el autor"  />
-          @if (form.get("author")?.touched) {
-            @if (form.get("author")?.hasError('required')) {
-              <p class="error-message">El campo es obligatorio</p>
-            }@else if (form.get("author")?.hasError('maxlength')) {
-              <p class="error-message">El nombre del autor es muy largo</p>
-            }
-          }
-        </div>
-
-        <div class="form-group description">
-          <label for="description">Descripción</label>
-          <textarea formControlName="description" id="description" placeholder="Ingresa la descripción"></textarea>
-          @if (form.get("description")?.touched) {
-            @if (form.get("description")?.hasError('required')) {
-              <p class="error-message">El campo es obligatorio</p>
-            }@else if (form.get("description")?.hasError('maxlength')) {
-              <p class="error-message">La descripción es muy larga</p>
-            }
-          }
-        </div>
-
-        <div class="form-group">
-          <label for="genre">Género</label>
-          <select formControlName="category" id="genre">
-            <option value="" disabled selected>Selecciona un género</option>
-            @for (g of genre; track g) {
-              <option [value]="g">{{g}}</option>
-            }
-          </select>
-          @if (form.get("category")?.touched) {
-            @if (form.get("category")?.hasError('required')) {
-              <p class="error-message">Debes seleccionar un género</p>
-            }
-          }
-        </div>
-
-        <div class="form-group">
-          <label for="publisher">Editorial</label>
-          <input formControlName="publishingHouse" type="text" id="publisher" placeholder="Ingresa la editorial" />
-          @if (form.get("publishingHouse")?.touched) {
-            @if (form.get("publishingHouse")?.hasError('required')) {
-              <p class="error-message">El campo es obligatorio</p>
-            }@else if (form.get("publishingHouse")?.hasError('maxlength')) {
-              <p class="error-message">El nombre de la editorial es muy larga</p>
-            }
-          }
-        </div>
-        
-        <div class="form-group">
-          <label for="isbn">ISBN</label>
-          <input formControlName="ISBN" type="text" id="isbn" placeholder="Ingresa el ISBN"/>
-          @if (form.get("ISBN")?.touched) {
-             @if (form.get("ISBN")?.hasError('required')) {
-                <p class="error-message">El ISBN es obligatorio</p>
-            }@else if (form.get("ISBN")?.hasError('invalidIsbn')) {
-                <p class="error-message">Formato de ISBN inválido (debe ser 10 o 13 dígitos/X).</p>
-            }
-          }
-        </div>
-
-      </div>
-
-      <div class="form-actions">
-        <button type="button" (click)="cancel()" class="btn cancel">Cancelar</button>
-        <button type="submit" (click)="onSubmit()" [class.btn-disabled]="form.invalid && form.get('inputMethod')?.value === 'manual'" [disabled]="form.invalid && form.get('inputMethod')?.value === 'manual'" class="btn save">
-            @if (form.get('inputMethod')?.value === 'automatico') {
-                Buscar y Crear
-            } @else {
-                Crear Libro
-            }
-        </button>
-      </div>
-    </form>
-  </div>
+        </form>
+    </div>
 </div>
