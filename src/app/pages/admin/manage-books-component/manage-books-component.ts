@@ -7,18 +7,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-manage-books-component',
-  imports: [BookPreviewComponent],
-  templateUrl: './manage-books-component.html',
-  styleUrl: './manage-books-component.css',
+    selector: 'app-manage-books-component',
+    imports: [BookPreviewComponent],
+    templateUrl: './manage-books-component.html',
+    styleUrl: './manage-books-component.css',
 })
 export class ManageBooksComponent implements OnInit{
-  private bookService = inject(BookService);
-  private router = inject(Router);
-  snackBar = inject(MatSnackBar);
-  public books: Book[] = [];
-  isLoading: boolean = true;
-  hasBooks: boolean = false;
+    private bookService = inject(BookService);
+    private router = inject(Router);
+    snackBar = inject(MatSnackBar);
+    public books: Book[] = [];
+    isLoading: boolean = true;
+    hasBooks: boolean = false;
 
     ngOnInit(): void {
         this.loadBooks();
@@ -40,8 +40,12 @@ export class ManageBooksComponent implements OnInit{
         });
     }
 
+    goToAddBook(){
+        this.router.navigate(['admin/libros/agregar']);
+    }
+
     onEditBook(book: Book){
-      this.router.navigate(['admin/libros/editar/', book.id]);
+        this.router.navigate(['admin/libros/editar/', book.id]);
     }
 
     onDeleteBook(book: Book) {
