@@ -6,14 +6,13 @@ import { LoginRequest } from '../models/login-request';
 import { RegisterRequest } from '../models/register-request';
 import { Token } from '../models/token';
 import { User } from '../models/User';
-import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private apiUrl = 'http://localhost:8080/user/logged';
+  private apiUrl = 'http://localhost:8080/user';
   private http = inject(HttpClient);
 
   getUserProfileByToken(): Observable<User> {
@@ -23,6 +22,7 @@ export class UserService {
         const publicUserData: User = {
           username: user.username,
           email: user.email,
+          role: user.role
           // Agregar otros campos públicos según sea necesario
         };
         return publicUserData;
