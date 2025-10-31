@@ -26,6 +26,14 @@ export class BookService {
     return this.http.get<BookSheet>(`${this.baseUrl}/bookSheet/${id}`);
   }
 
+  add(book: Book){
+    return this.http.post<Book>(`${this.baseUrl}`,book);
+  }
+
+  addWithGoogleApi(book: Partial<Book>){
+    return this.http.post<Book>(`${this.baseUrl}/create`,book);
+  }
+
   update(book: Book){
     return this.http.put<Book>(`${this.baseUrl}/${book.id}`,book);
   }
