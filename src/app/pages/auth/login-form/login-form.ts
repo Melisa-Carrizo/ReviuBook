@@ -6,10 +6,23 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel ,MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../../core/services/snackbar-service';
 
 @Component({
   selector: 'app-login-form',
-  imports: [ ReactiveFormsModule, MatDialogModule, MatButtonModule, MatButtonModule, MatFormField, MatLabel, MatError, MatInputModule, MatFormFieldModule ],
+  imports: [ 
+    ReactiveFormsModule, 
+    MatDialogModule, 
+    MatButtonModule, 
+    MatButtonModule, 
+    MatFormField, 
+    MatLabel, 
+    MatError, 
+    MatInputModule, 
+    MatFormFieldModule, 
+    MatSnackBarModule 
+  ],
   templateUrl: './login-form.html',
   styleUrl: './login-form.css',
 })
@@ -17,7 +30,7 @@ export class LoginForm {
 
   // 3. Inyecta la referencia del modal (en lugar de usar el constructor)
   public dialogRef = inject(MatDialogRef<LoginForm>);
-
+  private snackBar = inject(SnackbarService); 
   private apiConnection = inject(ApiConnectionAuth)
   private fb = inject(FormBuilder);
 
@@ -39,10 +52,10 @@ export class LoginForm {
 
       this.apiConnection.login(login).subscribe({
         next: (response) => {
-          alert('Login exitoso');
-
+          this.snackBar.openSuccessSnackBar('Login exitoso');
+          this.closeDialog();
         },error: (error) => {
-          alert('Error en el login');
+          this.snackBar.openErrorSnackBar('Error en el login. Revisá tus datos.');
         }
 
       });

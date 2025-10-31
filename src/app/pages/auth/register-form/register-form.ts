@@ -8,6 +8,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { LoginRequest } from '../../../core/models/login-request';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
+import { SnackbarService } from '../../../core/services/snackbar-service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register-form',
@@ -28,7 +30,7 @@ export class RegisterForm {
 
   private authService = inject(ApiConnectionAuth);
   private fb = inject(FormBuilder);
-  private snackBar = inject(MatSnackBar); 
+  private snackBar = inject(SnackbarService); 
   public dialogRef = inject(MatDialogRef<RegisterForm>);
 
   registerForm = this.fb.group({
@@ -38,49 +40,42 @@ export class RegisterForm {
   });
 
   onSubmit(): void {
-  if (this.registerForm.invalid) {
-    this.openErrorSnackBar("Por favor, completá el formulario correctamente.");
-    return;
-  }
 
-  const registerData = {
-    username: this.registerForm.value.username!,
-    email: this.registerForm.value.email!,
-    password: this.registerForm.value.password!
-  }
+      if (this.registerForm.invalid) {
+        this.snackBar.openErrorSnackBar("Por favor, completá el formulario correctamente.");
+      }else {
 
-  this.authService.register(registerData).pipe(
-    switchMap(() => 
-      this.authService.login({ email: registerData.email, password: registerData.password })
-    ),
-    tap(() => {
-      this.openSuccessSnackBar("¡Usuario registrado e iniciado sesión con éxito!");
-      this.registerForm.reset();
-      this.dialogRef.close();
-    }),
-    catchError((error) => {
-      console.error('Error en el registro o login:', error);
-      this.openErrorSnackBar("Hubo un problema en el registro o inicio de sesión.");
-      return of(null);
-    })
-  ).subscribe();
-}
+        const registerData = {
+        username: this.registerForm.value.username!,
+        email: this.registerForm.value.email!,
+        password: this.registerForm.value.password!
+      }
+
+      this.authService.register(registerData).pipe(
+      switchMap(() => 
+        this.authService.login({ email: registerData.email, password: registerData.password })
+      ),
+      tap(() => {
+        this.snackBar.openSuccessSnackBar("¡Usuario registrado con éxito!");
+        this.registerForm.reset();
+        this.dialogRef.close();
+      }),
+      catchError((error: HttpErrorResponse) => { // <-- Es buena práctica tipar el error
+
+        let errorMessage = "Hubo un problema en el registro."; // Mensaje por defecto
+
+        // 1. Verificamos si 'error.error' es un string (como en tu Postman)
+        if (typeof error.error === 'string' && error.error === 'Error al ingresar los datos. El email ya está registrado') {
+          errorMessage = error.error;
+        } 
+
+        this.snackBar.openErrorSnackBar(errorMessage);
+        
+        return of(null); 
+      })
+    ).subscribe();
+
+      }
+  }
   
-  openSuccessSnackBar(message: string) {
-    this.snackBar.open(message, 'Cerrar', {
-      duration: 5000, 
-      verticalPosition: 'top', 
-      horizontalPosition: 'center', 
-      panelClass: ['success-snackbar'] 
-    });
-  }
-
-  openErrorSnackBar(message: string) {
-    this.snackBar.open(message, 'Cerrar', {
-      duration: 7000, 
-      verticalPosition: 'top',
-      horizontalPosition: 'center',
-      panelClass: ['error-snackbar'] 
-    });
-  }
 }

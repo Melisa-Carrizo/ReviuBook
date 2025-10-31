@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AuthModalComponent } from '../../../../pages/auth/auth-modal-component/auth-modal-component';
 import { ApiConnectionAuth } from '../../../../core/services/auth-service';
 import { CommonModule } from '@angular/common';
@@ -17,6 +17,7 @@ import { Router, RouterModule } from '@angular/router';
     MatToolbarModule,
     MatMenuModule,
     MatIconModule,
+    MatDialogModule,
     RouterModule,
 
   ],
