@@ -13,7 +13,7 @@ import { User } from '../models/User';
 })
 export class UserService {
 
-  private apiUrl = 'http://localhost:8080/user/logged';
+  private apiUrl = 'http://localhost:8080/user';
   private http = inject(HttpClient);
 
   getUserProfileByToken(): Observable<User> {

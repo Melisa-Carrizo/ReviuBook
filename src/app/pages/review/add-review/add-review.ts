@@ -1,6 +1,7 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReviewService } from '../../../core/services/review-service';
+import { Review } from '../../../core/models/Review';
 
 @Component({
   selector: 'app-add-review',
@@ -13,7 +14,8 @@ export class AddReview {
   private fb = inject(NonNullableFormBuilder);
   idBook = input<number>();
   idUser = input<number>()
-
+  // Aca se va a guardar la review creada, que luega se va a emitir al padre
+  reviewCreated = output<Review>();
 
   form = this.fb.group(
     {
@@ -35,12 +37,15 @@ export class AddReview {
     const review = {
       rating: this.getRating().value,
       content: this.getContent().value,
-      //idUser: this.idUser(),
-      idBook: this.idBook()
+      idMultimedia: this.idBook()
     };
     this._reviewService.addReview(review).subscribe({
-      next: () => console.log("Review creada con exito"),
-      error: err => console.log("Error al crear la review: " + err)
+      next: (newReview) => {
+        console.log("Review creada con exito"),
+        // le pasamos la review al padre, para que la muestre
+        this.reviewCreated.emit(newReview)
+      },
+      error: err => console.log("Error al crear la review: " + err.message)
     })
   }
 }
