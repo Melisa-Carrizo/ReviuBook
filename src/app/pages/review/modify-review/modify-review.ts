@@ -11,4 +11,9 @@ import { Review } from '../../../core/models/Review';
 export class ModifyReview {
   private _reviewService = inject(ReviewService);
   review = input<Review>()
+  editar = false;
+
+  cambiarVista() {
+    this.editar = true;
+  }
 }
