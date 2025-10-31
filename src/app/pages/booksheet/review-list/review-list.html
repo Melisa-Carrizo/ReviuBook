@@ -1,11 +1,15 @@
 <h3 class="review-list-header">Reseñas de Usuarios</h3>
 
-@if(true) {
-  <p>Muestro componente para editar</p>
+@if(userReview() === undefined) {
+  <p>Cargando reseña del usuario</p>
+}
+@else if (userReview()) {
+  <p>Mostrar componente para editar</p>
 }
 @else {
   <app-add-review
     [idBook]="idBook()"
+    (reviewCreated)="actualizar($event)"
   ></app-add-review>
   <p></p>
 }
