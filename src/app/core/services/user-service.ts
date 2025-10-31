@@ -33,4 +33,11 @@ export class UserService {
   getById(id: number) {
     return this.http.get<User>(`${this.apiUrl}/${id}`)
   }
+
+  getUsernameById(id: number): Observable<string> {
+    return this.http.get<User>(`${this.apiUrl}/${id}`).pipe(
+        // Transforma el objeto User completo a solo el string del username
+        map(user => user.username) 
+    );
+}
 }
