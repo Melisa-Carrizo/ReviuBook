@@ -6,6 +6,7 @@
 @else if (userReview()) {
   <app-modify-review
     [review]="userReview()"
+    (reviewUpdate)="actualizar($event)"
   >
   </app-modify-review>
 }

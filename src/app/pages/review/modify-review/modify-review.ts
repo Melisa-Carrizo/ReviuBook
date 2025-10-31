@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input, output, signal } from '@angular/core';
 import { ReviewService } from '../../../core/services/review-service';
 import { Review } from '../../../core/models/Review';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -13,6 +13,7 @@ export class ModifyReview {
   private _reviewService = inject(ReviewService);
   private fb = inject(NonNullableFormBuilder);
   review = input<Review>()
+  reviewUpdate = output<Review>();
   editar = false;
 
   edit = this.fb.group(
@@ -59,7 +60,8 @@ export class ModifyReview {
     this._reviewService.updateReview(update).subscribe({
       next: (data) => {
         alert("Reseña actualizada: " + data),
-        this.cambiarVista()
+        this.cambiarVista(),
+        this.reviewUpdate.emit(data);
       },
       error: err => console.log("Error al actualizar la review: " + err)
     })
