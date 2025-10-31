@@ -43,6 +43,7 @@ export class EditUser {
         username: this.userForm.value.username!,
         email: this.userForm.value.email!,
         password: this.userForm.value.password!,
+        role: this.currentUser()!.role
       };
       this.userService.updateUserProfile(updatedUser).subscribe({
         next: (user) => {
