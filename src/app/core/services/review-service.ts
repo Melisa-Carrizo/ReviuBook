@@ -29,4 +29,12 @@ export class ReviewService {
   addReview(dto: Partial<Review>) {
     return this.http.post<Review>(`${this.apiUrl}`, dto);
   }
+
+  updateReview(dto: Partial<Review>) {
+    return this.http.put<Review>(`${this.apiUrl}/${dto.idReview}`, dto);
+  }
+
+  deleteReview(id: number) {
+    return this.http.delete<Review>(`${this.apiUrl}/${id}`)
+  }
 }
