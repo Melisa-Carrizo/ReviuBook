@@ -28,6 +28,17 @@ export class ReviewList {
   // o sea que si cambia el ID cambia la Review
   userReview = toSignal(this.idBook$, { initialValue: undefined });
   
+  filterReviews = computed(() => {
+    const allReviews = this.reviews() || [];
+    const idUserReview = this.userReview()?.idReview;
+
+    if (!idUserReview) {
+      return allReviews
+    }
+
+    return allReviews.filter(r => r.idReview !== idUserReview);
+  })
+
   // Metodo para cambiar el signal 'userReview'
   actualizar(newReview: Review) {
     this.userReview = signal<Review>(newReview);
