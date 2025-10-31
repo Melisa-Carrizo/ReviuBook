@@ -2,7 +2,9 @@ import { Component, effect, inject, input, output, signal } from '@angular/core'
 import { ReviewService } from '../../../core/services/review-service';
 import { Review } from '../../../core/models/Review';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-
+import {map, filter, switchMap} from 'rxjs';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { UserService } from '../../../core/services/user-service';
 @Component({
   selector: 'app-modify-review',
   imports: [ReactiveFormsModule],
@@ -12,10 +14,19 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 export class ModifyReview {
   private _reviewService = inject(ReviewService);
   private fb = inject(NonNullableFormBuilder);
+  private _userService = inject(UserService);
   review = input<Review>()
   reviewUpdate = output<Review>();
   reviewDelete = output<number>();
   editar = false;
+  
+  private user$ = toObservable(this.review).pipe(
+    map(review => review?.idUser),
+    filter((id): id is number => !!id),
+    switchMap(id => this._userService.getById(id))
+  );
+
+  user = toSignal(this.user$, {initialValue: undefined})
 
   edit = this.fb.group(
     {
