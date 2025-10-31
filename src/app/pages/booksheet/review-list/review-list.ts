@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, WritableSignal } from '@angular/core';
 import { Review } from '../../../core/models/Review';
 import { ReviewItem } from '../review-item/review-item';
 import { ReviewService } from '../../../core/services/review-service';
@@ -19,6 +19,28 @@ export class ReviewList {
   //Recibo las reviews y el id del libro desde BookSheet:
   reviews = input<Review[]>();
   idBook = input<number>();
+
+  // signal only-read para obtener la Review del usuario, si es que tiene
+  private initialReviewLoad = toSignal(
+        toObservable(this.idBook).pipe(
+            filter((id): id is number => id !== undefined && id !== null), 
+            switchMap(id => this._reviewService.getUserReviewByBookAndStatusActive(id))
+        ), 
+        { initialValue: undefined }
+  );
+
+  //Signal de escritura, para realizarle modificaciones
+  userReview: WritableSignal<Review | undefined> = signal(undefined);
+
+  // effect para mantener el signal con informacion
+  constructor() {
+    effect(() => {
+      const loadedReview = this.initialReviewLoad();
+      this.userReview.set(loadedReview);
+    });
+  }
+
+  /*
   // Obtiene la Reseña del usuario, si es que tiene:
   private idBook$ = toObservable(this.idBook).pipe(
     filter((id): id is number => id !== undefined && id !== null), 
@@ -27,7 +49,8 @@ export class ReviewList {
   // Se inicializa con un Observable reactivo,
   // o sea que si cambia el ID cambia la Review
   userReview = toSignal(this.idBook$, { initialValue: undefined });
-  
+  */
+
   filterReviews = computed(() => {
     const allReviews = this.reviews() || [];
     const idUserReview = this.userReview()?.idReview;
@@ -41,11 +64,11 @@ export class ReviewList {
 
   // Metodo para cambiar el signal 'userReview'
   actualizar(newReview: Review) {
-    this.userReview = signal<Review>(newReview);
+    this.userReview.set(newReview);
   }
 
-  eliminar(reviewDeleted: Review) {
-    
+  eliminar(idReview: number) {
+    this.userReview.set(undefined);
   }
   
 
