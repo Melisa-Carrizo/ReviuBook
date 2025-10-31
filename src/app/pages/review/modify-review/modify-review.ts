@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { ReviewService } from '../../../core/services/review-service';
 import { Review } from '../../../core/models/Review';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -17,8 +17,10 @@ export class ModifyReview {
 
   edit = this.fb.group(
     {
-      content: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(250)]],
-      rating: [0, [Validators.required, Validators.min(1), Validators.max(5)]]
+      content: [this.review()?.content, 
+        [Validators.required, Validators.minLength(1), Validators.maxLength(250)]],
+      rating: [this.review()?.rating, 
+        [Validators.required, Validators.min(1), Validators.max(5)]]
     }
   );
 
@@ -35,6 +37,19 @@ export class ModifyReview {
   }
 
   editReview() {
-
+    if (!this.edit.valid) return;
+    const update = {
+      idReview: this.review()?.idReview,
+      rating: this.getRating().value,
+      content: this.getContent().value,
+      idUser: this.review()?.idUser,
+      idMultimedia: this.review()?.idMultimedia
+    };
+    this._reviewService.updateReview(update).subscribe({
+      next: (data) => {
+        alert("Reseña actualizada: " + data)
+      },
+      error: err => console.log("Error al actualizar la review: " + err)
+    })
   }
 }
