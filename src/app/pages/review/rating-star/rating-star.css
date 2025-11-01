@@ -1,0 +1,21 @@
+.rating-stars {
+  display: inline-block;
+  font-size: 1.3rem;
+  cursor: pointer;
+  user-select: none;
+}
+.star-container {
+  /* Esto asegura que cada estrella es un target de click */
+  display: inline-block;
+  padding: 0 2px;
+}
+/* Estilo para las estrellas llenas (fas) */
+.fas.fa-star {
+  color: gold;
+  transition: color 0.1s;
+}
+/* Estilo para las estrellas vacías (far) */
+.far.fa-star {
+  color: #ccc;
+  transition: color 0.1s;
+}

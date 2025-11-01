@@ -1,27 +1,3 @@
-<!--
-<h3>Crear review</h3>
-<form [formGroup]="form" (ngSubmit)="submitReview()">
-  <div>
-    <label for="content">Contenido</label>
-    <textarea name="content" id="content" formControlName="content"></textarea>
-    @if(getContent().touched) { @if(getContent().hasError('minlength')) {
-    <small>El contenido debe tener al menos un caracter</small>
-    } @if(getContent().hasError('maxlength')) {
-    <small>El contenido no puede tener mas de 250 caracteres</small>
-    } }
-  </div>
-  <div>
-    <label for="rating">Puntuacion</label>
-    <input type="number" id="rating" formControlName="rating" />
-    @if(getRating().touched) { @if(getRating().hasError('min')) {
-    <small>La calificacion debe ser de al menos una estrella</small>
-    } @if(getRating().hasError('maxlength')) {
-    <small>La calificacion no puede ser mayor a 5 estrellas</small>
-    } }
-  </div>
-  <button type="submit">Crear Review</button>
-</form>
--->
 
 <div class="review-item">
   <form [formGroup]="form" (ngSubmit)="submitReview()">
@@ -37,7 +13,7 @@
       </div>
       <div>
         <label for="rating">Puntuacion</label>
-        <input type="number" id="rating" formControlName="rating" />
+        <app-rating-star formControlName="rating"></app-rating-star>
         @if(getRating().touched) { @if(getRating().hasError('min')) {
         <small>La calificacion debe ser de al menos una estrella</small>
         } @if(getRating().hasError('maxlength')) {
