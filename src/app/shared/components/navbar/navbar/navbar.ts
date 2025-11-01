@@ -9,6 +9,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { SearchService } from '../../../../core/services/search-service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
@@ -20,6 +21,7 @@ import { SearchService } from '../../../../core/services/search-service';
     MatIconModule,
     MatDialogModule,
     RouterModule,
+    FormsModule
 
   ],
   templateUrl: './navbar.html',
