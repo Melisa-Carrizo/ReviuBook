@@ -1,13 +1,17 @@
 <div class="rating-stars">
   @for (star of stars; track $index) {
   <span
-    class="star"
-    [class.filled]="star <= (hoverRating() || value())"
+    class="star-container"
     (click)="setValue(star)"
     (mouseenter)="setHoverRating(star)"
     (mouseleave)="setHoverRating(0)"
   >
-    ★
+    <i
+      class="fa-star"
+      [class.fas]="star <= (hoverRating() || value())"
+      [class.far]="star > (hoverRating() || value())"
+    >
+    </i>
   </span>
   }
 </div>
