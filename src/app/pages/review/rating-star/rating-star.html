@@ -1,1 +1,13 @@
-<p>rating-star works!</p>
+<div class="rating-stars">
+  @for (star of stars; track $index) {
+  <span
+    class="star"
+    [class.filled]="star <= (hoverRating() || value())"
+    (click)="setValue(star)"
+    (mouseenter)="setHoverRating(star)"
+    (mouseleave)="setHoverRating(0)"
+  >
+    ★
+  </span>
+  }
+</div>

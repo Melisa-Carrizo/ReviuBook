@@ -1,0 +1,13 @@
+.rating-stars {
+  display: inline-block;
+  font-size: 2rem; /* Tamaño de las estrellas */
+  cursor: pointer;
+  user-select: none;
+}
+.star {
+  color: #ccc; /* Color por defecto (vacía) */
+  transition: color 0.1s;
+}
+.star.filled {
+  color: gold; /* Color de la estrella llena */
+}
