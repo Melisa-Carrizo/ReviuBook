@@ -5,9 +5,10 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import {map, filter, switchMap} from 'rxjs';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { UserService } from '../../../core/services/user-service';
+import { RatingStar } from '../rating-star/rating-star';
 @Component({
   selector: 'app-modify-review',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RatingStar],
   templateUrl: './modify-review.html',
   styleUrl: './modify-review.css',
 })
