@@ -8,6 +8,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu'; 
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
+import { SearchService } from '../../../../core/services/search-service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
@@ -19,6 +21,7 @@ import { Router, RouterModule } from '@angular/router';
     MatIconModule,
     MatDialogModule,
     RouterModule,
+    FormsModule
 
   ],
   templateUrl: './navbar.html',
@@ -28,8 +31,10 @@ export class Navbar {
 
   readonly #dialog = inject(MatDialog);
   private authService = inject(ApiConnectionAuth);
+  private _searchService = inject(SearchService);
   private router = inject(Router);
   currentUser = this.authService.currentUser;
+  currentSearchTerm: string = '';
 
   openAuthModal(): void {
     const dialogRef = this.#dialog.open(AuthModalComponent, {
@@ -55,5 +60,11 @@ export class Navbar {
 
   isAdmin(){
     return this.authService.isAdmin();
+  }
+
+  onSearchInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const term = input.value;
+    this._searchService.setSearchTerm(term); // setea el termino del servicio
   }
 } 

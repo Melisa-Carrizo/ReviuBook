@@ -56,8 +56,13 @@
     <main class="main-content">
         <h2 class="section-title">Libros</h2>
         <ul class="book-list">
-            @for (b of bookList(); track b.id) {
+            @for (b of filteredBooks(); track b.id) {
                 <li><app-book-card-component [book]="b"></app-book-card-component></li>
+            }
+            @empty {
+                <p class="no-results-message">
+                    No se encontraron libros que coincidan con la búsqueda.
+                </p>
             }
         </ul>
     </main>
