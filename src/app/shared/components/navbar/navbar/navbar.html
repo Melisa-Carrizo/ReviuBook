@@ -2,7 +2,7 @@
   <div class="navbar-left"><a class="brand" routerLink="/">ReviuBook</a></div>
 
   <div class="navbar-center">
-    <form class="search-form">
+    <form class="search-form" (submit)="$event.preventDefault()">
       <i class="fa-solid fa-magnifying-glass"></i>
       <input type="text" placeholder="Buscar..." class="search-input" 
         [ngModel]="currentSearchTerm"
