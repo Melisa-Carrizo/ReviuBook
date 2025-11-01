@@ -2,10 +2,11 @@ import { Component, inject, input, output } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReviewService } from '../../../core/services/review-service';
 import { Review } from '../../../core/models/Review';
+import { RatingStar } from '../rating-star/rating-star';
 
 @Component({
   selector: 'app-add-review',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RatingStar],
   templateUrl: './add-review.html',
   styleUrl: './add-review.css',
 })

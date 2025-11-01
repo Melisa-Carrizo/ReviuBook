@@ -13,7 +13,7 @@
       </div>
       <div>
         <label for="rating">Puntuacion</label>
-        <input type="number" id="rating" formControlName="rating" />
+        <app-rating-star formControlName="rating"></app-rating-star>
         @if(getRating().touched) { @if(getRating().hasError('min')) {
         <small>La calificacion debe ser de al menos una estrella</small>
         } @if(getRating().hasError('maxlength')) {
