@@ -42,11 +42,11 @@ export class AddReview {
     };
     this._reviewService.addReview(review).subscribe({
       next: (newReview) => {
-        console.log("Review creada con exito"),
+        console.log("Review creada con exito"), //snackbar succes
         // le pasamos la review al padre, para que la muestre
         this.reviewCreated.emit(newReview)
       },
-      error: err => console.log("Error al crear la review: " + err.message)
+      error: err => console.log("Error al crear la review: " + err.message) //snackbar errir
     })
   }
 }

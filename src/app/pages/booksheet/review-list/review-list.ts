@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, signal, WritableSignal } from '@angular/core';
+import { Component, computed, effect, inject, input, output, signal, WritableSignal } from '@angular/core';
 import { Review } from '../../../core/models/Review';
 import { ReviewItem } from '../review-item/review-item';
 import { ReviewService } from '../../../core/services/review-service';
@@ -21,6 +21,9 @@ export class ReviewList {
   //Recibo las reviews y el id del libro desde BookSheet:
   reviews = input<Review[]>();
   idBook = input<number>();
+  // Outputs para mantener actualizada la lista original
+  reviewDelete = output<number>();
+  reviewUpdate = output<Review>();
 
   // signal only-read para obtener la Review del usuario, si es que tiene
   private initialReviewLoad = toSignal(
@@ -70,11 +73,13 @@ export class ReviewList {
 
   // Metodo para cambiar el signal 'userReview'
   actualizar(newReview: Review) {
-    this.userReview.set(newReview);
+    this.userReview.set(newReview); //actualizo userReview
+    this.reviewUpdate.emit(newReview) //emito la reseña actualizada al padre
   }
 
   eliminar(idReview: number) {
-    this.userReview.set(undefined);
+    this.userReview.set(undefined); //userReview pasa a undefined
+    this.reviewDelete.emit(idReview); //emito el id de la review hacia el padre
   }
   
 
