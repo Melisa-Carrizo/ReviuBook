@@ -1,17 +1,13 @@
 @if(!editar) {
 <div class="review-item">
   <div class="review-header">
-    <!--Aca deberia ir el nombre del usuario-->
-    <span class="review-author">{{user()?.username}}</span>
+    <span class="review-author">{{ user()?.username }}</span>
     <span class="review-rating">
-      @for (i of [1, 2, 3, 4, 5]; track i) { 
-        @if (review() && review()!.rating >= i) {
-          <i class="fas fa-star filled"></i> 
-        } 
-        @else { 
-          <i class="far fa-star empty"></i> 
-        } 
-      }
+      @for (i of [1, 2, 3, 4, 5]; track i) { @if (review() && review()!.rating >= i) {
+      <i class="fas fa-star filled"></i>
+      } @else {
+      <i class="far fa-star empty"></i>
+      } }
     </span>
   </div>
   <p class="review-body">{{ review()?.content }}</p>
@@ -21,41 +17,38 @@
   </div>
 </div>
 } @else {
-    <div class="review-item">
-        <form [formGroup]="edit" (ngSubmit)="editReview()">
- 
-        <div class="review-body">
-        
-        <div>
-            <label for="content">Contenido</label>
-            <textarea name="content" id="content" formControlName="content"></textarea> 
-            @if(getContent().touched) { 
-                @if(getContent().hasError('minlength')) {
-                    <small>El contenido debe tener al menos un caracter</small> 
-                }
-                @if(getContent().hasError('maxlength')) { 
-                <small>El contenido no puede tener mas de 250 caracteres</small>  
-                } 
-            } 
-        </div>
-        <div>
-            <label for="rating">Puntuacion</label>
-            <app-rating-star formControlName="rating"></app-rating-star>
-            @if(getRating().touched) { 
-                @if(getRating().hasError('min')) { 
-                    <small>La calificacion debe ser de al menos una estrella</small>  
-                }
-                @if(getRating().hasError('maxlength')) { 
-                    <small>La calificacion no puede ser mayor a 5 estrellas</small> 
-                } 
-            } 
-        </div>
+<div class="review-item">
+  <form [formGroup]="edit" (ngSubmit)="editReview()">
+    <div class="review-body">
+      <div>
+        <label for="content">Contenido</label>
+        <textarea name="content" id="content" formControlName="content"></textarea>
+        @if(getContent().touched) { 
+          @if(getContent().hasError('minlength')) {
+            <small>El contenido debe tener al menos un caracter</small>
+        } 
+          @if(getContent().hasError('maxlength')) {
+            <small>El contenido no puede tener mas de 250 caracteres</small>
+          } 
+        }
+      </div>
+      <div>
+        <label for="rating">Puntuacion</label>
+        <app-rating-star formControlName="rating"></app-rating-star>
+        @if(getRating().touched) { 
+          @if(getRating().hasError('min')) {
+            <small>La calificacion debe ser de al menos una estrella</small>
+          } 
+          @if(getRating().hasError('maxlength')) {
+            <small>La calificacion no puede ser mayor a 5 estrellas</small>
+          } 
+        }
+      </div>
 
-        <button type="submit">Guardar Cambios</button>
-        <button type="button" (click)="cambiarVista()">Cancelar</button>
-        <button (click)="delete()">Eliminar</button>
-        </div>
-        
-        </form>
+      <button type="submit">Guardar Cambios</button>
+      <button type="button" (click)="cambiarVista()">Cancelar</button>
+      <button type="button" (click)="delete()">Eliminar</button>
     </div>
+  </form>
+</div>
 }
