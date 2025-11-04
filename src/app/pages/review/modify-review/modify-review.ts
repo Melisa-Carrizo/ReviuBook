@@ -81,13 +81,14 @@ export class ModifyReview {
   }
 
   delete() {
+    // mejor usar un sweetalert
     if(confirm("Desea eliminar la reseña?")) {
         this._reviewService.deleteReview(this.review()!.idReview).subscribe({
           next: () => {
-            alert("Reseña eliminada con exito"),
+            alert("Reseña eliminada con exito"), // snackbar success
             this.reviewDelete.emit(this.review()!.idReview)
           },
-          error: err => alert("Error al eliminar la reseña")
+          error: err => alert("Error al eliminar la reseña") // snackbar error
         })
     }
   }
