@@ -7,6 +7,7 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { UserService } from '../../../core/services/user-service';
 import { RatingStar } from '../rating-star/rating-star';
 import Swal, { SweetAlertResult } from 'sweetalert2';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-modify-review',
   imports: [ReactiveFormsModule, RatingStar],
@@ -17,6 +18,7 @@ export class ModifyReview {
   private _reviewService = inject(ReviewService);
   private fb = inject(NonNullableFormBuilder);
   private _userService = inject(UserService);
+  private _sb = inject(MatSnackBar);
   review = input<Review>();
   reviewUpdate = output<Review>();
   reviewDelete = output<number>();
@@ -74,7 +76,12 @@ export class ModifyReview {
     };
     this._reviewService.updateReview(update).subscribe({
       next: (data) => {
-        //alert('Reseña actualizada: ' + data), // snackbar succes
+        this._sb.open('¡Review actualizada!', '', {
+                                duration: 1000,
+                                horizontalPosition: 'center',
+                                verticalPosition: 'top',
+                                panelClass: ['success-snackbar']
+                            });
         this.cambiarVista(),
         this.reviewUpdate.emit(data);
       },
@@ -82,20 +89,6 @@ export class ModifyReview {
     });
   }
 
-  /*
-  delete() {
-    // mejor usar un sweetalert
-    if(confirm("Desea eliminar la reseña?")) {
-        this._reviewService.deleteReview(this.review()!.idReview).subscribe({
-          next: () => {
-            alert("Reseña eliminada con exito"), // snackbar success
-            this.reviewDelete.emit(this.review()!.idReview)
-          },
-          error: err => alert("Error al eliminar la reseña") // snackbar error
-        })
-    }
-  }
-  */
 
   delete() {
     Swal.fire({
