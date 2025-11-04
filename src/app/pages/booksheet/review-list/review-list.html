@@ -1,6 +1,9 @@
 <h3 class="review-list-header">Reseñas de Usuarios</h3>
 
-@if (userReview()) {
+@if(!userStatus()) {
+  <p>Inicia Sesion para poder realizar una review.</p>
+}
+@else if (userReview()) {
   <app-modify-review
     [review]="userReview()"
     (reviewUpdate)="actualizar($event)"
