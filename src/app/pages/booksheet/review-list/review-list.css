@@ -14,3 +14,29 @@
     border-bottom: 2px solid #d60000; 
     padding-bottom: 5px;
 }
+
+.auth-message-container {
+    /* Centra el contenido en el contenedor principal */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px; /* Espacio interno */
+    margin: 20px 0; /* Espacio externo */
+    
+    /* Diseño de la tarjeta/alerta */
+    background-color: #ffebeb; /* Fondo rojo muy claro para alerta sutil */
+    border: 1px solid #d60000; /* Borde del color de tu header */
+    border-radius: 12px; /* Esquinas redondeadas */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Sombra suave */
+}
+
+.auth-message {
+    font-size: 1.15rem;
+    color: #d60000; /* Color principal de alerta */
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre el icono y el texto */
+}
+

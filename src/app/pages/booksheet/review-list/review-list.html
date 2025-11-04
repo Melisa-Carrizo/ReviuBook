@@ -1,7 +1,11 @@
 <h3 class="review-list-header">Reseñas de Usuarios</h3>
 
 @if(!userStatus()) {
-  <p>Inicia Sesion para poder realizar una review.</p>
+  <div class="auth-message-container">
+        <p class="auth-message">
+            Inicia sesión para poder realizar una reseña.
+        </p>
+    </div>
 }
 @else if (userReview()) {
   <app-modify-review
