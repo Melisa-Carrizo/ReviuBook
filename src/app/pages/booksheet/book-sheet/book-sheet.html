@@ -19,7 +19,7 @@
   </div>
 
   <app-review-list
-    [reviews]="book()?.reviewsDTO"
+    [reviews]="reviews()"
     [idBook]="book()?.id"
     (reviewUpdate)="handlerReviewUpdate($event)"
     (reviewDelete)="handlerReviewDelete($event)" 
