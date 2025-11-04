@@ -35,12 +35,24 @@ export class UserService {
     return this.http.get<User>(`${this.apiUrl}/${id}`)
   }
 
+  /*
+  Este queda en desuso por que precisa autenticacion desde el back
   getUsernameById(id: number): Observable<string> {
     return this.http.get<User>(`${this.apiUrl}/${id}`).pipe(
         // solo traea el nombre de usuario
         map(user => user.username) 
     );
   }
+  */
+
+  // Devuelve directamente el Username,
+  // Se usa responseType para que Angular no intente parsearlo a JSON
+  getUsernameById(id: number) {
+    return this.http.get(`${this.apiUrl}/username/${id}`, {
+      responseType: 'text'
+    });
+  }
+
 
   updateUserProfile(user: User): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}`, user);
