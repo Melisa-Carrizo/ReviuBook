@@ -1,6 +1,13 @@
 <h3 class="review-list-header">Reseñas de Usuarios</h3>
 
-@if (userReview()) {
+@if(!userStatus()) {
+  <div class="auth-message-container">
+        <p class="auth-message">
+            Inicia sesión para poder realizar una reseña.
+        </p>
+    </div>
+}
+@else if (userReview()) {
   <app-modify-review
     [review]="userReview()"
     (reviewUpdate)="actualizar($event)"

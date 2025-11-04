@@ -7,6 +7,7 @@ import { AddReview } from '../../review/add-review/add-review';
 import { filter, switchMap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ModifyReview } from '../../review/modify-review/modify-review';
+import { ApiConnectionAuth } from '../../../core/services/auth-service';
 
 @Component({
   selector: 'app-review-list',
@@ -16,6 +17,7 @@ import { ModifyReview } from '../../review/modify-review/modify-review';
 })
 export class ReviewList {
   private _reviewService = inject(ReviewService);
+  private _authService = inject(ApiConnectionAuth);
   //Recibo las reviews y el id del libro desde BookSheet:
   reviews = input<Review[]>();
   idBook = input<number>();
@@ -38,6 +40,10 @@ export class ReviewList {
       const loadedReview = this.initialReviewLoad();
       this.userReview.set(loadedReview);
     });
+  }
+
+  userStatus(): boolean {
+    return this._authService.isLoggedIn() ? true : false;
   }
 
   /*

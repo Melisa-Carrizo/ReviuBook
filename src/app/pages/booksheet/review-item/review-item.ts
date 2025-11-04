@@ -16,10 +16,10 @@ export class ReviewItem {
   private user$ = toObservable(this.review).pipe(
     map(review => review?.idUser),
     filter((id): id is number => !!id),
-    switchMap(id => this._userService.getById(id))
+    switchMap(id => this._userService.getUsernameById(id))
   );
 
-  user = toSignal(this.user$, {initialValue: undefined})
+  // user = toSignal(this.user$, {initialValue: undefined})
 
-
+  username = toSignal(this.user$, {initialValue: undefined});
 }
