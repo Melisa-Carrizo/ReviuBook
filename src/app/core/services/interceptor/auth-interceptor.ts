@@ -12,8 +12,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const authService = inject(ApiConnectionAuth);
     const skipSessionExpiry = req.context.get(SKIP_SESSION_EXPIRY);
     
-    // 1. Obtiene el token del almacenamiento local
-    const token = localStorage.getItem('authToken');
+    // 1. Obtiene el token actual desde el servicio (reactivo)
+    const token = authService.currentToken();
 
     if (token) {
         const clonedRequest = req.clone({
@@ -25,7 +25,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         return next(clonedRequest).pipe(
             catchError((error) => {
                 if (!skipSessionExpiry && (error.status === 401 || error.status === 403)) {
-                    const hadToken = !!localStorage.getItem('authToken');
+                    const hadToken = !!authService.currentToken();
                     if (hadToken) {
                         authService.logout({ forced: true });
                         setTimeout(() => {
@@ -46,7 +46,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req).pipe(
         catchError((error) => {
             // Si el error es 401 o 403 y hay un token, significa que expiró
-            const hadToken = !!localStorage.getItem('authToken');
+            const hadToken = !!authService.currentToken();
             if (!skipSessionExpiry && (error.status === 401 || error.status === 403) && hadToken) {
                 authService.logout({ forced: true });
                 setTimeout(() => {

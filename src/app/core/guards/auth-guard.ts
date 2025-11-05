@@ -7,7 +7,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(ApiConnectionAuth);
   const router = inject(Router);
   const sessionExpiredService = inject(SessionExpiredService);
-  const storedToken = localStorage.getItem('authToken');
+  const storedToken = authService.currentToken();
 
   authService.syncSessionFromStorage();
 
