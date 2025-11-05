@@ -12,6 +12,9 @@
   color: #444;
   line-height: 1.5;
   margin-bottom: 10px;
+    word-break: break-all;
+    overflow-wrap: anywhere;
+    white-space: normal;
 }
 
 .review-item input[type="number"],

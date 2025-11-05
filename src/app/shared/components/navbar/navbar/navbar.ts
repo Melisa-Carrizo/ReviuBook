@@ -54,7 +54,7 @@ export class Navbar {
   }
 
   logout(): void {
-    this.authService.logout();
+    this.authService.logout({ forced: false });
     this.router.navigate(['/home']);
   }
 

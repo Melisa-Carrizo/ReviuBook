@@ -20,7 +20,6 @@ export class ReviewService {
 
   // ID del libro para obtener reseña activa del usuario
   getUserReviewByBookAndStatusActive(idBook: number) {
-    //const idBookStr = idBook.toString()
     return this.http.get<Review>(`${this.apiUrl}/userReview/${idBook}`).pipe(
       tap(data => console.log("Review: " + data))
     );

@@ -29,25 +29,17 @@ body {
 }
 
 .success-snackbar {
-  background-color: #4CAF50; 
-  color: white; 
+  --mdc-snackbar-container-color: #2e7d32;
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-mdc-snack-bar-button-color: #ffffff;
   font-weight: 600;
-
-  .mdc-snackbar__action {
-    color: white;
-    font-weight: bold;
-  }
 }
 
 .error-snackbar {
-  background-color: var(--darker-red); 
-  color: white;
+  --mdc-snackbar-container-color: #c62828;
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-mdc-snack-bar-button-color: #ffffff;
   font-weight: 600;
-
-  .mdc-snackbar__action {
-    color: white;
-    font-weight: bold;
-  }
 }
 
 /* fondo gris sólido en TODOS los mat-menu (puedes limitarlo después si querés) */
