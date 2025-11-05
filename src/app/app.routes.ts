@@ -4,7 +4,7 @@ import { HomeComponent } from './pages/home/home-component/home-component';
 import { UserProfile } from './pages/userProfile/user-profile/user-profile';
 import { authGuard } from './core/guards/auth-guard';
 import { AdminLayoutComponent } from './pages/admin/layout/admin-layout-component/admin-layout-component';
-import { adminGuardGuard } from './core/guards/admin-guard-guard';
+import { adminGuardGuard } from './core/guards/admin-guard';
 import { ManageBooksComponent } from './pages/admin/manage-books-component/manage-books-component';
 import { ManageUsersComponent } from './pages/admin/manage-users-component/manage-users-component';
 import { EditBookComponent } from './pages/admin/edit-book-component/edit-book-component';

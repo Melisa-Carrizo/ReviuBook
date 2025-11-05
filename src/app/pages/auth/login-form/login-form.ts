@@ -1,20 +1,17 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiConnectionAuth } from '../../../core/services/auth-service';
 import { LoginRequest } from '../../../core/models/login-request';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel ,MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackbarService } from '../../../core/services/snackbar-service';
 
 @Component({
   selector: 'app-login-form',
   imports: [ 
     ReactiveFormsModule, 
-    MatDialogModule, 
-    MatButtonModule, 
     MatButtonModule, 
     MatFormField, 
     MatLabel, 
@@ -28,8 +25,8 @@ import { SnackbarService } from '../../../core/services/snackbar-service';
 })
 export class LoginForm {
 
-  // 3. Inyecta la referencia del modal (en lugar de usar el constructor)
-  public dialogRef = inject(MatDialogRef<LoginForm>);
+  @Output() loginSuccess = new EventEmitter<any>();
+  
   private snackBar = inject(SnackbarService); 
   private apiConnection = inject(ApiConnectionAuth)
   private fb = inject(FormBuilder);
@@ -53,7 +50,8 @@ export class LoginForm {
       this.apiConnection.login(login).subscribe({
         next: (response) => {
           this.snackBar.openSuccessSnackBar('Login exitoso');
-          this.closeDialog();
+          // Emitir el evento de éxito al componente padre (AuthModalComponent)
+          this.loginSuccess.emit(response);
         },error: (error) => {
           this.snackBar.openErrorSnackBar('Error en el login. Revisá tus datos.');
         }
@@ -63,10 +61,5 @@ export class LoginForm {
     }
 
   }
-
-  closeDialog(): void{
-    this.dialogRef.close();
-  }
-
 
 }

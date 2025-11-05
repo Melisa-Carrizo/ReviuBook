@@ -8,7 +8,7 @@
 <!-- Contenido (Pestañas) -->
 <mat-dialog-content>
   
-  <mat-tab-group mat-stretch-tabs="false" animationDuration="500ms">
+  <mat-tab-group #tabGroup mat-stretch-tabs="false" animationDuration="500ms" [selectedIndex]="selectedTabIndex">
     
     <mat-tab label="Login">
       <app-login-form 
