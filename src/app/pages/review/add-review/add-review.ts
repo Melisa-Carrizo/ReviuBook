@@ -3,6 +3,8 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { ReviewService } from '../../../core/services/review-service';
 import { Review } from '../../../core/models/Review';
 import { RatingStar } from '../rating-star/rating-star';
+import { SnackbarService } from '../../../core/services/snackbar-service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-review',
@@ -13,6 +15,7 @@ import { RatingStar } from '../rating-star/rating-star';
 export class AddReview {
   private _reviewService = inject(ReviewService);
   private fb = inject(NonNullableFormBuilder);
+  private _sb = inject(MatSnackBar);
   idBook = input<number>();
   idUser = input<number>()
   // Aca se va a guardar la review creada, que luega se va a emitir al padre
@@ -42,11 +45,19 @@ export class AddReview {
     };
     this._reviewService.addReview(review).subscribe({
       next: (newReview) => {
-        console.log("Review creada con exito"),
+        console.log("Review creada con exito");
+        this._sb.open('¡Review creada!', '', {
+                                duration: 1000,
+                                horizontalPosition: 'center',
+                                verticalPosition: 'top',
+                                panelClass: ['success-snackbar']
+                            });
         // le pasamos la review al padre, para que la muestre
-        this.reviewCreated.emit(newReview)
+        this.reviewCreated.emit(newReview);
       },
-      error: err => console.log("Error al crear la review: " + err.message)
+      error: err => {
+        console.log("Error al crear la review: " + err.message); //snackbar error
+      }
     })
   }
 }
