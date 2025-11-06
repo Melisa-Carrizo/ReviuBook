@@ -9,6 +9,7 @@ import { ManageBooksComponent } from './pages/admin/manage-books-component/manag
 import { ManageUsersComponent } from './pages/admin/manage-users-component/manage-users-component';
 import { EditBookComponent } from './pages/admin/edit-book-component/edit-book-component';
 import { AddBookComponent } from './pages/admin/add-book-component/add-book-component';
+import { ManageReviewsComponent } from './pages/admin/manage-reviews-component/manage-reviews-component';
 
 export const routes: Routes = [
     {path:'', redirectTo:'home', pathMatch:'full'},
@@ -20,5 +21,6 @@ export const routes: Routes = [
     {path: 'admin/libros/editar/:id', component: EditBookComponent, canActivate: [adminGuardGuard] },
     {path: 'admin/libros/agregar', component: AddBookComponent, canActivate: [adminGuardGuard] },
     {path: 'admin/usuarios', component: ManageUsersComponent, canActivate: [adminGuardGuard] },
+    {path: 'admin/reviews', component: ManageReviewsComponent, canActivate: [adminGuardGuard]}
     
 ];
