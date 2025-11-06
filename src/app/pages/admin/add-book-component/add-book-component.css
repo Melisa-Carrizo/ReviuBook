@@ -162,3 +162,9 @@ textarea {
     font-weight: 500;
     margin-bottom: 0;
 }
+
+@media screen and (max-width: 650px) {
+    .form-grid{
+        display: block;
+    }
+}
