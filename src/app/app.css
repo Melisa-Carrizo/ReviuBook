@@ -10,7 +10,6 @@ header {
 
 main {
   flex: 1 0 auto; /* Ocupar el espacio del medio */
-  padding: 1rem; /* opcional */
 }
 
 app-footer, footer {

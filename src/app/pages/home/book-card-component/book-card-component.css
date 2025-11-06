@@ -69,8 +69,14 @@ button:hover{
     background-color: var(--darker-red);
 }
 
-@media ((max-width: 350px)) {
+@media ((max-width: 800px)) {
     .book-card{
         height: 240px;
+    }
+
+    .img-container{
+        width: 30%;
+        height: 100%;
+        overflow: hidden;
     }
 }
