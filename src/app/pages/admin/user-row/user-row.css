@@ -1,0 +1,159 @@
+/* --- 1. ESTILOS BASE (ESCRITORIO/TABLET) --- */
+:host {
+    display: contents; 
+}
+
+.user-row-grid-item {
+    display: contents; 
+}
+
+.cell {
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle; 
+    color: #333;
+    display: flex; 
+    align-items: center; 
+    text-align: left;
+    min-height: 50px; 
+}
+
+
+.name-cell {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.status-edit-cell {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Contenido de la celda de nombre */
+.user-info {
+    display: flex;
+    flex-direction: column; 
+    white-space: normal; 
+}
+
+.user-info strong {
+    font-weight: 600;
+    color: #333;
+}
+
+.user-email {
+    font-size: 0.85rem;
+    color: #999;
+}
+
+/* Colores de Tags (Pills) */
+.role-tag, .status-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    min-width: 40px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.role-tag.admin {
+    background-color: #fce8e6; 
+    color: #e65100;
+}
+
+.role-tag.user {
+    background-color: #e3f2fd; 
+    color: #1565c0;
+}
+
+.status-tag.enabled {
+    background-color: #e8f5e9;
+    color: #388e3c;
+    margin-right: 8px; 
+}
+
+.status-tag.disabled {
+    background-color: #ffebee;
+    color: #d32f2f;
+    margin-right: 8px;
+}
+
+.edit-btn {
+    background: none;
+    border: none;
+    color: #3f51b5;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0;
+    text-decoration: none;
+}
+
+.edit-btn:disabled{
+    color: var(--text-gray);
+    cursor: not-allowed;
+}
+
+/* ---  MEDIA QUERY PARA DISPOSITIVOS PEQUEÑOS (MÓVILES) --- */
+
+@media screen and (max-width: 600px) {
+
+.user-row-grid-item {
+    display: block; 
+    margin-bottom: 15px;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+    
+.cell {
+    border-bottom: none;
+    padding: 5px 0;
+    justify-content: space-between;
+    min-height: auto;
+}
+
+.name-cell {
+    order: 1; 
+    padding: 0 0 10px 0; 
+    border-bottom: 1px solid #f0f0f0; 
+    margin-bottom: 10px; 
+    display: block; /* Nombre y email apilados */
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+}
+
+.user-info {
+    display: block;
+}
+
+.user-info strong {
+    font-size: 1.1rem; 
+    display: block; 
+}
+
+
+.user-email {
+    display: block; 
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #999;
+}
+
+.cell:not(.name-cell)::before {
+    content: attr(data-label); 
+    font-weight: bold;
+    color: #777;
+    flex-shrink: 0; 
+    margin-right: 10px; 
+    text-transform: uppercase; 
+}
+
+    .role-cell { order: 2; }
+    .status-edit-cell { order: 3; }
+}

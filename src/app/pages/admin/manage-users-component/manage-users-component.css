@@ -1,0 +1,73 @@
+/* --- 1. ESTILOS BASE DEL CONTENEDOR (ESCRITORIO/TABLET) --- */
+
+.card-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px 30px;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 0 25px 0;
+    margin-bottom: 5px;
+}
+
+.card-header h2 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.header-icon {
+    font-size: 1.5rem;
+    color: #3f51b5;
+}
+
+.user-list-grid {
+    display: grid;
+    grid-template-columns: 40% 30% 30% ; 
+    gap: 0; 
+}
+
+.grid-header {
+    display: contents; 
+    font-weight: 500;
+    color: #777;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+.header-item {
+    padding: 10px 0;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.icon-users{
+    font-size: 1.4rem;
+}
+
+/* --- 2. MEDIA QUERY PARA DISPOSITIVOS PEQUEÑOS (MÓVILES) --- */
+
+@media screen and (max-width: 600px) {
+    .card-container {
+        margin: 20px;
+        padding: 15px;
+        box-shadow: none;
+    }
+
+    .user-list-grid{
+        grid-template-columns: 100%;
+    }
+
+    /* Ocultar los encabezados de la grid en móvil */
+    .grid-header {
+        display: none;
+    }
+}
