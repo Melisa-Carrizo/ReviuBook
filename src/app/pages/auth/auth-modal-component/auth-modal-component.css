@@ -13,14 +13,25 @@
 */
 :host ::ng-deep mat-dialog-content {
   padding: 0 24px 24px 24px !important;
+  overflow: hidden !important; 
 }
 
 :host ::ng-deep .mat-mdc-tab-labels {
   justify-content: center;
 }
 
-
 :host ::ng-deep .mat-mdc-tab-body-content {
   padding-top: 2rem;
   overflow: hidden !important; 
+}
+
+:host ::ng-deep mat-dialog-content {
+  padding: 0 24px 24px 24px !important;
+  overflow: hidden !important; 
+}
+
+@media screen and (max-height:750px){
+    :host ::ng-deep mat-dialog-content {
+      overflow: visible !important; 
+    }
 }
