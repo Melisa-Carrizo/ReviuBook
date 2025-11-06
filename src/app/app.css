@@ -1,0 +1,18 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Hace que el layout ocupe toda la pantalla */
+}
+
+header {
+  flex: 0 0 auto;
+}
+
+main {
+  flex: 1 0 auto; /* Ocupar el espacio del medio */
+  padding: 1rem; /* opcional */
+}
+
+app-footer, footer {
+  flex: 0 0 auto;
+}
