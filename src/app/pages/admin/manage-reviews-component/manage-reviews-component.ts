@@ -21,30 +21,46 @@ export class ManageReviewsComponent {
   selectedBook = signal<Book | undefined>(undefined);
   selectedBookReviews = signal<Review[] | undefined>(undefined); 
   currentSearchTerm: string = '';
+  searchResultBooks = signal<Book[] | undefined>(undefined);
+  /*
   books = toSignal(
     this._books.getAllActiveBooks(),
     {initialValue: undefined}
   );
+  */
 
    // metodo para buscar los libros
   onSearchInput(event: Event) {
     const input = event.target as HTMLInputElement;
-    const term = input.value;
-    this._search.setSearchTerm(term); // setea el termino del servicio
+    this.currentSearchTerm = input.value;
+    //this._search.setSearchTerm(term); // setea el termino del servicio
+  }
+
+  // se llama cuando el usuario presiona entre
+  onSearchSubmit() {
+    const term = this.currentSearchTerm.toLowerCase().trim();
+    this.selectedBook.set(undefined); 
+
+    if (!term) {
+        // Si el término está vacío, puedes resetear la lista de resultados
+        this.searchResultBooks.set([]);
+        return;
+    }
+    // busco los libros que coincidan con el titulo ingresado
+    this._books.getBookByTitle(term).subscribe({
+        next: (books) => {
+            this.searchResultBooks.set(books); // los guardo para luego elegir uno
+        },
+        error: (err) => {
+            console.error('Error al buscar libros:', err);
+            this.searchResultBooks.set([]); // si hay error la lista queda vacia
+        }
+    });
   }
 
   // libros filtrados
   filteredBooks = computed(() => {
-    const allBooks = this.books();
-    const term = this._search.searchTerm().toLowerCase().trim();
-
-    if (!term) {
-      return allBooks;
-    }
-
-    return allBooks?.filter(
-      b => b.title.toLowerCase().trim().includes(term)
-    );
+    return this.searchResultBooks();
   })
 
   // obtiene las reviews del libro seleccionado

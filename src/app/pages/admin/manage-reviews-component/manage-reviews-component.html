@@ -7,10 +7,14 @@
         [ngModel]="currentSearchTerm" 
         name="searchTerm"
         placeholder="Buscar libro por titulo..."
+        (keydown.enter)="onSearchSubmit()"
     />
 </form>
 
 <div class="book-buttons-container">
+    @if(filteredBooks() === undefined) {
+        <p>Escribe un título y presiona Enter para buscar libros.</p>
+    }
     @for(book of filteredBooks(); track book.id ) {
         <button 
             (click)="onBookSelect(book)"
