@@ -23,7 +23,8 @@ export class UserService {
         const publicUserData: User = {
           username: user.username,
           email: user.email,
-          role: user.role
+          role: user.role,
+          status: user.status
           // Agregar otros campos públicos según sea necesario
         };
         return publicUserData;
@@ -53,6 +54,9 @@ export class UserService {
     });
   }
 
+  getAll(){
+    return this.http.get<User[]>(`${this.apiUrl}/all`);
+  }
 
   updateUserProfile(user: User): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}`, user);
