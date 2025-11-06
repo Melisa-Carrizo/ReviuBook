@@ -1,0 +1,76 @@
+:host {
+    display: block; 
+    padding: 20px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 15px; 
+    max-width: 600px; 
+}
+
+.search-form i {
+    color: #888;
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+.search-form input {
+    flex-grow: 1; 
+    padding: 8px 10px;
+    border: none;
+    font-size: 1.1em;
+    outline: none;
+}
+
+.book-buttons-container { 
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px; 
+    margin-bottom: 30px;
+}
+
+.book-buttons-container button {
+    background-color: var(--main-red); 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.book-buttons-container button:hover {
+    background-color: var(--darker-red); 
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.book-buttons-container button.selected {
+    background-color: var(--bg-gray); 
+    color: black;
+    border: 2px solid black;
+}
+
+.reviews-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+h2 {
+    padding: 10px 0px;
+}
+
+.review-item {
+    display: flex;
+    flex-direction: column;
+    width: 1200px;
+}
