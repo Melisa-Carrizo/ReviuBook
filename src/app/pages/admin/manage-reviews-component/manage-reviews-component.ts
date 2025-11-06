@@ -6,10 +6,11 @@ import { BookService } from '../../../core/services/book-service';
 import { Review } from '../../../core/models/Review';
 import { ReviewService } from '../../../core/services/review-service';
 import { Book } from '../../../core/models/Book';
+import { ReviewItem } from '../../booksheet/review-item/review-item';
 
 @Component({
   selector: 'app-manage-reviews-component',
-  imports: [FormsModule],
+  imports: [FormsModule, ReviewItem],
   templateUrl: './manage-reviews-component.html',
   styleUrl: './manage-reviews-component.css',
 })
@@ -72,7 +73,7 @@ export class ManageReviewsComponent {
   reviews = computed(() => {
     return this.selectedBookReviews();
   })
-  
+
   // seteo el libro del que quiero ver las reviews
   onBookSelect(book: Book) {
       this.selectedBook.set(book);
