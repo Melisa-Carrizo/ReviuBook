@@ -65,5 +65,9 @@ body {
   background-color: #e0e0e0 !important;
 }
 
+.navbar-right .login-btn .mdc-button__label {
+  color: #fff !important; 
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
