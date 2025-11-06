@@ -5,30 +5,33 @@
         type="text" 
         (input)="onSearchInput($event)" 
         [ngModel]="currentSearchTerm" 
+        name="searchTerm"
         placeholder="Buscar libro por titulo..."
     />
 </form>
 
-<div>
+<div class="book-buttons-container">
     @for(book of filteredBooks(); track book.id ) {
-        <button (click)="onBookSelect(book)">
+        <button 
+            (click)="onBookSelect(book)"
+            [class.selected]="selectedBook()?.id === book.id"
+        >
             {{ book.title }}
         </button>
     }
 </div>
 
-<div>
+<div class="reviews-container">
     @if(selectedBook()) {
         <h2>Reseñas para: {{ selectedBook()!.title }}</h2>
-        @if(!reviews() || reviews!.length === 0) {
+        <!--
+        @if(!reviews() || reviews!.length < 1) {
             <p>No hay reseñas disponibles</p>
         }
-        <ul>
+        -->
+        <ul class="review-item">
             @for (r of reviews(); track r.idReview) {
-                <app-review-item
-                    [review]="r"
-                >
-                </app-review-item>
+                <app-review-item [review]="r"></app-review-item>
             }
         </ul>
     }
