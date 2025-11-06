@@ -12,10 +12,10 @@
 </form>
 
 <div class="book-buttons-container">
-    @if(filteredBooks() === undefined) {
+    @if(searchResultBooks() === undefined) {
         <p>Escribe un título y presiona Enter para buscar libros.</p>
     }
-    @for(book of filteredBooks(); track book.id ) {
+    @for(book of searchResultBooks(); track book.id ) {
         <button 
             (click)="onBookSelect(book)"
             [class.selected]="selectedBook()?.id === book.id"

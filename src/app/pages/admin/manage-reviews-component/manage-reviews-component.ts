@@ -22,27 +22,19 @@ export class ManageReviewsComponent {
   selectedBookReviews = signal<Review[] | undefined>(undefined); 
   currentSearchTerm: string = '';
   searchResultBooks = signal<Book[] | undefined>(undefined);
-  /*
-  books = toSignal(
-    this._books.getAllActiveBooks(),
-    {initialValue: undefined}
-  );
-  */
 
-   // metodo para buscar los libros
+  // metodo para buscar los libros
   onSearchInput(event: Event) {
     const input = event.target as HTMLInputElement;
     this.currentSearchTerm = input.value;
-    //this._search.setSearchTerm(term); // setea el termino del servicio
   }
 
-  // se llama cuando el usuario presiona entre
+  // se llama cuando el usuario presiona enter
   onSearchSubmit() {
     const term = this.currentSearchTerm.toLowerCase().trim();
     this.selectedBook.set(undefined); 
 
     if (!term) {
-        // Si el término está vacío, puedes resetear la lista de resultados
         this.searchResultBooks.set([]);
         return;
     }
@@ -58,14 +50,9 @@ export class ManageReviewsComponent {
     });
   }
 
-  // libros filtrados
-  filteredBooks = computed(() => {
-    return this.searchResultBooks();
-  })
-
   // obtiene las reviews del libro seleccionado
   constructor() {
-    // cambia c/ vez que se selectedBooks se setea
+    // cambia c/ vez que selectedBooks se setea
     effect(() => {
       const book = this.selectedBook();
       if (book) {
