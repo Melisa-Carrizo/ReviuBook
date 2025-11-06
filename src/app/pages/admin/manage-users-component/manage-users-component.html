@@ -1,0 +1,24 @@
+<div class="card-container">
+    <div class="card-header">
+        <i class=" icon-users fa-solid fa-users"></i>
+        <h2>Gestión de Usuarios</h2>
+    </div>
+
+    @if (users().length > 0) {
+        <div class="user-list-grid">
+        <div class="grid-header">
+            <div class="header-item">NOMBRE</div>
+            <div class="header-item">ROL</div>
+            <div class="header-item">ESTADO</div>
+        </div>
+        
+        @for (user of users(); track user.email) {
+            <app-user-row [user]="user"></app-user-row>
+        }
+        </div>
+    } @else if (users().length === 0) {
+        <div class="loading-message">
+        No hay usuarios registrados o la carga falló.
+        </div>
+    }
+</div>
