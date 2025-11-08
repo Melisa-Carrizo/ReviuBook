@@ -8,6 +8,7 @@ import { UserService } from '../../../core/services/user-service';
 import { RatingStar } from '../rating-star/rating-star';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ApiConnectionAuth } from '../../../core/services/auth-service';
 @Component({
   selector: 'app-modify-review',
   imports: [ReactiveFormsModule, RatingStar],
@@ -18,6 +19,7 @@ export class ModifyReview {
   private _reviewService = inject(ReviewService);
   private fb = inject(NonNullableFormBuilder);
   private _userService = inject(UserService);
+  private _auth = inject(ApiConnectionAuth);
   private _sb = inject(MatSnackBar);
   review = input<Review>();
   reviewUpdate = output<Review>();
@@ -102,14 +104,30 @@ export class ModifyReview {
       cancelButtonText: 'Cancelar',
     }).then((result: SweetAlertResult<any>) => {
       if (result.isConfirmed) {
-        this._reviewService.deleteReview(this.review()!.idReview).subscribe({
-          next: () => {
-            this.reviewDelete.emit(this.review()!.idReview);
-          },
-          error: (err) => {
-            console.log('Error al eliminar la Review, ' + err.message);
-          },
-        });
+        // si el rol es Admin:
+        if(this._auth.isAdmin()) {
+          this._reviewService.deleteReviewAdmin(this.review()!.idReview).subscribe({
+            next: () => {
+              this.reviewDelete.emit(this.review()!.idReview);
+            },
+            error: (err) => {
+              console.log('Error al eliminar la Review, ' + err.message);
+            },
+          });
+        }
+        else {
+          // si el rol es User:
+          this._reviewService.deleteReview(this.review()!.idReview).subscribe({
+            next: () => {
+              this.reviewDelete.emit(this.review()!.idReview);
+            },
+            error: (err) => {
+              console.log('Error al eliminar la Review, ' + err.message);
+            },
+          });
+        }
+        
+        
       }
     });
   }
