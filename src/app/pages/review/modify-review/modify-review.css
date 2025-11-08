@@ -119,3 +119,13 @@
     background-color: #e2e6ea;
 }
 
+#btn-delete{
+  background-color: #f8f9fa;
+  border: 1px solid var(--main-red);
+  color: var(--main-red);
+  transition: background-color 0.2s;
+}
+
+#btn-delete:hover {
+  background-color: #eceff1;
+}
