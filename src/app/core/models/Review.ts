@@ -2,7 +2,7 @@ export interface Review {
     idReview: number,
     rating: number,
     content: string,
-    status: string,
+    status: boolean,
     idUser: number
     idMultimedia: number
 }
