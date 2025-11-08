@@ -5,11 +5,17 @@
       <div>
         <label for="content">Contenido</label>
         <textarea name="content" id="content" formControlName="content"></textarea>
-        @if(getContent().touched) { @if(getContent().hasError('minlength')) {
-        <small>El contenido debe tener al menos un caracter</small>
-        } @if(getContent().hasError('maxlength')) {
-        <small>El contenido no puede tener mas de 250 caracteres</small>
-        } }
+        @if(getContent().touched) { 
+          @if(getContent().hasError('required')) {
+            <small>El campo contenido es obligatorio</small>
+          }
+          @if(getContent().hasError('minlength')) {
+            <small>El contenido debe tener al menos un caracter</small>
+          } 
+          @if(getContent().hasError('maxlength')) {
+            <small>El contenido no puede tener mas de 250 caracteres</small>
+          } 
+        }
       </div>
       <div>
         <label for="rating">Puntuacion</label>
