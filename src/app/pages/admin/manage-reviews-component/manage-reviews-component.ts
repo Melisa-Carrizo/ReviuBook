@@ -72,9 +72,19 @@ export class ManageReviewsComponent {
       }
     });
   }
-  
+  // reviews activas
   reviews = computed(() => {
-    return this.selectedBookReviews();
+    const allReviews = this.selectedBookReviews() || []
+    return allReviews.filter(
+      r => r.status === true
+    );
+  })
+  // reviews inactivas
+  inactiveReviews = computed(() => {
+    const allReviews = this.selectedBookReviews() || []
+    return allReviews.filter(
+      r => r.status === false
+    );
   })
 
   // seteo el libro del que quiero ver las reviews

@@ -14,11 +14,14 @@
       <div>
         <label for="rating">Puntuacion</label>
         <app-rating-star formControlName="rating"></app-rating-star>
-        @if(getRating().touched) { @if(getRating().hasError('min')) {
-        <small>La calificacion debe ser de al menos una estrella</small>
-        } @if(getRating().hasError('maxlength')) {
-        <small>La calificacion no puede ser mayor a 5 estrellas</small>
-        } }
+        @if(getRating().touched) { 
+          @if(getRating().hasError('min')) {
+            <small>La calificacion debe ser de al menos una estrella</small>
+          } 
+          @if(getRating().hasError('max')) {
+            <small>La calificacion no puede ser mayor a 5 estrellas</small>
+          } 
+       }
       </div>
 
       <button type="submit">Crear review </button>

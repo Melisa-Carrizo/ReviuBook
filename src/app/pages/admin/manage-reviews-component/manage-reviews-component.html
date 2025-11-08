@@ -27,16 +27,21 @@
 
 <div class="reviews-container">
     @if(selectedBook()) {
-        <h2>Reseñas para: {{ selectedBook()!.title }}</h2>
-        <!--
-        @if(!reviews() || reviews!.length < 1) {
-            <p>No hay reseñas disponibles</p>
-        }
-        -->
+        <h2>Reseñas activas para: {{ selectedBook()!.title }}</h2>
         <ul class="review-item">
             @for (r of reviews(); track r.idReview) {
                 <app-review-item [review]="r"></app-review-item>
             }
         </ul>
+        
+        @if (inactiveReviews().length > 0) {
+            <h2>Reseñas Inactivas</h2>
+            <ul class="review-item">
+                @for (r of inactiveReviews(); track r.idReview) {
+                    <app-review-item [review]="r"></app-review-item>
+                }
+            </ul>
+        }
     }
+    
 </div>
