@@ -3,7 +3,7 @@
     <div class="form-card">
         <h2>Añadir nuevo libro</h2>
 
-        <form [formGroup]="form">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="form-grid">
             
             <div class="form-group" style="grid-column: 1 / span 2;">
@@ -105,7 +105,7 @@
 
         <div class="form-actions">
             <button type="button" (click)="cancel()" class="btn cancel">Cancelar</button>
-            <button type="submit" (click)="onSubmit()" [class.btn-disabled]="form.invalid && form.get('inputMethod')?.value === 'manual'" [disabled]="form.invalid && form.get('inputMethod')?.value === 'manual'" class="btn save">
+            <button type="submit" [class.btn-disabled]="form.invalid && form.get('inputMethod')?.value === 'manual'" [disabled]="form.invalid && form.get('inputMethod')?.value === 'manual'" class="btn save">
                 @if (form.get('inputMethod')?.value === 'automatico') {
                     Buscar y Crear
                 } @else {
