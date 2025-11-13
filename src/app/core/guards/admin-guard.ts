@@ -1,22 +1,17 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { ApiConnectionAuth } from '../services/auth-service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../services/snackbar-service';
 
 export const adminGuardGuard: CanActivateFn = (route, state) => {
   const authService = inject(ApiConnectionAuth);
   const router = inject(Router);
-  const snackBar = inject(MatSnackBar);
+  const snackBar = inject(SnackbarService);
 
   if (authService.isAdmin()) {
     return true;
   } else {
-    snackBar.open('Acceso denegado. Solo los administradores pueden entrar.', '', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      panelClass: ['error-snackbar']
-    });
+    snackBar.openErrorSnackBar('Acceso denegado. Solo los administradores pueden entrar.');
     router.navigate(['home']);
     return false;
   }
