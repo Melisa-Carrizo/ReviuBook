@@ -26,6 +26,10 @@ export class BookService {
     return this.http.get<BookSheet>(`${this.baseUrl}/bookSheet/${id}`);
   }
 
+  getBookByTitle(title: string) {
+    return this.http.get<Book[]>(`${this.baseUrl}/search/title/${title}`);
+  }
+
   add(book: Book){
     return this.http.post<Book>(`${this.baseUrl}`,book);
   }

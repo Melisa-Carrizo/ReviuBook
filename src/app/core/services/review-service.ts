@@ -33,7 +33,12 @@ export class ReviewService {
     return this.http.put<Review>(`${this.apiUrl}/${dto.idReview}`, dto);
   }
 
+  // Eliminar review para el rol User
   deleteReview(id: number) {
     return this.http.delete<Review>(`${this.apiUrl}/${id}`)
+  }
+  // Eliminar review para el rol Admin
+  deleteReviewAdmin(id: number) {
+    return this.http.delete<Review>(`${this.apiUrl}/admin/${id}`)
   }
 }

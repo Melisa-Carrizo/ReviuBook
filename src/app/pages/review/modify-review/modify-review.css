@@ -69,6 +69,8 @@
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* Sombra interna para profundidad */
     box-sizing: border-box; 
     font-size: 0.9rem;
+    font-family: sans-serif;
+    resize: none;
 }
 
 /* Mejora la visualización de los labels */
@@ -117,3 +119,13 @@
     background-color: #e2e6ea;
 }
 
+#btn-delete{
+  background-color: #f8f9fa;
+  border: 1px solid var(--main-red);
+  color: var(--main-red);
+  transition: background-color 0.2s;
+}
+
+#btn-delete:hover {
+  background-color: #eceff1;
+}
