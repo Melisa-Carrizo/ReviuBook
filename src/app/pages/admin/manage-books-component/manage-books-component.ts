@@ -3,8 +3,8 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 import { Book } from '../../../core/models/Book';
 import { BookPreviewComponent } from "../book-preview-component/book-preview-component";
 import { BookService } from '../../../core/services/book-service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { SnackbarService } from '../../../core/services/snackbar-service';
 
 @Component({
     selector: 'app-manage-books-component',
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class ManageBooksComponent implements OnInit{
     private bookService = inject(BookService);
     private router = inject(Router);
-    snackBar = inject(MatSnackBar);
+    snackBar = inject(SnackbarService);
     public books: Book[] = [];
     isLoading: boolean = true;
     hasBooks: boolean = false;
@@ -35,7 +35,7 @@ export class ManageBooksComponent implements OnInit{
             error: (err) => {
                 console.error('Error al cargar libros:', err);
                 this.isLoading = false;
-                this.snackBar.open('Error al cargar la lista de libros.', 'Cerrar', { duration: 5000 });
+                this.snackBar.openErrorSnackBar('Error al cargar la lista de libros.');
             }
         });
     }
@@ -63,12 +63,7 @@ export class ManageBooksComponent implements OnInit{
                 this.bookService.delete(book.id).subscribe(
                     {
                         next: () => {
-                            this.snackBar.open('¡Libro borrado!', '', {
-                                duration: 3000,
-                                horizontalPosition: 'center',
-                                verticalPosition: 'top',
-                                panelClass: ['success-snackbar']
-                            });
+                            this.snackBar.openSuccessSnackBar('¡Libro borrado!');
 
                             // 🚨 ACTUALIZACIÓN CLAVE: Actualización local del estado
                             const index = this.books.findIndex(b => b.id === book.id);
@@ -87,12 +82,7 @@ export class ManageBooksComponent implements OnInit{
                                 errorMessage = `Error: ${err.error.message}`;
                             }
 
-                            this.snackBar.open(errorMessage, '', {
-                                duration: 5000,
-                                horizontalPosition: 'center',
-                                verticalPosition: 'top',
-                                panelClass: ['error-snackbar']
-                            });
+                            this.snackBar.openErrorSnackBar(errorMessage);
                         }
                     }
                 );
