@@ -86,8 +86,7 @@ export class AddBookComponent {
   }
 
   private handleError(message: string, err: any): void {
-    console.error('Error:', err);
-    this.snackService.openErrorSnackBar(message);
+    this.snackService.openErrorSnackBar(err.error?.message ? err.error?.message : message);
   }
 
   cancel(){
