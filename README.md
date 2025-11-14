@@ -46,7 +46,7 @@ Sigue estos pasos para obtener una copia operativa del frontend en tu máquina l
 
 1.  **Clonar este repositorio (Frontend):**
     ```bash
-    git clone [https://github.com/JFelixZuniga/Frontend-Projects](https://github.com/JFelixZuniga/Frontend-Projects)
+    git clone https://github.com/Melisa-Carrizo/ReviuBook.git
     ```
 2.  **Acceder al directorio del proyecto:**
     ```bash
