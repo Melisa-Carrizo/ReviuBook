@@ -1,59 +1,62 @@
-# ReviuBook
+## 📚 Reviú Book - Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.4.
+### 📋 Descripción del Proyecto
 
-## Development server
+**Reviú Book** es la interfaz de usuario (Frontend) de un sistema integral de gestión y reseña de libros. Permite a los usuarios interactuar con la API para explorar colecciones de títulos, visualizar detalles esenciales como el título, ISBN, portada, autor y editorial, y realizar reseñas y comentarios.
 
-To start a local development server, run:
+### ⚙️ Tecnologías y Stack del Frontend
 
-```bash
-ng serve
-```
+Este proyecto de interfaz de usuario fue desarrollado utilizando las siguientes herramientas:
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+| Componente | Tecnología | Versión/Detalle |
+| :--- | :--- | :--- |
+| **Framework** | Angular | 20 (con TypeScript) |
+| **Estilado** | CSS | Estilado nativo |
+| **Librerías UI** | Angular Material | Componentes de interfaz profesionales |
+| **Alertas** | SweetAlert | Diálogos de alerta personalizados |
+| **Notificaciones** | Snackbar | Notificaciones discretas de la aplicación |
+| **Entorno** | Node.js, Angular CLI | Herramientas esenciales de desarrollo |
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 🔑 Requisitos
 
-```bash
-ng generate component component-name
-```
+Para poder utilizar y desarrollar este frontend, necesitas tener instalado:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+* **Node.js y npm**
+* **Angular CLI**
 
-```bash
-ng generate --help
-```
+### 🔌 Dependencia del Backend (API)
 
-## Building
+Este frontend **requiere** que el servidor API (Backend) de Spring Boot esté corriendo para funcionar correctamente.
 
-To build the project run:
+* **Repositorio del Backend (API):** La documentación e instrucciones para levantar el backend se encuentran en el siguiente repositorio:
+    ```
+    https://github.com/CiroDiPaolo/Libreria-API.git
+    ```
+* **Nota:** Asegúrate de que el backend esté ejecutándose en `http://localhost:8080` antes de iniciar este frontend.
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### 🚀 Instalación y Uso del Frontend
 
-## Running unit tests
+Sigue estos pasos para obtener una copia operativa del frontend en tu máquina local.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+#### 1. Pasos de Instalación
 
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1.  **Clonar este repositorio (Frontend):**
+    ```bash
+    git clone [https://github.com/JFelixZuniga/Frontend-Projects](https://github.com/JFelixZuniga/Frontend-Projects)
+    ```
+2.  **Acceder al directorio del proyecto:**
+    ```bash
+    cd reviubook
+    ```
+3.  **Instalar las dependencias de Angular:**
+    ```bash
+    npm install
+    ```
+4.  **Ejecuta el proyecto:**
+    ```bash
+    ng serve
+    ```
