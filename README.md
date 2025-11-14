@@ -2,7 +2,7 @@
 
 ### 📋 Descripción del Proyecto
 
-**Reviú Book** es la interfaz de usuario (Frontend) de un sistema integral de gestión y reseña de libros. Permite a los usuarios interactuar con la API para explorar colecciones de títulos, visualizar detalles esenciales como el título, ISBN, portada, autor y editorial, y realizar reseñas y comentarios.
+**Reviú Book** es un sistema integral de gestión y reseña de libros. Permite a los usuarios interactuar con la API para explorar colecciones de títulos, visualizar detalles esenciales como el título, ISBN, portada, autor y editorial, y realizar reseñas y comentarios.
 
 ### ⚙️ Tecnologías y Stack del Frontend
 
