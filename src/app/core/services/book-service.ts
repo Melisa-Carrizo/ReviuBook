@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class BookService {
   private http = inject(HttpClient);
-  baseUrl = 'http://localhost:8080/libros';
+  baseUrl = 'http://localhost:8080/books';
 
   getAllActiveBooks():Observable<Book[]>{
     return this.http.get<Book[]>(`${this.baseUrl}/all/active`);
