@@ -12,9 +12,16 @@
         <span class="book-author">By {{book()?.author}}</span>
         <span class="book-date">Published: {{book()?.releaseDate}}</span>
       </div>
-      <button class="add-to-favorites-btn">
-        <i class="fas fa-star"></i> Agregar a favoritos
-      </button>
+      @if (isFavourite() === true) {
+        <button class="delete-from-favorites-btn" (click)="deleteFromFavourite()">
+          <i class="fas fa-star"></i> Eliminar de favoritos
+        </button>
+      } 
+      @else {
+        <button class="add-to-favorites-btn" (click)="addToFavourite()">
+          <i class="fas fa-star"></i> Agregar a favoritos
+        </button>
+      }
     </div>
   </div>
 

@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { filter, switchMap } from 'rxjs';
 import { ReviewList } from '../review-list/review-list';
 import { Review } from '../../../core/models/Review';
+import { BookStageService } from '../../../core/services/book-stage';
 
 @Component({
   selector: 'app-book-sheet',
@@ -15,6 +16,7 @@ import { Review } from '../../../core/models/Review';
 })
 export class BookSheetComponent {
   private _bookService = inject(BookService);
+  private _bookStage = inject(BookStageService);
   private route = inject(ActivatedRoute);
   book = toSignal(
     this.route.paramMap.pipe(
@@ -23,7 +25,9 @@ export class BookSheetComponent {
     {initialValue : undefined}
   );
 
-  reviews: WritableSignal<Review[]> = signal([]) 
+  reviews: WritableSignal<Review[]> = signal([]);
+  isFavourite: WritableSignal<boolean> = signal(false);
+  idBookStage: WritableSignal<number|undefined> = signal(undefined);
 
   constructor() {
     effect(() => {
@@ -34,6 +38,28 @@ export class BookSheetComponent {
       else {
         this.reviews.set([]);
       }
+
+      if(currentBook && currentBook.id) {
+
+        this._bookStage.getBookStage(currentBook.id).subscribe({
+          next: (bookStage) => {
+            if (bookStage) {
+              this.isFavourite.set(true);
+              this.idBookStage.set(bookStage?.id);
+            }
+            else {
+              this.isFavourite.set(false);
+              this.idBookStage.set(undefined);
+            }
+          },
+          error: (err) => {
+            console.error("Error al agregar el libro a favoritos: ", err);
+            this.isFavourite.set(false);
+            this.idBookStage.set(undefined);
+          }
+        })
+      }
+
     }, {allowSignalWrites: true})
   }
   
@@ -48,6 +74,22 @@ export class BookSheetComponent {
     this.reviews.update(reviews => 
       reviews.map(r => r.idReview === newReview.idReview ? newReview : r)
     );
+  }
+
+  addToFavourite() {
+    this._bookStage.createBookStage(this.book()!.id).subscribe({
+      next: (data) => {
+        this.isFavourite.set(true);
+        this.idBookStage.set(data.id);
+      },
+      error: (err) => {
+        console.error("Error al agregar el libro: ", err);
+      }
+    });
+  }
+
+  deleteFromFavourite() {
+    
   }
 
 }
