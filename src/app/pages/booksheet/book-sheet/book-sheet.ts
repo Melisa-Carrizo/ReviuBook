@@ -23,7 +23,9 @@ export class BookSheetComponent {
     {initialValue : undefined}
   );
 
-  reviews: WritableSignal<Review[]> = signal([]) 
+  reviews: WritableSignal<Review[]> = signal([]);
+  isFavourite: WritableSignal<boolean> = signal(false);
+  idBookStage: WritableSignal<number|undefined> = signal(undefined);
 
   constructor() {
     effect(() => {
