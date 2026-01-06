@@ -88,4 +88,8 @@ export class BookSheetComponent {
     });
   }
 
+  deleteFromFavourite() {
+    
+  }
+
 }
