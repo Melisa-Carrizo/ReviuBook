@@ -76,4 +76,16 @@ export class BookSheetComponent {
     );
   }
 
+  addToFavourite() {
+    this._bookStage.createBookStage(this.book()!.id).subscribe({
+      next: (data) => {
+        this.isFavourite.set(true);
+        this.idBookStage.set(data.id);
+      },
+      error: (err) => {
+        console.error("Error al agregar el libro: ", err);
+      }
+    });
+  }
+
 }
