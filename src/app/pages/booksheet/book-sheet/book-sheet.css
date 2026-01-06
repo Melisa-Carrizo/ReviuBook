@@ -67,25 +67,46 @@
   font-weight: 600;
 }
 
-.add-to-favorites-btn {
-  background-color: #d60000; 
-  color: white;
-  border: none;
+/* Estilos base para ambos botones */
+.add-to-favorites-btn, 
+.delete-from-favorites-btn {
+  box-sizing: border-box;
   padding: 10px 15px;
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   align-self: flex-start;
   display: flex;
   align-items: center;
-  gap: 8px; 
+  gap: 8px;
+  height: 45px; 
+  min-width: 200px; 
+  justify-content: center;
+}
+
+/* Boton de agregar */
+.add-to-favorites-btn {
+  background-color: #d60000;
+  color: white;
+  border: 2px solid #d60000; 
 }
 
 .add-to-favorites-btn:hover {
-  background-color: #b00000; 
+  background-color: #b00000;
+  border-color: #b00000; 
 }
 
+/* Boton de eliminar */
+.delete-from-favorites-btn {
+  background-color: white;
+  color: red;
+  border: 2px solid red;
+}
+
+.delete-from-favorites-btn:hover {
+  background-color: rgb(232, 232, 232);
+}
 
 @media (max-width: 768px) {
   .book-card {
