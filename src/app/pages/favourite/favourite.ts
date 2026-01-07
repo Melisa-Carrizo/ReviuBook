@@ -3,10 +3,12 @@ import { BookStageService } from '../../core/services/book-stage';
 import { Router } from '@angular/router';
 import { BookStage } from '../../core/models/BookStage';
 import { map } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { SlicePipe } from '@angular/common';
 
 @Component({
   selector: 'app-favourite',
-  imports: [],
+  imports: [FormsModule, SlicePipe],
   templateUrl: './favourite.html',
   styleUrl: './favourite.css',
 })
