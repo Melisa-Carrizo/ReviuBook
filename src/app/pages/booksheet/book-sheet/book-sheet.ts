@@ -89,7 +89,22 @@ export class BookSheetComponent {
   }
 
   deleteFromFavourite() {
-    
+    const bookStageIdToDelete = this.idBookStage();
+
+    if (bookStageIdToDelete === undefined) {
+        console.error("No se puede eliminar: El ID del BookStage no está definido.");
+        return;
+    }
+
+    this._bookStage.deleteBookStage(this.idBookStage()!).subscribe({
+      next: (data) => {
+        this.isFavourite.set(false);
+        this.idBookStage.set(undefined);
+      },
+      error: (err) => {
+        console.error("Error al eliminar el libro: ", err);
+      }
+    })
   }
 
 }
