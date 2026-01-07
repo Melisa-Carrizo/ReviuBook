@@ -31,7 +31,7 @@ export class Favourite {
   }
 
   // Eliminar el libro de favoritos y actualiza el signal
-  deleteFromFavourite(idBookStage: number) {
+  deleteFavourite(idBookStage: number) {
     this._bookStage.deleteBookStage(idBookStage).subscribe(
       {
         next: (data) => {

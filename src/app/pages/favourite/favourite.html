@@ -1,1 +1,27 @@
-<p>favourite works!</p>
+@if(favouriteBooks().length === 0) {
+    <p class="no-favourites-message">No hay libros en favoritos</p>
+}
+
+@for (b of favouriteBooks(); track b.id) {
+    <div class="item favourite-card">
+        
+        <div class="card-image-container">
+            <img [src]="b.book.urlImage" [alt]="'Imagen de ' + b.book.title">
+        </div>
+
+        <div class="card-details">
+            <div class="info-section">
+                <h3 class="book-title">{{ b.book.title }}</h3>
+                <p class="book-author">Por: {{ b.book.author }}</p>
+                <p class="book-description">{{ b.book.description | slice:0:200 }}...</p>
+            </div>
+
+            <div class="card-actions-horizontal">
+                
+                <button class="link-button-delete" (click)="deleteFavourite(b.id)">
+                    Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+}
