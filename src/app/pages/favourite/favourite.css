@@ -108,3 +108,36 @@
 .link-button-delete:hover {
     color: var(--darker-red);
 }
+
+@media (max-width: 600px) {
+    .favourite-card {
+        flex-direction: column; 
+        align-items: center;
+        margin: 15px;
+        padding: 15px;
+    }
+
+    .card-image-container {
+        width: 100%; 
+        max-width: 160px; 
+        min-height: auto;
+    }
+
+    .card-details {
+        text-align: center; 
+        width: 100%;
+    }
+
+    .card-actions-horizontal {
+        flex-direction: column; 
+        gap: 12px;
+        width: 100%;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #eee; 
+    }
+
+    .selector-group {
+        justify-content: center;
+    }
+}
