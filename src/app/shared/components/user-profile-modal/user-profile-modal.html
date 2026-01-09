@@ -78,11 +78,22 @@
             [alt]="r.bookTitle" />
 
           <div class="content">
-            <div class="title">
-              {{ r.bookTitle }}
-              <span *ngIf="r.publishingHouse">
-                — {{ r.publishingHouse }}
-              </span>
+            <div class="title-row">
+              <div class="title">
+                {{ r.bookTitle }}
+                <span *ngIf="r.publishingHouse">
+                  — {{ r.publishingHouse }}
+                </span>
+              </div>
+
+              <div class="review-status" *ngIf="r.status !== null && r.status !== undefined">
+                <span
+                  class="status-tag"
+                  [class.enabled]="r.status"
+                  [class.disabled]="!r.status">
+                  {{ r.status ? 'Activa' : 'Inactiva' }}
+                </span>
+              </div>
             </div>
 
             <div class="rating" *ngIf="r.rating as score">

@@ -19,6 +19,7 @@ type ReviewCard = {
   publishingHouse: string;
   urlImage: string;
   rating: number;
+  status: boolean;
 };
 
 @Component({
@@ -144,7 +145,7 @@ export class UserProfileModalComponent {
       return;
     }
 
-    this.reviewService.getAllReviewsActiveOfUser(userId).pipe(
+    this.reviewService.getAllReviewsOfUser(userId).pipe(
       switchMap(reviews => {
         if (!Array.isArray(reviews) || !reviews.length) {
           return of<ReviewCard[]>([]);
@@ -175,7 +176,8 @@ export class UserProfileModalComponent {
       bookTitle: 'Libro sin título',
       publishingHouse: '',
       urlImage: this.defaultCover,
-      rating: normalizedRating
+      rating: normalizedRating,
+      status: !!reviewAny?.status
     };
 
     if (!bookId) {
@@ -189,7 +191,8 @@ export class UserProfileModalComponent {
         bookTitle: book?.title ?? baseCard.bookTitle,
         publishingHouse: book?.publishingHouse ?? baseCard.publishingHouse,
         urlImage: book?.urlImage ?? this.defaultCover,
-        rating: baseCard.rating
+        rating: baseCard.rating,
+        status: baseCard.status
       })),
       catchError(() => of(baseCard))
     );

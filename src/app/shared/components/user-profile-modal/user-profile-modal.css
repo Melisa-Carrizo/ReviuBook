@@ -137,9 +137,16 @@
   border-radius: 8px;
   border: 1px solid #ddd;
 }
+.reviews-list .content .title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
 .reviews-list .content .title {
   font-weight: 600;
-  margin-bottom: 4px;
 }
 
 .rating {
@@ -169,4 +176,30 @@
 
 .reviews-list .content .body {
   color: #666;
+}
+
+.review-status {
+  display: flex;
+  align-items: center;
+}
+
+.status-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  min-width: 40px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.status-tag.enabled {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+.status-tag.disabled {
+  background-color: #ffebee;
+  color: #d32f2f;
 }

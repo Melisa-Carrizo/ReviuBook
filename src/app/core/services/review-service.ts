@@ -25,7 +25,7 @@ export class ReviewService {
     );
   }
 
-  getAllReviewsActiveOfUser(idUser: number) {
+  getAllReviewsOfUser(idUser: number) {
     return this.http.get<Review[]>(`${this.apiUrl}/allReviews/${idUser}`);
   }
 
