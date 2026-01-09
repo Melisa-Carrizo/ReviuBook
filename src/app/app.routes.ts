@@ -10,12 +10,14 @@ import { ManageUsersComponent } from './pages/admin/manage-users-component/manag
 import { EditBookComponent } from './pages/admin/edit-book-component/edit-book-component';
 import { AddBookComponent } from './pages/admin/add-book-component/add-book-component';
 import { ManageReviewsComponent } from './pages/admin/manage-reviews-component/manage-reviews-component';
+import { Favourite } from './pages/favourite/favourite';
 
 export const routes: Routes = [
     {path:'', redirectTo:'home', pathMatch:'full'},
     {path:'home', component:HomeComponent},
     {path: 'libro/:id', component: BookSheetComponent},
     {path: 'profile', component: UserProfile, canActivate: [authGuard]},
+    {path: 'favourite', component: Favourite, canActivate: [authGuard]},
     {path: 'admin',component: AdminLayoutComponent, canActivate: [adminGuardGuard]},
     {path: 'admin/libros', component: ManageBooksComponent, canActivate: [adminGuardGuard] },
     {path: 'admin/libros/editar/:id', component: EditBookComponent, canActivate: [adminGuardGuard] },
