@@ -25,6 +25,11 @@ export class ReviewService {
     );
   }
 
+  getAllReviewsActiveOfUser(idUser: number) {
+    return this.http.get<Review[]>(`${this.apiUrl}/allReviews/${idUser}`);
+  }
+
+
   addReview(dto: Partial<Review>) {
     return this.http.post<Review>(`${this.apiUrl}`, dto);
   }

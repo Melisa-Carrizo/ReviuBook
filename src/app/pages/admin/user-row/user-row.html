@@ -26,6 +26,6 @@
         [class.disabled]="!user().status" >
         {{ user().status ? "Habilitado" :  "Desabilitado"}}
         </span>
-        <button class="edit-btn" [disabled]="true">Editar</button>
+        <button class="edit-btn" (click)="openEditModal()">Editar</button>
     </div>
 </div>
