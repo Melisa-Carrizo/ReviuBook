@@ -1,0 +1,43 @@
+<div class="favorites-carousel">
+  @if (showArrows()) {
+    <button
+      type="button"
+      class="carousel-arrow left"
+      (click)="prev()"
+      [disabled]="!canGoPrev()">
+      ‹
+    </button>
+  }
+
+  <div
+    class="favorites-grid"
+    [class.animate]="isAnimating()"
+    [class.animate-next]="isAnimating() && animationDirection() > 0"
+    [class.animate-prev]="isAnimating() && animationDirection() < 0">
+    @for (fav of visibleBooks(); track fav.id ?? $index) {
+      <article class="favorite-item">
+        <img
+          class="cover"
+          loading="lazy"
+          [src]="fav.urlImage || defaultCover()"
+          [alt]="fav.title ? fav.title : 'Libro favorito'" />
+
+        <div class="title">
+          {{ fav.title ? fav.title : 'Libro sin título' }}
+        </div>
+      </article>
+    } @empty {
+      <div class="empty">Sin favoritos</div>
+    }
+  </div>
+
+  @if (showArrows()) {
+    <button
+      type="button"
+      class="carousel-arrow right"
+      (click)="next()"
+      [disabled]="!canGoNext()">
+      ›
+    </button>
+  }
+</div>
