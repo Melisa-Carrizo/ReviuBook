@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Review } from '../models/Review';
-import { tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,23 @@ export class ReviewService {
   }
 
   getAllReviewsOfUser(idUser: number) {
-    return this.http.get<Review[]>(`${this.apiUrl}/allReviews/${idUser}`);
+    return this.http.get<any[]>(`${this.apiUrl}/allReviews/${idUser}`).pipe(
+      map(reviews => Array.isArray(reviews) ? reviews.map(review => this.normalizeReview(review)) : [] )
+    );
+  }
+
+  normalizeReview(review: any): Review {
+    const rawRating = Number(review?.rating ?? review?.ranking ?? 0);
+    const normalizedRating = rawRating > 0 ? Math.max(1, Math.min(5, Math.round(rawRating))) : 0;
+
+    return {
+      idReview: review?.idReview ?? 0,
+      rating: normalizedRating,
+      content: review?.content ?? '',
+      status: !!review?.status,
+      idUser: review?.idUser ?? 0,
+      idMultimedia: review?.idMultimedia ?? review?.idBook ?? review?.bookId ?? 0
+    };
   }
 
 

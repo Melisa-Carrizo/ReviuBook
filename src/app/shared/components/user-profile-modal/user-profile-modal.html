@@ -27,46 +27,21 @@
   <!-- Favoritos -->
   <section class="section">
     <h3 class="section-title">Lista de favoritos</h3>
-    <div class="favorites-carousel">
-      <button
-        type="button"
-        class="carousel-arrow left"
-        (click)="prevFavoritesPage()"
-        [disabled]="!canGoPrevFavorites()">
-        ‹
-      </button>
-
-      <div class="favorites-grid">
-        @for (fav of visibleFavorites(); track $index) {
-          <article class="favorite-item">
-            <img
-              class="cover"
-              loading="lazy"
-              [src]="fav.urlImage || defaultCover"
-              [alt]="fav.title ? fav.title : 'Libro favorito'" />
-
-            <div class="title">
-              {{ fav.title ? fav.title : 'Libro sin título' }}
-            </div>
-          </article>
-        } @empty {
-          <div class="empty">Sin favoritos</div>
-        }
-      </div>
-
-      <button
-        type="button"
-        class="carousel-arrow right"
-        (click)="nextFavoritesPage()"
-        [disabled]="!canGoNextFavorites()">
-        ›
-      </button>
-    </div>
+    <app-favorites-carousel
+      [books]="favorites()"
+      [defaultCover]="defaultCover">
+    </app-favorites-carousel>
   </section>
 
   <!-- Reseñas -->
   <section class="section">
     <h3 class="section-title">Reseñas</h3>
+
+    @if (reviews().length && !hasActiveReviews()) {
+      <p class="no-active-message">
+        Este usuario no tiene reseñas activas.
+      </p>
+    }
 
     <div class="reviews-list">
       @for (r of reviews(); track r.id) {
@@ -81,28 +56,34 @@
             <div class="title-row">
               <div class="title">
                 {{ r.bookTitle }}
-                <span *ngIf="r.publishingHouse">
-                  — {{ r.publishingHouse }}
-                </span>
+                @if (r.publishingHouse) {
+                  <span>
+                    — {{ r.publishingHouse }}
+                  </span>
+                }
               </div>
 
-              <div class="review-status" *ngIf="r.status !== null && r.status !== undefined">
-                <span
-                  class="status-tag"
-                  [class.enabled]="r.status"
-                  [class.disabled]="!r.status">
-                  {{ r.status ? 'Activa' : 'Inactiva' }}
-                </span>
-              </div>
+              @if (r.status !== null && r.status !== undefined) {
+                <div class="review-status">
+                  <span
+                    class="status-tag"
+                    [class.enabled]="r.status"
+                    [class.disabled]="!r.status">
+                    {{ r.status ? 'Activa' : 'Inactiva' }}
+                  </span>
+                </div>
+              }
             </div>
 
-            <div class="rating" *ngIf="r.rating as score">
-              <span class="stars">
-                <ng-container *ngFor="let s of [1,2,3,4,5]">
-                  <span [class.filled]="s <= score">★</span>
-                </ng-container>
-              </span>
-            </div>
+            @if (!!r.rating) {
+              <div class="rating">
+                <span class="stars">
+                  <ng-container *ngFor="let s of [1,2,3,4,5]">
+                    <span [class.filled]="s <= r.rating">★</span>
+                  </ng-container>
+                </span>
+              </div>
+            }
 
             <p class="body">
               {{ r.content }}

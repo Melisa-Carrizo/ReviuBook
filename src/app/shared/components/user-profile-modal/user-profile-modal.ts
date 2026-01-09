@@ -11,6 +11,7 @@ import { ReviewService } from '../../../core/services/review-service';
 import { BookService } from '../../../core/services/book-service';
 import { Book } from '../../../core/models/Book';
 import { Review } from '../../../core/models/Review';
+import { FavoritesCarouselComponent } from '../favorites-carousel/favorites-carousel.component';
 
 type ReviewCard = {
   id: number;
@@ -25,7 +26,7 @@ type ReviewCard = {
 @Component({
   selector: 'app-user-profile-modal',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule, FavoritesCarouselComponent],
   templateUrl: './user-profile-modal.html',
   styleUrl: './user-profile-modal.css'
 })
@@ -44,7 +45,6 @@ export class UserProfileModalComponent {
   id = signal(this.data?.id ?? 0);
   favorites = signal<Book[]>([]);
   reviews = signal<ReviewCard[]>([]);
-  favoritesPage = signal(0); // índice de página para el carrusel
 
   constructor() {
     const email = this.email();
@@ -64,44 +64,11 @@ export class UserProfileModalComponent {
     this.dialogRef.close();
   }
 
-  /* ===================== FAVORITOS ===================== */
-
   private loadFavorites(email: string): void {
     this.userService.getFavoriteListByEmail(email).subscribe({
       next: list => this.favorites.set(list ?? []),
       error: () => this.favorites.set([])
     });
-  }
-
-  // Carrusel: 4 favoritos por página
-  visibleFavorites(): Book[] {
-    const all = this.favorites() ?? [];
-    const page = this.favoritesPage();
-    const pageSize = 4;
-    const start = page * pageSize;
-    return all.slice(start, start + pageSize);
-  }
-
-  canGoPrevFavorites(): boolean {
-    return this.favoritesPage() > 0;
-  }
-
-  canGoNextFavorites(): boolean {
-    const total = (this.favorites() ?? []).length;
-    const pageSize = 4;
-    return (this.favoritesPage() + 1) * pageSize < total;
-  }
-
-  prevFavoritesPage(): void {
-    if (this.canGoPrevFavorites()) {
-      this.favoritesPage.update(v => v - 1);
-    }
-  }
-
-  nextFavoritesPage(): void {
-    if (this.canGoNextFavorites()) {
-      this.favoritesPage.update(v => v + 1);
-    }
   }
 
   /* ===================== USUARIO + REVIEWS ===================== */
@@ -163,12 +130,13 @@ export class UserProfileModalComponent {
     ).subscribe(cards => this.reviews.set(cards));
   }
 
+  hasActiveReviews(): boolean {
+    return (this.reviews() ?? []).some(r => r.status);
+  }
+
   private mapReviewToCard(review: Review, fallbackIndex: number) {
     const reviewAny: any = review as any;
     const bookId: number | undefined = reviewAny?.idMultimedia ?? reviewAny?.idBook ?? reviewAny?.bookId;
-
-    const rawRating = Number(reviewAny?.rating ?? reviewAny?.ranking ?? 0);
-    const normalizedRating = rawRating > 0 ? Math.max(1, Math.min(5, Math.round(rawRating))) : 0;
 
     const baseCard: ReviewCard = {
       id: review?.idReview ?? fallbackIndex,
@@ -176,8 +144,8 @@ export class UserProfileModalComponent {
       bookTitle: 'Libro sin título',
       publishingHouse: '',
       urlImage: this.defaultCover,
-      rating: normalizedRating,
-      status: !!reviewAny?.status
+      rating: review?.rating ?? 0,
+      status: review?.status ?? false
     };
 
     if (!bookId) {
