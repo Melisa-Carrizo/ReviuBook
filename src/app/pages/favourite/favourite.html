@@ -15,8 +15,22 @@
                 <p class="book-author">Por: {{ b.book.author }}</p>
                 <p class="book-description">{{ b.book.description | slice:0:200 }}...</p>
             </div>
+        
 
             <div class="card-actions-horizontal">
+                <div class="selector-group">
+                    <label [for]="'stage-' + b.id"></label>
+                    <select 
+                        [ngModel]="b.stage" 
+                        (ngModelChange)="changeStage(b.book.id, $event)"
+                        [attr.id]="'stage-' + b.id"
+                        class="stage-select-inline"
+                    >
+                        <option value="PENDIENTE">Pendiente</option>
+                        <option value="EN_PROCESO">En Proceso</option>
+                        <option value="TERMINADO">Terminado</option>
+                    </select>
+                </div>
                 
                 <button class="link-button-delete" (click)="deleteFavourite(b.id)">
                     Eliminar
