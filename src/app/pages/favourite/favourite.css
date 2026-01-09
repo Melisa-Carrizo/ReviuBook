@@ -1,0 +1,102 @@
+.favourite-card {
+    display: flex;
+    background-color: #fff;
+    padding: 20px 20px;
+    margin: 20px 20px;
+    gap: 16px;
+    border-radius: 15px;
+    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+}
+
+.card-image-container {
+    flex-shrink: 0;
+    width: 120px;
+    display: flex;
+    justify-content: center;
+    background-color: #f9f9f9; 
+    border-radius: 10px;
+    min-height: 180px;
+    
+}
+
+.card-image-container img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Sombra que indica la interaccion */
+.card-image-container img:hover {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.636);;
+}
+
+.card-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+}
+
+
+/* Cursor y hover sobre la seccion info para indicar que se puede interactuar*/
+.info-section {
+    cursor: pointer;
+}
+
+.book-title {
+    font-size: 20px;
+    font-weight: 400;
+    color: black;
+    margin: 0 0 4px 0;
+}
+
+.book-title:hover {
+    color: var(--darker-red);
+}
+
+.book-author {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.book-description {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.3;
+    margin-bottom: 16px;
+}
+
+/* Contenedor de acciones debajo del texto */
+.card-actions-horizontal {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 12px;
+}
+
+.stage-select-inline {
+    border: none;
+    background: transparent;
+    color: var(--main-red);
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    font-size: 1.15rem;
+}
+
+.link-button-delete {
+    background: none;
+    border: none;
+    color: var(--main-red);
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1.15rem;
+}
+
+.link-button-delete:hover {
+    color: var(--darker-red);
+}
