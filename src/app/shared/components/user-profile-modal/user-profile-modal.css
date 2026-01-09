@@ -1,0 +1,153 @@
+.modal-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  padding: 24px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.avatar svg {
+  width: 60%;
+  height: 60%;
+  fill: #bdbdbd;
+}
+.user-ident .username {
+  font-size: 18px;
+  font-weight: 600;
+}
+.user-ident .email {
+  font-size: 14px;
+  color: #666;
+}
+.section {
+  margin-top: 12px;
+}
+.section-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.empty {
+  color: #888;
+}
+.reviews-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 12px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.reviews-list .row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 0;
+}
+.reviews-list .cover {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+.reviews-list .content .title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.reviews-list .content .title {
+  font-weight: 600;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: #444;
+}
+
+.rating .stars {
+  font-size: 14px;
+}
+
+.rating .stars span {
+  color: #d0d0d0;
+}
+
+.rating .stars span.filled {
+  color: #ffc107;
+}
+
+.rating .score {
+  color: #666;
+}
+
+.reviews-list .content .body {
+  color: #666;
+}
+
+.review-status {
+  display: flex;
+  align-items: center;
+}
+
+.status-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  min-width: 40px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.status-tag.enabled {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+.status-tag.disabled {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+.no-active-message {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 6px;
+}

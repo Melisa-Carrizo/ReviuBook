@@ -1,0 +1,99 @@
+<div class="modal-container" role="dialog" aria-modal="true">
+
+  <!-- Cerrar -->
+  <button
+    class="close-btn"
+    type="button"
+    aria-label="Cerrar perfil"
+    (click)="close()">
+    ✕
+  </button>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="avatar" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <path
+          d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+      </svg>
+    </div>
+
+    <div class="user-ident">
+      <h2 class="username">{{ username() }}</h2>
+      <p class="email">{{ email() }}</p>
+    </div>
+  </header>
+
+  <!-- Favoritos -->
+  <section class="section">
+    <h3 class="section-title">Lista de favoritos</h3>
+    <app-favorites-carousel
+      [books]="favorites()"
+      [defaultCover]="defaultCover">
+    </app-favorites-carousel>
+  </section>
+
+  <!-- Reseñas -->
+  <section class="section">
+    <h3 class="section-title">Reseñas</h3>
+
+    @if (reviews().length && !hasActiveReviews()) {
+      <p class="no-active-message">
+        Este usuario no tiene reseñas activas.
+      </p>
+    }
+
+    <div class="reviews-list">
+      @for (r of reviews(); track r.id) {
+        <article class="row">
+          <img
+            class="cover"
+            loading="lazy"
+            [src]="r.urlImage || defaultCover"
+            [alt]="r.bookTitle" />
+
+          <div class="content">
+            <div class="title-row">
+              <div class="title">
+                {{ r.bookTitle }}
+                @if (r.publishingHouse) {
+                  <span>
+                    — {{ r.publishingHouse }}
+                  </span>
+                }
+              </div>
+
+              @if (r.status !== null && r.status !== undefined) {
+                <div class="review-status">
+                  <span
+                    class="status-tag"
+                    [class.enabled]="r.status"
+                    [class.disabled]="!r.status">
+                    {{ r.status ? 'Activa' : 'Inactiva' }}
+                  </span>
+                </div>
+              }
+            </div>
+
+            @if (!!r.rating) {
+              <div class="rating">
+                <span class="stars">
+                  <ng-container *ngFor="let s of [1,2,3,4,5]">
+                    <span [class.filled]="s <= r.rating">★</span>
+                  </ng-container>
+                </span>
+              </div>
+            }
+
+            <p class="body">
+              {{ r.content }}
+            </p>
+          </div>
+        </article>
+      } @empty {
+        <div class="empty">Sin reseñas</div>
+      }
+    </div>
+  </section>
+
+</div>
