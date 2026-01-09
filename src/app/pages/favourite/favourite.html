@@ -6,17 +6,31 @@
     <div class="item favourite-card">
         
         <div class="card-image-container">
-            <img [src]="b.book.urlImage" [alt]="'Imagen de ' + b.book.title">
+            <img [src]="b.book.urlImage" [alt]="'Imagen de ' + b.book.title" (click)="goToDetails(b.book.id)">
         </div>
 
         <div class="card-details">
-            <div class="info-section">
+            <div class="info-section" (click)="goToDetails(b.book.id)">
                 <h3 class="book-title">{{ b.book.title }}</h3>
                 <p class="book-author">Por: {{ b.book.author }}</p>
                 <p class="book-description">{{ b.book.description | slice:0:200 }}...</p>
             </div>
+        
 
             <div class="card-actions-horizontal">
+                <div class="selector-group">
+                    <label [for]="'stage-' + b.id"></label>
+                    <select 
+                        [ngModel]="b.stage" 
+                        (ngModelChange)="changeStage(b.book.id, $event)"
+                        [attr.id]="'stage-' + b.id"
+                        class="stage-select-inline"
+                    >
+                        <option value="PENDIENTE">Pendiente</option>
+                        <option value="EN_PROCESO">En Proceso</option>
+                        <option value="TERMINADO">Terminado</option>
+                    </select>
+                </div>
                 
                 <button class="link-button-delete" (click)="deleteFavourite(b.id)">
                     Eliminar
