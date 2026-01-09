@@ -58,5 +58,10 @@ export class Favourite {
     });
   }
 
+  // Redirecciono al usuario a la ficha del Libro
+  goToDetails(idBook: number) {
+    this._router.navigate(['/libro', idBook]);
+  }
+
 
 }
