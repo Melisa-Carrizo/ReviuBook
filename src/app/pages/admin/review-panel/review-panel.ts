@@ -1,4 +1,4 @@
-import { Component, inject, input, signal, WritableSignal } from '@angular/core';
+import { Component, effect, inject, input, signal, WritableSignal } from '@angular/core';
 import { ReviewService } from '../../../core/services/review-service';
 import { Review } from '../../../core/models/Review';
 import { Book } from '../../../core/models/Book';
@@ -27,12 +27,18 @@ export class ReviewPanel {
   
 
   constructor() {
-    const bookId = String(this.selectedBook()?.id)
-    this._reviewService.getAllByBookId(bookId).subscribe({
-      next: (data) => {
-        this.reviews.set(data)
-      },
-      error: err => console.error("No se pudieron obtener las reseñas del libro: ", err.message)
-    });
+    effect(() => {
+      const currentBook = this.selectedBook();
+      if (currentBook) {
+        const bookId = String(this.selectedBook()?.id)
+        this._reviewService.getAllByBookId(bookId).subscribe({
+          next: (data) => {
+            this.reviews.set(data)
+          },
+          error: err => console.error("No se pudieron obtener las reseñas del libro: ", err.message)
+        });
+      }
+    })
   }
+
 }

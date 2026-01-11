@@ -1,7 +1,20 @@
-<h2>Reseñas</h2>
-
-@for (r of reviews(); track r.idReview) {
-    <h2>{{ r.content }}</h2>
-    <h2>{{ r.rating }}</h2>
-    <h2>{{ r.idUser }}</h2>
-}
+<div class="review-content">
+  @for (r of reviews(); track r.idReview) {
+  <div class="review-item">
+    <div class="review-header">
+      <!--Aca deberia ir el nombre del usuario-->
+      <span class="review-author">{{ r.idUser }}</span>
+      @if (r.status) {
+        <button class="btn-disable"><i class="fas fa-times-circle"></i> Desactivar</button>
+      } @else {
+        <button class="btn-enable"><i class="fas fa-check-circle"></i> Activar</button>
+      }
+    </div>
+    <span class="review-rating">
+      @for (i of [1, 2, 3, 4, 5]; track i) { @if (r && r.rating >= i) {
+      <i class="fas fa-star filled"></i> } @else { <i class="far fa-star empty"></i> } }
+    </span>
+    <p class="review-body">{{ r.content }}</p>
+  </div>
+  }
+</div>
