@@ -1,6 +1,6 @@
 <div class="main-container">
   <header class="header">
-    <h1>Gestionar Reseñas de Libro </h1>
+    <h1>Gestion de Reseñas </h1>
   </header>
 
   <div class="table-container">
@@ -10,19 +10,23 @@
       <table class="custom-table">
         <thead>
           <tr>
-            <th>Portada</th>
-            <th>Título</th>
-            <th>Autor</th>
+            <th>PORTADA</th>
+            <th>TÍTULO</th>
+            <th>AUTOR</th>
             <th>ISBN</th>
-            <th class="text-center">Acciones</th>
+            <th class="text-center">ACCIONES</th>
           </tr>
         </thead>
         <tbody>
           @for (book of books; track book.id) {
             <tr>
-              <td class="col-img">
-                <img [src]="book.urlImage" alt="Portada" class="book-cover">
-              </td>
+              @if (book.urlImage) {
+                <td class="col-img">
+                    <img [src]="book.urlImage" alt="Portada" class="book-cover">
+                </td>
+              } @else {
+                <td class="cover-initials">{{ book.title.slice(0, 2).toUpperCase() }}</td>
+              }
               <td class="col-title">{{ book.title }}</td>
               <td class="col-author">{{ book.author }}</td>
               <td class="col-isbn">{{ book.ISBN }}</td>
