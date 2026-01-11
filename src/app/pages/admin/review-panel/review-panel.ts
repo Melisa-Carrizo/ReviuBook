@@ -6,6 +6,7 @@ import { BookService } from '../../../core/services/book-service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { UserService } from '../../../core/services/user-service';
+import { ReviewAuthor } from '../review-author/review-author';
 
 export interface ReviewWithUsername extends Review {
   username: String;
@@ -13,7 +14,7 @@ export interface ReviewWithUsername extends Review {
 
 @Component({
   selector: 'app-review-panel',
-  imports: [],
+  imports: [ReviewAuthor],
   templateUrl: './review-panel.html',
   styleUrl: './review-panel.css',
 })
@@ -45,6 +46,18 @@ export class ReviewPanel {
     })
   }
   
+  disableReview(idReview: number) {
+
+    this._reviewService.deleteReviewAdmin(idReview).subscribe({
+      next: () => {
+        this.reviews.update(
+          r => r.map(r => r.idReview === idReview ? {...r, status: !r.status} : r)
+        )
+      },
+      error: e => console.error("Error al eliminar la reseña: ", e.message)
+    })
+
+  }
 
 
 }
