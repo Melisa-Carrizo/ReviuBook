@@ -1,1 +1,7 @@
-<p>review-panel works!</p>
+<h2>Reseñas</h2>
+
+@for (r of reviews(); track r.idReview) {
+    <h2>{{ r.content }}</h2>
+    <h2>{{ r.rating }}</h2>
+    <h2>{{ r.idUser }}</h2>
+}
