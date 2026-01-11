@@ -1,11 +1,15 @@
 import { Component, effect, inject, input, signal, WritableSignal } from '@angular/core';
 import { ReviewService } from '../../../core/services/review-service';
 import { Review } from '../../../core/models/Review';
-import { Book } from '../../../core/models/Book';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BookService } from '../../../core/services/book-service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { UserService } from '../../../core/services/user-service';
+
+export interface ReviewWithUsername extends Review {
+  username: String;
+}
 
 @Component({
   selector: 'app-review-panel',
@@ -23,22 +27,24 @@ export class ReviewPanel {
     ),
     {initialValue : undefined}
   );
-  reviews: WritableSignal<Review[] | undefined> = signal([]);
-  
+  reviews: WritableSignal<Review[]> = signal([]);
 
   constructor() {
     effect(() => {
-      const currentBook = this.selectedBook();
-      if (currentBook) {
-        const bookId = String(this.selectedBook()?.id)
+      const currentBook = this.selectedBook;
+      const bookId = String(currentBook()?.id);
+
+      if(currentBook()) {
         this._reviewService.getAllByBookId(bookId).subscribe({
           next: (data) => {
             this.reviews.set(data)
           },
-          error: err => console.error("No se pudieron obtener las reseñas del libro: ", err.message)
-        });
+          error: err => console.error("Error al obtener las reviews: ", err.message)
+        })
       }
     })
   }
+  
+
 
 }

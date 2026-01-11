@@ -5,9 +5,13 @@
       <!--Aca deberia ir el nombre del usuario-->
       <span class="review-author">{{ r.idUser }}</span>
       @if (r.status) {
-        <button class="btn-disable"><i class="fas fa-times-circle"></i> Desactivar</button>
+        <button class="btn-disable">
+            <i class="fas fa-times-circle"></i> Desactivar
+        </button>
       } @else {
-        <button class="btn-enable"><i class="fas fa-check-circle"></i> Activar</button>
+        <button class="btn-enable">
+            <i class="fas fa-check-circle"></i> Activar
+        </button>
       }
     </div>
     <span class="review-rating">
