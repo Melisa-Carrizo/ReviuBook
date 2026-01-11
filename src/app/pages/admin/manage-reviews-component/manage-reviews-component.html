@@ -31,7 +31,7 @@
               <td class="col-author">{{ book.author }}</td>
               <td class="col-isbn">{{ book.ISBN }}</td>
               <td class="col-actions">
-                <button class="btn-reviews">
+                <button class="btn-reviews" (click)="goToReviews(book.id)">
                   Ver Reviews
                 </button>
               </td>

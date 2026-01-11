@@ -38,4 +38,8 @@ export class ManageReviewsComponent {
     )
   }
 
+  goToReviews(idBook: number) {
+    this._router.navigate(['reviews-panel', idBook]);
+  }
+
 }
