@@ -1,11 +1,10 @@
-import { Component, effect, inject, input, signal, WritableSignal } from '@angular/core';
+import { Component, effect, inject, signal, WritableSignal } from '@angular/core';
 import { ReviewService } from '../../../core/services/review-service';
 import { Review } from '../../../core/models/Review';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BookService } from '../../../core/services/book-service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
-import { UserService } from '../../../core/services/user-service';
 import { ReviewAuthor } from '../review-author/review-author';
 
 export interface ReviewWithUsername extends Review {
@@ -47,7 +46,6 @@ export class ReviewPanel {
   }
   
   disableReview(idReview: number) {
-
     this._reviewService.deleteReviewAdmin(idReview).subscribe({
       next: () => {
         this.reviews.update(
@@ -56,8 +54,19 @@ export class ReviewPanel {
       },
       error: e => console.error("Error al eliminar la reseña: ", e.message)
     })
-
   }
 
+  enableReview(review: Review) {
+    const data = {...review, status: true}
+
+    this._reviewService.updateReviewAdmin(data).subscribe({
+      next: (data) => {
+        this.reviews.update(
+          r => r.map(r => r.idReview === data.idReview ? data : r)
+        )
+      },
+      error: err => console.error("Error al acticar la reseña: ", err.message)
+    })
+  }
 
 }
