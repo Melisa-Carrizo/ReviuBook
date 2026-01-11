@@ -22,4 +22,20 @@ export class ManageReviewsComponent {
   isLoading: boolean = true;
   hasBooks: boolean = false;
 
+  constructor() {
+    this._bookService.getAll().subscribe(
+      {
+        next: (data) => {
+          this.books = data;
+          this.isLoading = false;
+          this.hasBooks = this.books && this.books.length > 0;
+        },
+        error: (err) => {
+          console.error('Error al cargar libros:', err);
+          this.isLoading = false;
+        }
+      }
+    )
+  }
+
 }
