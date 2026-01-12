@@ -50,7 +50,7 @@ export class Favourite {
         next: () => {
             this.favouriteBooks.update(list => 
                 list.map(b => 
-                    b.id === idBook ? { ...b, stage: newStage } : b
+                    b.book.id === idBook ? { ...b, stage: newStage } : b
                 )
             );
         },

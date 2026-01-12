@@ -1,143 +1,204 @@
+:host {
+  --primary-red: #ef4444;
+  --bg-gray: #f1f5f9;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+
+.favorites-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.favorites-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .favourite-card {
-    display: flex;
-    background-color: #fff;
-    padding: 20px 20px;
-    margin: 20px 20px;
-    gap: 16px;
-    border-radius: 15px;
-    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+  display: flex;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
 }
 
-.card-image-container {
-    flex-shrink: 0;
-    width: 120px;
-    display: flex;
-    justify-content: center;
-    background-color: #f9f9f9; 
-    border-radius: 10px;
-    min-height: 180px;
-    
+.favourite-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: #cbd5e1;
 }
 
-.card-image-container img {
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
-    border-radius: 10px;
-    cursor: pointer;
+.card-image-wrapper {
+  position: relative;
+  width: 160px;
+  min-height: 220px;
+  cursor: pointer;
+  background: #f8fafc;
+  flex-shrink: 0;
 }
 
-/* Sombra que indica la interaccion */
-.card-image-container img:hover {
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.636);;
+.card-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
-.card-details {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; 
+.favourite-card:hover .card-image-wrapper img {
+  transform: scale(1.05);
 }
 
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+  color: white;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
 
-/* Cursor y hover sobre la seccion info para indicar que se puede interactuar*/
-.info-section {
-    cursor: pointer;
+.card-image-wrapper:hover .image-overlay {
+  opacity: 1;
+}
+
+/* Contenido */
+.card-content {
+  flex-grow: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .book-title {
-    font-size: 20px;
-    font-weight: 400;
-    color: black;
-    margin: 0 0 4px 0;
-}
-
-.book-title:hover {
-    color: var(--darker-red);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 4px 0;
+  line-height: 1.2;
 }
 
 .book-author {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 8px;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.book-author span {
+  font-weight: 600;
+  color: var(--primary-red);
 }
 
 .book-description {
-    font-size: 14px;
-    color: #666;
-    line-height: 1.3;
-    margin-bottom: 16px;
+  font-size: 0.9rem;
+  color: #475569;
+  line-height: 1.6;
 }
 
-/* Contenedor de acciones debajo del texto */
-.card-actions-horizontal {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    margin-top: 12px;
+/* Footer y estados */
+.card-footer {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
 }
 
-.selector-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--main-red); 
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  font-size: 0.85rem;
 }
 
-.stage-select-inline {
-    border: none;
-    background: transparent;
-    color: var(--main-red);
-    font-weight: 600;
-    cursor: pointer;
-    outline: none;
-    font-size: 1.15rem;
+.status-pill i { font-size: 0.5rem; }
+
+/* Colores dinamicos para el stage */
+.status-pill[data-status="PENDIENTE"] { color: #b45309; background: #fffbeb; }
+.status-pill[data-status="EN_PROCESO"] { color: #1d4ed8; background: #eff6ff; }
+.status-pill[data-status="TERMINADO"] { color: #047857; background: #ecfdf5; }
+
+.status-select {
+  border: none;
+  background: transparent;
+  font-weight: 700;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.link-button-delete {
-    background: none;
-    border: none;
-    color: var(--main-red);
-    font-size: 13px;
-    cursor: pointer;
-    padding: 0;
-    font-size: 1.15rem;
+.btn-remove {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
 }
 
-.link-button-delete:hover {
-    color: var(--darker-red);
+.btn-remove:hover {
+  color: var(--primary-red);
+}
+
+
+@media (max-width: 768px) {
+  .favourite-card {
+    flex-direction: row; 
+    align-items: flex-start;
+  }
+  .card-image-wrapper {
+    width: 120px;
+    min-height: 180px;
+  }
 }
 
 @media (max-width: 600px) {
-    .favourite-card {
-        flex-direction: column; 
-        align-items: center;
-        margin: 15px;
-        padding: 15px;
-    }
+  .favourite-card {
+    flex-direction: column;
+  }
+  
+  .card-image-wrapper {
+    width: 100%;
+    height: 200px;
+  }
 
-    .card-image-container {
-        width: 100%; 
-        max-width: 160px; 
-        min-height: auto;
-    }
+  .card-image-wrapper img {
+    object-position: center 20%;
+  }
 
-    .card-details {
-        text-align: center; 
-        width: 100%;
-    }
+  .card-footer {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
 
-    .card-actions-horizontal {
-        flex-direction: column; 
-        gap: 12px;
-        width: 100%;
-        margin-top: 20px;
-        padding-top: 15px;
-        border-top: 1px solid #eee; 
-    }
-
-    .selector-group {
-        justify-content: center;
-    }
+  .btn-remove {
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
+    background: #fef2f2;
+    border-radius: 8px;
+  }
 }
