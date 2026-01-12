@@ -6,6 +6,7 @@ import { BookService } from '../../../core/services/book-service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { ReviewAuthor } from '../review-author/review-author';
+import { NgTemplateOutlet } from '@angular/common';
 
 export interface ReviewWithUsername extends Review {
   username: String;
@@ -13,7 +14,7 @@ export interface ReviewWithUsername extends Review {
 
 @Component({
   selector: 'app-review-panel',
-  imports: [ReviewAuthor],
+  imports: [ReviewAuthor, NgTemplateOutlet],
   templateUrl: './review-panel.html',
   styleUrl: './review-panel.css',
 })

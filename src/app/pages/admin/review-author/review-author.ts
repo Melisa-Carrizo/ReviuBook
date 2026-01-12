@@ -7,13 +7,12 @@ import { switchMap } from 'rxjs';
   selector: 'app-review-author',
   imports: [],
   template: `{{ username() }}`,
-  styleUrl: './review-author.css',
 })
 export class ReviewAuthor {
   private _userService = inject(UserService);
   id = input.required<number>(); // Recibe el id del usuario
 
-  // El componente solo se encarga de obtener el username de la review
+  // El componente solo se encarga de obtener el username
   username = toSignal(
     toObservable(this.id).pipe(
       switchMap(id => this._userService.getUsernameById(id))

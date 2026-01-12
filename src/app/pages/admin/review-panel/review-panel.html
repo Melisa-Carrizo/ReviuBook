@@ -1,26 +1,52 @@
-<div class="review-content">
-  @for (r of reviews(); track r.idReview) {
-  <div class="review-item">
-    <div class="review-header">
-      <!--Aca deberia ir el nombre del usuario-->
-      <span class="review-author">
-        <app-review-author [id]="r.idUser"></app-review-author>
-      </span>
-      @if (r.status) {
-        <button class="btn-disable" (click)="disableReview(r.idReview)">
-            <i class="fas fa-times-circle"></i> Desactivar
-        </button>
-      } @else {
-        <button class="btn-enable" (click)="enableReview(r)">
-            <i class="fas fa-check-circle"></i> Activar
-        </button>
+<h2 class="book-title">Reseñas del libro <span>'{{ selectedBook()?.title }}'</span></h2>
+
+<div class="review-container">
+  
+  <section class="review-section">
+    <h3 class="section-label active-label">Reseñas activas</h3>
+    <div class="review-grid">
+      @for (r of reviews(); track r.idReview) {
+        @if (r.status) {
+          <ng-container *ngTemplateOutlet="reviewCard; context: { $implicit: r }"></ng-container>
+        }
       }
     </div>
-    <span class="review-rating">
-      @for (i of [1, 2, 3, 4, 5]; track i) { @if (r && r.rating >= i) {
-      <i class="fas fa-star filled"></i> } @else { <i class="far fa-star empty"></i> } }
-    </span>
+  </section>
+
+  <hr class="section-divider">
+
+  <section class="review-section">
+    <h3 class="section-label inactive-label">Reseñas inactivas</h3>
+    <div class="review-grid">
+      @for (r of reviews(); track r.idReview) {
+        @if (!r.status) {
+          <ng-container *ngTemplateOutlet="reviewCard; context: { $implicit: r }"></ng-container>
+        }
+      }
+    </div>
+  </section>
+</div>
+
+<ng-template #reviewCard let-r>
+  <div class="review-card" [class.inactive-card]="!r.status">
+    <div class="review-header">
+      <div class="author-info">
+        <app-review-author [id]="r.idUser" class="author-name"></app-review-author>
+      </div>
+      
+      <button [class]="r.status ? 'btn-action disable' : 'btn-action enable'" 
+              (click)="r.status ? disableReview(r.idReview) : enableReview(r)">
+        <i [class]="r.status ? 'fas fa-times-circle' : 'fas fa-check-circle'"></i>
+        {{ r.status ? 'Desactivar' : 'Activar' }}
+      </button>
+    </div>
+
+    <div class="review-rating">
+      @for (i of [1, 2, 3, 4, 5]; track i) {
+        <i class="fas fa-star" [class.filled]="r.rating >= i" [class.empty]="r.rating < i"></i>
+      }
+    </div>
+
     <p class="review-body">{{ r.content }}</p>
   </div>
-  }
-</div>
+</ng-template>
