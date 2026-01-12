@@ -19,16 +19,17 @@ export class Favourite {
   favouriteBooks: WritableSignal<BookStage[]> = signal([]);
 
   // Traigo la lista de favoritos del usuario:
-  constructor() {
-    effect(() => {
-      this._bookStage.getAll().subscribe(
-        {
-          next: (data) => this.favouriteBooks.set(data),
-          error: e => console.error("Error al obtener la lista de favoritos: ", e.message)
-        }
-      );
-    })
+  ngOnInit() {
+    this.loadFavorites();
   }
+
+  loadFavorites() {
+    this._bookStage.getAll().subscribe({
+      next: (data) => this.favouriteBooks.set(data),
+      error: e => console.error("Error al obtener la lista de favoritos: ", e.message)
+    });
+  }
+
 
   // Eliminar el libro de favoritos y actualiza el signal
   deleteFavourite(idBookStage: number) {
