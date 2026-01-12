@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { ReviewAuthor } from '../review-author/review-author';
 import { NgTemplateOutlet } from '@angular/common';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 
 export interface ReviewWithUsername extends Review {
   username: String;
@@ -55,6 +56,28 @@ export class ReviewPanel {
       },
       error: e => console.error("Error al eliminar la reseña: ", e.message)
     })
+  }
+
+  deleteReview(idReview: number) {
+    Swal.fire({
+          title: '¿Estás seguro?',
+          text: '¡No podrás revertir esto!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#dc3545',
+          cancelButtonColor: '#6c757d',
+          confirmButtonText: 'Sí, ¡eliminar!',
+          cancelButtonText: 'Cancelar',
+        }).then((result: SweetAlertResult<any>) => { 
+          this._reviewService.deleteReviewAdmin(idReview).subscribe({
+            next: () => {
+              this.reviews.update(
+                r => r.map(r => r.idReview === idReview ? {...r, status: !r.status} : r)
+              )
+            },
+            error: e => console.error("Error al eliminar la reseña: ", e.message)
+          })
+        });
   }
 
   enableReview(review: Review) {

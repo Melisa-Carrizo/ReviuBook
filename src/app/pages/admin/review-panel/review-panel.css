@@ -137,3 +137,60 @@
   background: #e2e8f0;
   margin: 50px 0;
 }
+
+/* Tablets y pantallas medianas */
+@media (max-width: 1024px) {
+  .review-container {
+    max-width: 90%; 
+  }
+}
+
+/* Móviles grandes y Tablets pequeñas */
+@media (max-width: 768px) {
+  .book-title {
+    font-size: 1.5rem;
+    padding: 0 15px;
+  }
+
+  .review-card {
+    padding: 18px; 
+  }
+
+  .section-label {
+    font-size: 1.1rem;
+  }
+}
+
+/* Móviles */
+@media (max-width: 480px) {
+  :host {
+    padding: 20px 10px;
+  }
+
+  .review-header {
+    flex-direction: column; 
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .btn-action {
+    width: 100%; 
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .author-info {
+    width: 100%;
+  }
+
+  .review-body {
+    font-size: 0.9rem; 
+    line-height: 1.4;
+  }
+
+  .avatar-placeholder {
+    width: 30px;
+    height: 30px;
+    font-size: 0.7rem;
+  }
+}
