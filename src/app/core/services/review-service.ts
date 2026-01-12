@@ -54,6 +54,10 @@ export class ReviewService {
     return this.http.put<Review>(`${this.apiUrl}/${dto.idReview}`, dto);
   }
 
+  updateReviewAdmin(dto: Partial<Review>) {
+    return this.http.put<Review>(`${this.apiUrl}/admin/${dto.idReview}`, dto);
+  }
+
   // Eliminar review para el rol User
   deleteReview(id: number) {
     return this.http.delete<Review>(`${this.apiUrl}/${id}`)
@@ -62,4 +66,6 @@ export class ReviewService {
   deleteReviewAdmin(id: number) {
     return this.http.delete<Review>(`${this.apiUrl}/admin/${id}`)
   }
+
+
 }

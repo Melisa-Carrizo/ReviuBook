@@ -1,95 +1,41 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
-import { SearchService } from '../../../core/services/search-service';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { BookService } from '../../../core/services/book-service';
-import { Review } from '../../../core/models/Review';
-import { ReviewService } from '../../../core/services/review-service';
 import { Book } from '../../../core/models/Book';
 import { ReviewItem } from '../../booksheet/review-item/review-item';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-reviews-component',
-  imports: [FormsModule, ReviewItem],
+  imports: [FormsModule],
   templateUrl: './manage-reviews-component.html',
   styleUrl: './manage-reviews-component.css',
 })
 export class ManageReviewsComponent {
-  private _search = inject(SearchService);
-  private _books = inject(BookService);
-  private _reviews = inject(ReviewService);
-  selectedBook = signal<Book | undefined>(undefined);
-  selectedBookReviews = signal<Review[] | undefined>(undefined); 
-  currentSearchTerm: string = '';
-  searchResultBooks = signal<Book[] | undefined>(undefined);
+  private _bookService = inject(BookService);
+  private _router = inject(Router);
+  books: Book[] = [];
+  isLoading: boolean = true;
+  hasBooks: boolean = false;
 
-  // metodo para buscar los libros
-  onSearchInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.currentSearchTerm = input.value;
-  }
-
-  // se llama cuando el usuario presiona enter
-  onSearchSubmit() {
-    const term = this.currentSearchTerm.toLowerCase().trim();
-    this.selectedBook.set(undefined); 
-
-    if (!term) {
-        this.searchResultBooks.set([]);
-        return;
-    }
-    // busco los libros que coincidan con el titulo ingresado
-    this._books.getBookByTitle(term).subscribe({
-        next: (books) => {
-            this.searchResultBooks.set(books); // los guardo para luego elegir uno
+  constructor() {
+    this._bookService.getAll().subscribe(
+      {
+        next: (data) => {
+          this.books = data;
+          this.isLoading = false;
+          this.hasBooks = this.books && this.books.length > 0;
         },
         error: (err) => {
-            console.error('Error al buscar libros:', err);
-            this.searchResultBooks.set([]); // si hay error la lista queda vacia
+          console.error('Error al cargar libros:', err);
+          this.isLoading = false;
         }
-    });
-  }
-
-  // obtiene las reviews del libro seleccionado
-  constructor() {
-    // cambia c/ vez que selectedBooks se setea
-    effect(() => {
-      const book = this.selectedBook();
-      if (book) {
-        this.selectedBookReviews.set(undefined); 
-
-        this._reviews.getAllByBookId(book.id.toString()).subscribe({
-            next: (reviews) => {
-                this.selectedBookReviews.set(reviews);
-            },
-            error: (err) => {
-                console.error('Error al cargar reseñas:', err);
-                this.selectedBookReviews.set([]);
-            }
-        });
-      } else {
-          this.selectedBookReviews.set(undefined);
       }
-    });
+    )
   }
-  // reviews activas
-  reviews = computed(() => {
-    const allReviews = this.selectedBookReviews() || []
-    return allReviews.filter(
-      r => r.status === true
-    );
-  })
-  // reviews inactivas
-  inactiveReviews = computed(() => {
-    const allReviews = this.selectedBookReviews() || []
-    return allReviews.filter(
-      r => r.status === false
-    );
-  })
 
-  // seteo el libro del que quiero ver las reviews
-  onBookSelect(book: Book) {
-      this.selectedBook.set(book);
+  goToReviews(idBook: number) {
+    this._router.navigate(['admin/review-panel', idBook]);
   }
 
 }

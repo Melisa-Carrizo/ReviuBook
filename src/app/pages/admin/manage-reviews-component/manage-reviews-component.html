@@ -1,47 +1,44 @@
+<div class="main-container">
+  <header class="header">
+    <h1>Gestion de Reseñas </h1>
+  </header>
 
-<form class="search-form" (submit)="$event.preventDefault()">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <input 
-        type="text" 
-        (input)="onSearchInput($event)" 
-        [ngModel]="currentSearchTerm" 
-        name="searchTerm"
-        placeholder="Buscar libro por titulo..."
-        (keydown.enter)="onSearchSubmit()"
-    />
-</form>
-
-<div class="book-buttons-container">
-    @if(searchResultBooks() === undefined) {
-        <p>Escribe un título y presiona Enter para buscar libros.</p>
+  <div class="table-container">
+    @if (isLoading) {
+      <div class="loading">Cargando libros...</div>
+    } @else {
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>PORTADA</th>
+            <th>TÍTULO</th>
+            <th>AUTOR</th>
+            <th>ISBN</th>
+            <th class="text-center">ACCIONES</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (book of books; track book.id) {
+            <tr>
+              @if (book.urlImage) {
+                <td class="col-img">
+                    <img [src]="book.urlImage" alt="Portada" class="book-cover">
+                </td>
+              } @else {
+                <td class="cover-initials">{{ book.title.slice(0, 2).toUpperCase() }}</td>
+              }
+              <td class="col-title">{{ book.title }}</td>
+              <td class="col-author">{{ book.author }}</td>
+              <td class="col-isbn">{{ book.ISBN }}</td>
+              <td class="col-actions">
+                <button class="btn-reviews" (click)="goToReviews(book.id)">
+                  Ver Reviews
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     }
-    @for(book of searchResultBooks(); track book.id ) {
-        <button 
-            (click)="onBookSelect(book)"
-            [class.selected]="selectedBook()?.id === book.id"
-        >
-            {{ book.title }}
-        </button>
-    }
-</div>
-
-<div class="reviews-container">
-    @if(selectedBook()) {
-        <h2>Reseñas activas para: {{ selectedBook()!.title }}</h2>
-        <ul class="review-item">
-            @for (r of reviews(); track r.idReview) {
-                <app-review-item [review]="r"></app-review-item>
-            }
-        </ul>
-        
-        @if (inactiveReviews().length > 0) {
-            <h2>Reseñas Inactivas</h2>
-            <ul class="review-item">
-                @for (r of inactiveReviews(); track r.idReview) {
-                    <app-review-item [review]="r"></app-review-item>
-                }
-            </ul>
-        }
-    }
-    
+  </div>
 </div>

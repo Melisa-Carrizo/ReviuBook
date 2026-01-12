@@ -23,7 +23,6 @@ export class BookStageService {
   }
 
   //Actualiza el estado de un BookStage
-  // ACTUALIZAR EL BACK PARA QUE RECIBA UN DTO EN LUGAR DE UN PRIMITIVO
   updateStage(idBook: number, newStage: Stage) {
     const data = {
       idBook: idBook,

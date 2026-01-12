@@ -1,76 +1,94 @@
-:host {
-    display: block; 
-    padding: 20px;
+.main-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.search-form {
-    display: flex;
-    align-items: center;
-    margin-bottom: 25px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    padding: 10px 15px; 
-    max-width: 600px; 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
 }
 
-.search-form i {
-    color: #888;
-    margin-right: 10px;
-    font-size: 1.2em;
+.header h1 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0;
+  flex-grow: 1;
+  text-align: left;
 }
 
-.search-form input {
-    flex-grow: 1; 
-    padding: 8px 10px;
-    border: none;
-    font-size: 1.1em;
-    outline: none;
+.custom-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 15px; 
 }
 
-.book-buttons-container { 
-    display: flex;
-    flex-wrap: wrap; 
-    gap: 10px; 
-    margin-bottom: 30px;
+.custom-table th {
+  text-align: left;
+  color: #666;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-bottom: 2px solid #f0f0f0;
 }
 
-.book-buttons-container button {
-    background-color: var(--main-red); 
+.custom-table td {
+  padding: 5px;
+  vertical-align: middle; 
+  background: #fff;
+}
+
+.book-cover {
+  width: 60px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Ver por que no se aplica este estilo*/
+.cover-initials {
+    width: 40px;
+    height: 40px;
+    background-color: #444;
     color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.2s, transform 0.1s;
+    font-weight: bold;
+    border-radius: 4px;
+    font-size: 14px;
 }
 
-.book-buttons-container button:hover {
-    background-color: var(--darker-red); 
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.col-title {
+  font-weight: 500;
+  width: 300px;
 }
 
-
-.book-buttons-container button.selected {
-    background-color: var(--bg-gray); 
-    color: black;
-    border: 2px solid black;
+.btn-reviews {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
 }
 
-.reviews-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
+.btn-reviews:hover {
+  background-color: #0056b3;
 }
 
-h2 {
-    padding: 10px 0px;
+.text-center {
+  text-align: center;
 }
 
-.review-item {
-    display: flex;
-    flex-direction: column;
-    width: 1200px;
+.col-actions {
+  text-align: center;
 }
