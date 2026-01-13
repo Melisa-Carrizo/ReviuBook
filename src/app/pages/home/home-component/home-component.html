@@ -1,57 +1,10 @@
 <div class="home-container">
-    <button class="burger-btn" (click)="toggleSidebar()" [disabled]="sidebarOpen()">
-        ☰ Filtros
-    </button>
-
-    @if (sidebarOpen()) {
-        <div class="overlay" (click)="closeSidebar()"></div>
-    }
-
-    <aside class="sidebar" [class.open]="sidebarOpen()">
-        <button class="close-btn" (click)="closeSidebar()">✕</button>
-        <h3 class="filters-title">Filtros</h3>
-
-        <div class="filter-group">
-            <h4>Genre</h4>
-            <ul>
-                <li>Science Fiction</li>
-                <li>Fantasy</li>
-                <li>Dystopian</li>
-                <li>Mystery</li>
-                <li>Horror</li>
-            </ul>
-        </div>
-
-        <div class="filter-group">
-            <h4>Publication Year</h4>
-            <ul>
-                <li>2020s</li>
-                <li>2010s</li>
-                <li>2000s</li>
-                <li>1990s</li>
-                <li>Classic</li>
-            </ul>
-        </div>
-
-        <div class="filter-group">
-            <h4>Rating</h4>
-            <ul>
-                <li>5 Stars</li>
-                <li>4 Stars & Up</li>
-                <li>3 Stars & Up</li>
-            </ul>
-        </div>
-
-        <div class="filter-group">
-            <h4>Format</h4>
-            <ul>
-                <li>Hardcover</li>
-                <li>Paperback</li>
-                <li>E-book</li>
-                <li>Audiobook</li>
-            </ul>
-        </div>
-    </aside>
+    <app-home-filter-sidebar
+        [categories]="availableCategories()"
+        [yearRanges]="getYearRanges()"
+        [filters]="currentFilters()"
+        (applyFilters)="handleApplyFilters($event)"
+    ></app-home-filter-sidebar>
 
     <main class="main-content">
         <h2 class="section-title">Libros</h2>

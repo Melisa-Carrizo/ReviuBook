@@ -187,10 +187,6 @@ export class HomeFilterSidebarComponent implements OnChanges {
     if (!value) {
       return list;
     }
-    const exists = list.includes(value);
-    if (exists) {
-      return list.filter((item) => item !== value);
-    }
-    return [...list, value];
+    return list.includes(value) ? [] : [value];
   }
 }

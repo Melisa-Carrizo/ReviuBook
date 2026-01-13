@@ -38,6 +38,10 @@ export class BookService {
     return this.http.get<Book[]>(`${this.baseUrl}/search/publishingHouse/${encodeURIComponent(publishingHouse)}`);
   }
 
+  getBooksByCategory(category: string) {
+    return this.http.get<Book[]>(`${this.baseUrl}/search/category/${encodeURIComponent(category)}`);
+  }
+
   add(book: Book){
     return this.http.post<Book>(`${this.baseUrl}`,book);
   }
