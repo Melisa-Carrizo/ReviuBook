@@ -6,8 +6,22 @@
     </div>
   }
 
+  <div class="filter-controls">
+    <button [class.active]="filterStatus() === 'ALL'" (click)="setFilter('ALL')">Todos</button>
+    <button [class.active]="filterStatus() === 'PENDIENTE'" (click)="setFilter('PENDIENTE')">Pendientes</button>
+    <button [class.active]="filterStatus() === 'EN_PROCESO'" (click)="setFilter('EN_PROCESO')">En Proceso</button>
+    <button [class.active]="filterStatus() === 'TERMINADO'" (click)="setFilter('TERMINADO')">Terminados</button>
+  </div>
+
+  @if(filteredBooks().length === 0) {
+    <div class="empty-state">
+      <i class="fas fa-book-open"></i>
+      <p>No hay libros con este estado</p>
+    </div>
+  }
+
   <div class="favorites-grid">
-    @for (b of favouriteBooks(); track b.id) {
+    @for (b of filteredBooks(); track b.id) {
       <div class="favourite-card">
         
         <div class="card-image-wrapper" (click)="goToDetails(b.book.id)">

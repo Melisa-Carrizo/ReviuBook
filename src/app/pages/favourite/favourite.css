@@ -13,6 +13,32 @@
   padding: 0 20px;
 }
 
+.filter-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.filter-controls button {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.filter-controls button:hover {
+  background-color: var(--bg-gray);
+}
+
+.filter-controls button.active {
+  background-color: var(--primary-red); 
+  color: white;
+  border-color: var(--primary-red);
+}
+
 .favorites-grid {
   display: flex;
   flex-direction: column;
