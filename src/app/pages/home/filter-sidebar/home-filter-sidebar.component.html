@@ -1,0 +1,124 @@
+<ng-template #filtersContent>
+    @if (!categories.length && !yearRanges.length) {
+        <p class="empty-filters">No hay filtros disponibles por el momento.</p>
+    }
+
+    @if (categories.length) {
+        <div class="filter-group">
+            <h4>Categorías</h4>
+            <div class="filter-options">
+                @for (category of categories; track category) {
+                    <label class="filter-option">
+                        <input
+                            type="checkbox"
+                            [checked]="localCategories().includes(category)"
+                            (change)="toggleCategory(category)"
+                        />
+                        <span>{{ formatCategoryLabel(category) }}</span>
+                    </label>
+                }
+            </div>
+        </div>
+    }
+
+    <div class="filter-group">
+        <h4>Editorial</h4>
+        <label class="filter-option">
+            <input
+                type="checkbox"
+                [checked]="publisherFilterEnabled()"
+                (change)="togglePublisherFilter($any($event.target).checked)"
+            />
+            <span>Filtrar por editorial</span>
+        </label>
+
+        @if (publisherFilterEnabled()) {
+            <input
+                type="text"
+                class="text-input"
+                placeholder="Escribe la editorial"
+                [ngModel]="publisherText()"
+                (ngModelChange)="updatePublisherText($event)"
+            />
+        }
+    </div>
+
+    @if (yearRanges.length) {
+        <div class="filter-group">
+            <h4>Año de publicación</h4>
+            <div class="filter-options">
+                @for (range of yearRanges; track range.id) {
+                    <label class="filter-option">
+                        <input
+                            type="checkbox"
+                            [checked]="localYearRange() === range.id"
+                            (change)="selectYearRange(range.id)"
+                        />
+                        <span>{{ range.label }}</span>
+                    </label>
+                }
+            </div>
+        </div>
+    }
+
+    <div class="filter-group">
+        <h4>Autor</h4>
+        <label class="filter-option">
+            <input
+                type="checkbox"
+                [checked]="authorFilterEnabled()"
+                (change)="toggleAuthorFilter($any($event.target).checked)"
+            />
+            <span>Filtrar por autor</span>
+        </label>
+
+        @if (authorFilterEnabled()) {
+            <input
+                type="text"
+                class="text-input"
+                placeholder="Escribe el nombre del autor"
+                [ngModel]="authorText()"
+                (ngModelChange)="updateAuthorText($event)"
+            />
+        }
+    </div>
+
+    <div class="filters-actions">
+        <button type="button" class="action-btn apply" (click)="onApplyClicked()">Aplicar filtros</button>
+        <button type="button" class="action-btn cancel" (click)="onCancelClicked()">Cancelar</button>
+    </div>
+</ng-template>
+
+<section class="filters-panel desktop-panel" [class.collapsed]="!panelOpen()">
+    <button type="button" class="panel-toggle" (click)="togglePanel()" aria-expanded="{{panelOpen()}}" title="Filtros">
+        <span class="panel-title">Filtros</span>
+        <span class="chevron" [class.open]="panelOpen()" aria-hidden="true"></span>
+    </button>
+    <hr class="panel-divider" />
+
+    @if (panelOpen()) {
+        <div class="panel-body">
+            <ng-container *ngTemplateOutlet="filtersContent"></ng-container>
+        </div>
+    }
+</section>
+
+<div class="mobile-filters">
+    <button type="button" class="mobile-trigger" (click)="openMobilePanel()" aria-label="Abrir filtros">
+        <span class="mobile-trigger-text">Filtros</span>
+        <span class="mobile-trigger-icon" aria-hidden="true"></span>
+    </button>
+
+    @if (mobilePanelOpen()) {
+        <div class="mobile-overlay" (click)="handleMobileClose()"></div>
+        <aside class="mobile-sidebar">
+            <div class="mobile-header">
+                <span>Filtros</span>
+                <button type="button" class="close-mobile" (click)="handleMobileClose()">✕</button>
+            </div>
+            <div class="mobile-body">
+                <ng-container *ngTemplateOutlet="filtersContent"></ng-container>
+            </div>
+        </aside>
+    }
+</div>
