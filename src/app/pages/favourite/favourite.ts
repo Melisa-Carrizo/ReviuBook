@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal, WritableSignal } from '@angular/core';
+import { Component, computed, effect, inject, signal, WritableSignal } from '@angular/core';
 import { BookStageService } from '../../core/services/book-stage';
 import { Router } from '@angular/router';
 import { BookStage, Stage } from '../../core/models/BookStage';
@@ -17,6 +17,22 @@ export class Favourite {
   private _router = inject(Router);
 
   favouriteBooks: WritableSignal<BookStage[]> = signal([]);
+
+  // Inicia en ALL para que se muestren todos los libros
+  filterStatus = signal<string>('ALL');
+
+  // La lista se filtra automaticamente
+  filteredBooks = computed(() => {
+    const filter = this.filterStatus();
+    const books = this.favouriteBooks();
+    
+    if (filter === 'ALL') return books;
+    return books.filter(b => b.stage === filter);
+  });
+
+  setFilter(status: string) {
+    this.filterStatus.set(status);
+  }
 
   // Traigo la lista de favoritos del usuario:
   ngOnInit() {
