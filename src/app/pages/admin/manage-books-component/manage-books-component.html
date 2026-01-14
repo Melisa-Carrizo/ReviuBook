@@ -6,9 +6,9 @@
         </button>
     </header>
 
-    @if (isLoading) {
+    @if (isLoading()) {
         <div class="loader-message">Cargando libros...</div>
-    } @else if (!hasBooks) {
+    } @else if (!hasBooks()) {
         <div class="no-books-message">
             <p>No se encontraron libros. ¡Intenta añadir uno nuevo!</p>
         </div>
@@ -26,7 +26,7 @@
             <div class="row header-row">
                 </div>
 
-            @for (book of books; track book.id) {
+            @for (book of booksPage().content; track book.id) {
                 <app-book-preview-component
                     [book]="book"
                     (editBook)="onEditBook($event)"
@@ -35,4 +35,5 @@
             }
         </div>
     }
+        <app-pagination-bar [data]="pageMetaData()"(pageChange)="onPageChange($event)"></app-pagination-bar>
 </div>

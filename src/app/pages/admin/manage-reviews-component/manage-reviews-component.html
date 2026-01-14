@@ -4,7 +4,7 @@
   </header>
 
   <div class="table-container">
-    @if (isLoading) {
+    @if (isLoading()) {
       <div class="loading">Cargando libros...</div>
     } @else {
       <table class="custom-table">
@@ -18,7 +18,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (book of books; track book.id) {
+          @for (book of booksPage().content; track book.id) {
             <tr>
               @if (book.urlImage) {
                 <td class="col-img">
@@ -40,5 +40,6 @@
         </tbody>
       </table>
     }
+    <app-pagination-bar [data]="pageMetaData()" (pageChange)="onPageChange($event)"></app-pagination-bar>
   </div>
 </div>

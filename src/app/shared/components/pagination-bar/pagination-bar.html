@@ -1,0 +1,26 @@
+<nav class="pagination-container">
+    <ul class="pagination-list">
+        <li class="pagination-item">
+        <button class="pagination-button nav-text" [disabled]="data().number === 0" (click)="prev()">
+            <i class="fa-solid fa-angle-left"></i> Anterior
+        </button>
+        </li>
+
+        @for (page of visiblePages(); track page) {
+            <li class="pagination-item">
+                <button 
+                    class="pagination-button" 
+                    [class.active]="data().number === page"
+                    (click)="goToPage(page)">
+                    {{ page + 1}}
+                </button>
+            </li>
+        }
+
+        <li class="pagination-item">
+        <button class="pagination-button nav-text" [disabled]="data().number === data().totalPages-1" (click)="next()">
+            Siguiente <i class="fa-solid fa-angle-right"></i>
+        </button>
+        </li>
+    </ul>
+</nav>

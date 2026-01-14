@@ -1,0 +1,46 @@
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.pagination-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    gap: 8px; /* Espacio entre botones */
+}
+
+.pagination-button {
+    background: transparent;
+    border: none;
+    color: #5f6368;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* Estado del número activo (como el '1' en tu imagen) */
+.pagination-button.active {
+    background-color: #e8eaed;
+    color: var(--text-dark-grey);
+    font-weight: bold;
+}
+
+.pagination-button:hover:not(:disabled) {
+    background-color: #f1f3f4;
+}
+
+/* Estilo para los textos 'anterior' y 'siguiente' */
+.nav-text {
+    color: #3c4043;
+}
+
+.nav-text:disabled {
+    color: #bdc1c6;
+    cursor: not-allowed;
+}

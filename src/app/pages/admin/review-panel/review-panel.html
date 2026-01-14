@@ -50,3 +50,7 @@
     <p class="review-body">{{ r.content }}</p>
   </div>
 </ng-template>
+
+<section>
+  <app-pagination-bar [data]="pageMetaData()" (pageChange)="onPageChange($event)" ></app-pagination-bar>
+</section>

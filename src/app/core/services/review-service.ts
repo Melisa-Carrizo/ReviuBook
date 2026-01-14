@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Review } from '../models/Review';
-import { map, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
+import { Page } from '../models/Page';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,12 @@ export class ReviewService {
     return this.http.get<Review>(`${this.apiUrl}/${id}`);
   }
 
-  getAllByBookId(idBook: string) {
-    return this.http.get<Review[]>(`${this.apiUrl}/all/${idBook}`);
+  getAllByBookId(idBook: string, page : number) {
+    return this.http.get<Page<Review>>(`${this.apiUrl}/all/${idBook}?page=${page}`);
+  }
+
+  getAllActiveByBookId(idBook:string, page : number):Observable<Page<Review>>{
+    return this.http.get<Page<Review>>(`${this.apiUrl}/active/${idBook}?page=${page}`);
   }
 
   // ID del libro para obtener reseña activa del usuario

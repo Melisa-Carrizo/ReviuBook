@@ -7,6 +7,7 @@ import { RegisterRequest } from '../models/register-request';
 import { Token } from '../models/token';
 import { User } from '../models/User';
 import { Book } from '../models/Book';
+import { Page } from '../models/Page';
 //import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
@@ -45,8 +46,8 @@ export class UserService {
     });
   }
 
-  getAll(){
-    return this.http.get<User[]>(`${this.apiUrl}/all`);
+  getAll(page : number){
+    return this.http.get<Page<User>>(`${this.apiUrl}/all?page=${page}`);
   }
 
   updateUserProfile(user: User): Observable<User> {
