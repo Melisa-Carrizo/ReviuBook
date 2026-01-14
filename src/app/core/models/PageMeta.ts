@@ -1,6 +1,6 @@
 export interface PageMeta{
-    last: boolean,
+    number: number,
     totalPages: number,
-    first: boolean,
-    number: number
+    totalElements: number,
+    size: number
 }

@@ -29,13 +29,13 @@ export class PaginationBar {
   }
 
   next() {
-    if (!this.data().last) {
+    if (this.data().number < this.data().totalPages-1) {
       this.pageChange.emit(this.data().number + 1);
     }
   }
 
   prev() {
-    if (!this.data().first) {
+    if (this.data().number > 0) {
       this.pageChange.emit(this.data().number - 1);
     }
   }
