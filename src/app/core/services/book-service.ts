@@ -15,8 +15,8 @@ export class BookService {
     return this.http.get<Page<Book>>(`${this.baseUrl}/all/active?page=${page}`);
   }
 
-  getAll():Observable<Book[]>{
-    return this.http.get<Book[]>(`${this.baseUrl}/all`)
+  getAll(page : number):Observable<Page<Book>>{
+    return this.http.get<Page<Book>>(`${this.baseUrl}/all?page=${page}`)
   }
 
   getBookById(id:string){
