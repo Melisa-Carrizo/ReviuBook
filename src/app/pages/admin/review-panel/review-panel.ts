@@ -97,18 +97,19 @@ export class ReviewPanel {
     });
   };
 
-
-
   enableReview(idReview: number) {
     this._reviewService.enableReview(idReview).subscribe({
-      next: (data) => {
-        this.reviews.update(
-          r => r.map(r => r.idReview === data.idReview ? data : r)
-        )
+      next: data => {
+        this.reviewsPage.update(page => ({
+          ...page,
+          content: page.content.map(r =>
+            r.idReview === data.idReview ? data : r
+          )
+        }));
       },
       error: (err) => {
-        console.error("Error al activar:", err);
         this.snackService.openErrorSnackBar("Ya existe una reseña activa para este usuario.")
+        console.error("Error al acticar la reseña: ", err.error)
       }
     })
   }
