@@ -20,7 +20,6 @@ export class ReviewService {
   }
 
   getAllActiveByBookId(idBook:string, page : number):Observable<Page<Review>>{
-    console.log(page);
     return this.http.get<Page<Review>>(`${this.apiUrl}/active/${idBook}?page=${page}`);
   }
 
