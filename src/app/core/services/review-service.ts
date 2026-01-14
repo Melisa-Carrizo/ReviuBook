@@ -15,8 +15,8 @@ export class ReviewService {
     return this.http.get<Review>(`${this.apiUrl}/${id}`);
   }
 
-  getAllByBookId(idBook: string) {
-    return this.http.get<Review[]>(`${this.apiUrl}/all/${idBook}`);
+  getAllByBookId(idBook: string, page : number) {
+    return this.http.get<Page<Review>>(`${this.apiUrl}/all/${idBook}?page=${page}`);
   }
 
   getAllActiveByBookId(idBook:string, page : number):Observable<Page<Review>>{
