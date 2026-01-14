@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Book } from '../models/Book';
+import { Page } from '../models/Page';
 import { BookSheet } from '../models/BookSheet';
 import { Observable } from 'rxjs';
 @Injectable({
@@ -10,8 +11,8 @@ export class BookService {
   private http = inject(HttpClient);
   baseUrl = 'http://localhost:8080/books';
 
-  getAllActiveBooks():Observable<Book[]>{
-    return this.http.get<Book[]>(`${this.baseUrl}/all/active`);
+  getAllActiveBooks(page:number):Observable<Page<Book>>{
+    return this.http.get<Page<Book>>(`${this.baseUrl}/all/active?page=${page}`);
   }
 
   getAll():Observable<Book[]>{
