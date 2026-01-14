@@ -65,5 +65,8 @@
                 </p>
             }
         </ul>
+        <section>
+            <app-pagination-bar [data]="pageMetadata()" (pageChange)="onPageChange($event)"></app-pagination-bar>
+        </section>
     </main>
 </div>
