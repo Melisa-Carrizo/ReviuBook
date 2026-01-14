@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal, WritableSignal } from '@angular/core';
+import { Component, computed, effect, inject, signal, WritableSignal } from '@angular/core';
 import { BookStageService } from '../../core/services/book-stage';
 import { Router } from '@angular/router';
 import { BookStage, Stage } from '../../core/models/BookStage';
@@ -18,17 +18,34 @@ export class Favourite {
 
   favouriteBooks: WritableSignal<BookStage[]> = signal([]);
 
-  // Traigo la lista de favoritos del usuario:
-  constructor() {
-    effect(() => {
-      this._bookStage.getAll().subscribe(
-        {
-          next: (data) => this.favouriteBooks.set(data),
-          error: e => console.error("Error al obtener la lista de favoritos: ", e.message)
-        }
-      );
-    })
+  // Inicia en ALL para que se muestren todos los libros
+  filterStatus = signal<string>('ALL');
+
+  // La lista se filtra automaticamente
+  filteredBooks = computed(() => {
+    const filter = this.filterStatus();
+    const books = this.favouriteBooks();
+    
+    if (filter === 'ALL') return books;
+    return books.filter(b => b.stage === filter);
+  });
+
+  setFilter(status: string) {
+    this.filterStatus.set(status);
   }
+
+  // Traigo la lista de favoritos del usuario:
+  ngOnInit() {
+    this.loadFavorites();
+  }
+
+  loadFavorites() {
+    this._bookStage.getAll().subscribe({
+      next: (data) => this.favouriteBooks.set(data),
+      error: e => console.error("Error al obtener la lista de favoritos: ", e.message)
+    });
+  }
+
 
   // Eliminar el libro de favoritos y actualiza el signal
   deleteFavourite(idBookStage: number) {
@@ -50,7 +67,7 @@ export class Favourite {
         next: () => {
             this.favouriteBooks.update(list => 
                 list.map(b => 
-                    b.id === idBook ? { ...b, stage: newStage } : b
+                    b.book.id === idBook ? { ...b, stage: newStage } : b
                 )
             );
         },

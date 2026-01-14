@@ -1,41 +1,62 @@
-@if(favouriteBooks().length === 0) {
-    <p class="no-favourites-message">No hay libros en favoritos</p>
-}
-
-@for (b of favouriteBooks(); track b.id) {
-    <div class="item favourite-card">
-        
-        <div class="card-image-container">
-            <img [src]="b.book.urlImage" [alt]="'Imagen de ' + b.book.title" (click)="goToDetails(b.book.id)">
-        </div>
-
-        <div class="card-details">
-            <div class="info-section" (click)="goToDetails(b.book.id)">
-                <h3 class="book-title">{{ b.book.title }}</h3>
-                <p class="book-author">Por: {{ b.book.author }}</p>
-                <p class="book-description">{{ b.book.description | slice:0:200 }}...</p>
-            </div>
-        
-
-            <div class="card-actions-horizontal">
-                <div class="selector-group">
-                    <label [for]="'stage-' + b.id"></label>
-                    <select 
-                        [ngModel]="b.stage" 
-                        (ngModelChange)="changeStage(b.book.id, $event)"
-                        [attr.id]="'stage-' + b.id"
-                        class="stage-select-inline"
-                    >
-                        <option value="PENDIENTE">Pendiente</option>
-                        <option value="EN_PROCESO">En Proceso</option>
-                        <option value="TERMINADO">Terminado</option>
-                    </select>
-                </div>
-                
-                <button class="link-button-delete" (click)="deleteFavourite(b.id)">
-                    Eliminar
-                </button>
-            </div>
-        </div>
+<div class="favorites-container">
+  @if(favouriteBooks().length === 0) {
+    <div class="empty-state">
+      <i class="fas fa-book-open"></i>
+      <p>Aún no tienes libros en tus favoritos</p>
     </div>
-}
+  }
+
+  <div class="filter-controls">
+    <button [class.active]="filterStatus() === 'ALL'" (click)="setFilter('ALL')">Todos</button>
+    <button [class.active]="filterStatus() === 'PENDIENTE'" (click)="setFilter('PENDIENTE')">Pendientes</button>
+    <button [class.active]="filterStatus() === 'EN_PROCESO'" (click)="setFilter('EN_PROCESO')">En Proceso</button>
+    <button [class.active]="filterStatus() === 'TERMINADO'" (click)="setFilter('TERMINADO')">Terminados</button>
+  </div>
+
+  @if(filteredBooks().length === 0) {
+    <div class="empty-state">
+      <i class="fas fa-book-open"></i>
+      <p>No hay libros con este estado</p>
+    </div>
+  }
+
+  <div class="favorites-grid">
+    @for (b of filteredBooks(); track b.id) {
+      <div class="favourite-card">
+        
+        <div class="card-image-wrapper" (click)="goToDetails(b.book.id)">
+          <img [src]="b.book.urlImage" [alt]="b.book.title">
+          <div class="image-overlay">
+            <span>Ver detalles</span>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <div class="card-info" (click)="goToDetails(b.book.id)">
+            <h3 class="book-title">{{ b.book.title }}</h3>
+            <p class="book-author">de <span>{{ b.book.author }}</span></p>
+            <p class="book-description">{{ b.book.description | slice:0:180 }}...</p>
+          </div>
+
+          <div class="card-footer">
+            <div class="status-pill" [attr.data-status]="b.stage">
+              <i class="fas fa-circle"></i>
+              <select 
+                [ngModel]="b.stage" 
+                (ngModelChange)="changeStage(b.book.id, $event)"
+                class="status-select">
+                <option value="PENDIENTE">Pendiente</option>
+                <option value="EN_PROCESO">En Proceso</option>
+                <option value="TERMINADO">Terminado</option>
+              </select>
+            </div>
+            
+            <button class="btn-remove" (click)="deleteFavourite(b.id)" title="Quitar de favoritos">
+              <i class="far fa-trash-alt"></i> Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
