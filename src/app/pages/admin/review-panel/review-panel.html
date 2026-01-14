@@ -35,7 +35,7 @@
       </div>
       
       <button [class]="r.status ? 'btn-action disable' : 'btn-action enable'" 
-              (click)="r.status ? disableReview(r.idReview) : enableReview(r)">
+              (click)="r.status ? disableReview(r.idReview) : enableReview(r.idReview)">
         <i [class]="r.status ? 'fas fa-times-circle' : 'fas fa-check-circle'"></i>
         {{ r.status ? 'Desactivar' : 'Activar' }}
       </button>

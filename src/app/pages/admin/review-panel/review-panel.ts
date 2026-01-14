@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { ReviewAuthor } from '../review-author/review-author';
 import { NgTemplateOutlet } from '@angular/common';
+import { SnackbarService } from '../../../core/services/snackbar-service';
 
 export interface ReviewWithUsername extends Review {
   username: String;
@@ -22,6 +23,7 @@ export class ReviewPanel {
   private _reviewService = inject(ReviewService);
   private _bookService = inject(BookService);
   private _route = inject(ActivatedRoute);
+  private snackService = inject(SnackbarService);
   selectedBook = toSignal(
     this._route.paramMap.pipe(
       switchMap(params => this._bookService.getBookById(params.get('id')!))
@@ -57,16 +59,17 @@ export class ReviewPanel {
     })
   }
 
-  enableReview(review: Review) {
-    const data = {...review, status: true}
-
-    this._reviewService.updateReviewAdmin(data).subscribe({
+  enableReview(idReview: number) {
+    this._reviewService.enableReview(idReview).subscribe({
       next: (data) => {
         this.reviews.update(
           r => r.map(r => r.idReview === data.idReview ? data : r)
         )
       },
-      error: err => console.error("Error al acticar la reseña: ", err.message)
+      error: (err) => {
+        console.error("Error al activar:", err);
+        this.snackService.openErrorSnackBar("Ya existe una reseña activa para este usuario.")
+      }
     })
   }
 
