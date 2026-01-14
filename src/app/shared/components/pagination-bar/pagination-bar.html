@@ -1,7 +1,7 @@
 <nav class="pagination-container">
     <ul class="pagination-list">
         <li class="pagination-item">
-        <button class="pagination-button nav-text" [disabled]="data().first" (click)="prev()">
+        <button class="pagination-button nav-text" [disabled]="data().number === 0" (click)="prev()">
             <i class="fa-solid fa-angle-left"></i> Anterior
         </button>
         </li>
@@ -12,13 +12,13 @@
                     class="pagination-button" 
                     [class.active]="data().number === page"
                     (click)="goToPage(page)">
-                    {{ page }}
+                    {{ page + 1}}
                 </button>
             </li>
         }
 
         <li class="pagination-item">
-        <button class="pagination-button nav-text" [disabled]="data().last" (click)="next()">
+        <button class="pagination-button nav-text" [disabled]="data().number === data().totalPages-1" (click)="next()">
             Siguiente <i class="fa-solid fa-angle-right"></i>
         </button>
         </li>

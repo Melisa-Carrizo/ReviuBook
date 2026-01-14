@@ -46,10 +46,12 @@ const buildYearRanges = (currentYear: number): YearRange[] => ([
 
 const EMPTY_BOOK_PAGE: Page<Book> = {
   content: [],
-  last: true,
-  totalPages: 0,
-  first: true,
-  number: 0
+  page: {
+    number: 0,
+    totalPages: 0,
+    totalElements: 0,
+    size: 0
+  }
 };
 @Component({
   selector: 'app-home-component',
@@ -112,13 +114,13 @@ export class HomeComponent {
 
   //separo los metadatos de la pagina
   pageMetadata = computed<PageMeta>(() => {
-    const page = this.bookPage();
+    const page = this.bookPage().page;
 
     return {
-      first: page.first,
-      last: page.last,
       number: page.number,
-      totalPages: page.totalPages
+      totalPages: page.totalPages,
+      totalElements: page.totalElements,
+      size: page.size
     };
   });
 
