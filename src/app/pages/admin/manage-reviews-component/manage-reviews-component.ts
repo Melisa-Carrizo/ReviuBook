@@ -19,10 +19,9 @@ export class ManageReviewsComponent {
   hasBooks: boolean = false;
 
   constructor() {
-    this._bookService.getAll().subscribe(
+    this._bookService.getAll(0).subscribe(
       {
         next: (data) => {
-          this.books = data;
           this.isLoading = false;
           this.hasBooks = this.books && this.books.length > 0;
         },
