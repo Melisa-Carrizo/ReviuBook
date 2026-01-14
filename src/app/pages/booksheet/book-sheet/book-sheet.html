@@ -31,5 +31,7 @@
     (reviewUpdate)="handlerReviewUpdate($event)"
     (reviewDelete)="handlerReviewDelete($event)" 
   ></app-review-list>
-
+  <section>
+    <app-pagination-bar [data]="pageMetadata()" (pageChange)="onPageChange($event)"></app-pagination-bar>
+  </section>
 </div>
