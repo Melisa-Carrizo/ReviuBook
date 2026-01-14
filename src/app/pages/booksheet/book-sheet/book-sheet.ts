@@ -1,44 +1,91 @@
-import { Component, effect, inject, OnInit, signal, WritableSignal, ɵunwrapWritableSignal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, signal, WritableSignal, ɵunwrapWritableSignal } from '@angular/core';
 import { BookService } from '../../../core/services/book-service';
 import { BookSheet } from '../../../core/models/BookSheet';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { filter, switchMap } from 'rxjs';
+import { combineLatest, filter, switchMap } from 'rxjs';
 import { ReviewList } from '../review-list/review-list';
 import { Review } from '../../../core/models/Review';
 import { BookStageService } from '../../../core/services/book-stage';
+import { ReviewService } from '../../../core/services/review-service';
+import { PaginationBar } from "../../../shared/components/pagination-bar/pagination-bar";
+import { PageMeta } from '../../../core/models/PageMeta';
+import { Page } from '../../../core/models/Page';
+
+const EMPTY_REVIEW_PAGE: Page<Review> = {
+  content: [],
+  page : {
+      number: 0,
+      totalPages: 0,
+      totalElements: 0,
+      size: 0
+  }
+};
 
 @Component({
   selector: 'app-book-sheet',
-  imports: [ReviewList],
+  imports: [ReviewList, PaginationBar],
   templateUrl: './book-sheet.html',
   styleUrl: './book-sheet.css',
 })
 export class BookSheetComponent {
   private _bookService = inject(BookService);
   private _bookStage = inject(BookStageService);
+  private _reviewService = inject(ReviewService);
   private route = inject(ActivatedRoute);
+  currentPage = signal<number>(0);
   book = toSignal(
     this.route.paramMap.pipe(
       switchMap(params => this._bookService.getBookSheetById(params.get('id')!))
     ),
     {initialValue : undefined}
   );
-
+  reviewsDTO = toSignal(
+    combineLatest([
+      this.route.paramMap,
+      toObservable(this.currentPage)
+    ]).pipe(
+      switchMap(([params, page]) =>
+        this._reviewService.getAllActiveByBookId(
+          params.get('id')!,
+          page
+        )
+      )
+    ),
+    { initialValue: EMPTY_REVIEW_PAGE }
+  );
   reviews: WritableSignal<Review[]> = signal([]);
   isFavourite: WritableSignal<boolean> = signal(false);
   idBookStage: WritableSignal<number|undefined> = signal(undefined);
+  
+  
+  //separo los metadatos de la pagina
+  pageMetadata = computed<PageMeta>(() => {
+    const page = this.reviewsDTO().page;
+
+    return {
+      number: page.number,
+      totalPages: page.totalPages,
+      totalElements: page.totalElements,
+      size: page.size
+    };
+  });
+
+  //cambio de pagina
+  onPageChange(page: number) {
+    this.currentPage.set(page);
+  }
 
   constructor() {
     effect(() => {
       const currentBook = this.book();
-      if (currentBook && currentBook.reviewsDTO) {
-        this.reviews.set(currentBook.reviewsDTO);
+      if (currentBook && this.reviewsDTO()?.content) {
+        this.reviews.set(this.reviewsDTO()!.content);
       } 
       else {
         this.reviews.set([]);
       }
-
+      console.log(this.pageMetadata());
       if(currentBook && currentBook.id) {
 
         this._bookStage.getBookStage(currentBook.id).subscribe({
