@@ -59,8 +59,8 @@ export class ReviewService {
     return this.http.put<Review>(`${this.apiUrl}/${dto.idReview}`, dto);
   }
 
-  updateReviewAdmin(dto: Partial<Review>) {
-    return this.http.put<Review>(`${this.apiUrl}/admin/${dto.idReview}`, dto);
+  enableReview(idReview: number) {
+    return this.http.put<Review>(`${this.apiUrl}/enable/${idReview}`, {});
   }
 
   // Eliminar review para el rol User
