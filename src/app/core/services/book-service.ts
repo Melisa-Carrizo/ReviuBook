@@ -1,9 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Book } from '../models/Book';
 import { Page } from '../models/Page';
 import { BookSheet } from '../models/BookSheet';
-import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -11,12 +10,12 @@ export class BookService {
   private http = inject(HttpClient);
   baseUrl = 'http://localhost:8080/books';
 
-  getAllActiveBooks(page:number):Observable<Page<Book>>{
+  getAllActiveBooks(page: number) {
     return this.http.get<Page<Book>>(`${this.baseUrl}/all/active?page=${page}`);
   }
 
-  getAll(page : number):Observable<Page<Book>>{
-    return this.http.get<Page<Book>>(`${this.baseUrl}/all?page=${page}`)
+  getAll(page: number) {
+    return this.http.get<Page<Book>>(`${this.baseUrl}/all?page=${page}`);
   }
 
   getBookById(id:string){
@@ -30,17 +29,38 @@ export class BookService {
   getBookByTitle(title: string) {
     return this.http.get<Book[]>(`${this.baseUrl}/search/title/${title}`);
   }
+ 
 
-  getBooksByAuthor(author: string) {
-    return this.http.get<Book[]>(`${this.baseUrl}/search/author/${encodeURIComponent(author)}`);
-  }
+  searchBooks(options: {
+    author?: string | null;
+    category?: string | null;
+    publishingHouse?: string | null;
+    fromYear?: number | null;
+    toYear?: number | null;
+    page: number;
+    size: number;
+  }) {
+    let params = new HttpParams()
+      .set('page', options.page)
+      .set('size', options.size);
 
-  getBooksByPublisher(publishingHouse: string) {
-    return this.http.get<Book[]>(`${this.baseUrl}/search/publishingHouse/${encodeURIComponent(publishingHouse)}`);
-  }
+    if (options.author) {
+      params = params.set('author', options.author);
+    }
+    if (options.category) {
+      params = params.set('category', options.category.trim().toUpperCase());
+    }
+    if (options.publishingHouse) {
+      params = params.set('publishingHouse', options.publishingHouse.trim());
+    }
+    if (options.fromYear !== undefined && options.fromYear !== null) {
+      params = params.set('fromYear', options.fromYear);
+    }
+    if (options.toYear !== undefined && options.toYear !== null) {
+      params = params.set('toYear', options.toYear);
+    }
 
-  getBooksByCategory(category: string) {
-    return this.http.get<Book[]>(`${this.baseUrl}/search/category/${encodeURIComponent(category)}`);
+    return this.http.get<Page<Book>>(`${this.baseUrl}/search`, { params });
   }
 
   add(book: Book){

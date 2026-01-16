@@ -45,7 +45,7 @@ export class AddReview {
     };
     this._reviewService.addReview(review).subscribe({
       next: (newReview) => {
-        console.log("Review creada con exito");
+        // review creada con exito
         this._sb.open('¡Review creada!', '', {
                                 duration: 1000,
                                 horizontalPosition: 'center',
@@ -56,7 +56,7 @@ export class AddReview {
         this.reviewCreated.emit(newReview);
       },
       error: err => {
-        console.log("Error al crear la review: " + err.message); //snackbar error
+        // error al crear la review
       }
     })
   }

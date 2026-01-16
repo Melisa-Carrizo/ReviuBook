@@ -1,8 +1,7 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { BookService } from '../../../core/services/book-service';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { BookCardComponent } from "../book-card-component/book-card-component";
-import { catchError, forkJoin, of } from 'rxjs';
+import { catchError, of } from 'rxjs';
 import { Book } from '../../../core/models/Book';
 import { SnackbarService } from '../../../core/services/snackbar-service';
 import { SearchService } from '../../../core/services/search-service';
@@ -53,6 +52,8 @@ const EMPTY_BOOK_PAGE: Page<Book> = {
     size: 0
   }
 };
+
+const DEFAULT_PAGE_SIZE = 5;
 @Component({
   selector: 'app-home-component',
   imports: [BookCardComponent, PaginationBar, HomeFilterSidebarComponent],
@@ -70,9 +71,6 @@ export class HomeComponent {
   selectedYearRange = signal<string | null>(null);
   authorQuery = signal<string | null>(null);
   publisherQuery = signal<string | null>(null);
-  private authorBooks = signal<Book[] | null>(null);
-  private publisherBooks = signal<Book[] | null>(null);
-  private categoryBooks = signal<Book[] | null>(null);
 
   readonly currentFilters = computed<HomeFilterState>(() => ({
     categories: this.selectedCategories(),
@@ -81,7 +79,29 @@ export class HomeComponent {
     publisherQuery: this.publisherQuery(),
   }));
 
-    private readonly yearRanges = buildYearRanges(new Date().getFullYear());
+  private readonly hasActiveFilters = computed(() => {
+    return !!(
+      this.selectedCategories().length ||
+      this.selectedYearRange() ||
+      (this.authorQuery()?.trim()) ||
+      (this.publisherQuery()?.trim())
+    );
+  });
+
+  readonly displayedBooks = computed(() => {
+    const searchTerm = this._searchService.searchTerm().toLowerCase().trim();
+    const items = this.bookPage().content;
+    if (!searchTerm) {
+      return items;
+    }
+
+    return items.filter((book) =>
+      book.title.toLocaleLowerCase().includes(searchTerm) ||
+      book.author.toLocaleLowerCase().includes(searchTerm)
+    );
+  });
+
+  private readonly yearRanges = buildYearRanges(new Date().getFullYear());
 
   readonly availableCategories = computed(() => {
     return [
@@ -100,22 +120,40 @@ export class HomeComponent {
     constructor() {
       effect(() => {
         const page = this.currentPage();
+        const filters = this.currentFilters();
+        const hasFilters = this.hasActiveFilters();
+        const yearBounds = this.getYearBounds(filters.yearRangeId);
 
-        this._bookService.getAllActiveBooks(page).pipe(
-          catchError(() => {
-            this.snackBar.openErrorSnackBar('Error al cargar libros');
-            return of(EMPTY_BOOK_PAGE);
-          })
-        ).subscribe(result => {
-          this.bookPage.set(result);
-        });
+        const categoryParam = filters.categories[0] ? filters.categories[0].toString().trim().toUpperCase() : undefined;
+
+        const request$ = hasFilters
+          ? this._bookService.searchBooks({
+              author: filters.authorQuery?.trim() || undefined,
+              category: categoryParam,
+              publishingHouse: filters.publisherQuery?.trim() || undefined,
+              fromYear: yearBounds.from,
+              toYear: yearBounds.to,
+              page,
+              size: DEFAULT_PAGE_SIZE,
+            })
+          : this._bookService.getAllActiveBooks(page);
+
+        request$
+          .pipe(
+            catchError(() => {
+              this.snackBar.openErrorSnackBar('Error al cargar libros');
+              return of(EMPTY_BOOK_PAGE);
+            })
+          )
+          .subscribe((result) => {
+            this.bookPage.set(result);
+          });
       });
   }
 
   //separo los metadatos de la pagina
   pageMetadata = computed<PageMeta>(() => {
     const page = this.bookPage().page;
-
     return {
       number: page.number,
       totalPages: page.totalPages,
@@ -129,83 +167,6 @@ export class HomeComponent {
     this.currentPage.set(page);
   }
 
-  //Libros filtrados segun el termino de busqueda y filtros laterales
-  filteredBooks = computed(() => {
-    const searchTerm = this._searchService.searchTerm().toLowerCase().trim();
-    const allBooks = this.bookPage().content;
-    const categories = this.selectedCategories();
-    const yearRangeId = this.selectedYearRange();
-    const range = yearRangeId ? this.yearRanges.find((r) => r.id === yearRangeId) : undefined;
-    const authorTerm = this.authorQuery()?.toLowerCase().trim() ?? '';
-    const publisherTerm = this.publisherQuery()?.toLowerCase().trim() ?? '';
-
-    let source = allBooks;
-    if (authorTerm) {
-      source = this.authorBooks() ?? [];
-    }
-
-    if (publisherTerm) {
-      const publisherDataset = this.publisherBooks() ?? [];
-      if (authorTerm) {
-        const publisherIds = new Set(publisherDataset.map((b) => b.id));
-        source = source.filter((book) => publisherIds.has(book.id));
-      } else {
-        source = publisherDataset;
-      }
-    }
-
-    if (categories.length) {
-      const categoryDataset = this.categoryBooks();
-      if (categoryDataset && categoryDataset.length) {
-        if (authorTerm || publisherTerm) {
-          const categoryIds = new Set(categoryDataset.map((b) => b.id));
-          source = source.filter((book) => categoryIds.has(book.id));
-        } else {
-          source = categoryDataset;
-        }
-      } else {
-        source = [];
-      }
-    }
-
-    return source.filter((book) => {
-      const matchesSearch = !searchTerm
-        || book.title.toLocaleLowerCase().includes(searchTerm)
-        || book.author.toLocaleLowerCase().includes(searchTerm);
-
-      if (!matchesSearch) {
-        return false;
-      }
-
-      const bookCategory = book.category?.trim() as Category | undefined;
-      const matchesCategory = !categories.length || (!!bookCategory && categories.includes(bookCategory));
-      if (!matchesCategory) {
-        return false;
-      }
-
-      if (publisherTerm) {
-        const matchesPublisher = !!book.publishingHouse && book.publishingHouse.toLocaleLowerCase().includes(publisherTerm);
-        if (!matchesPublisher) {
-          return false;
-        }
-      }
-
-      if (authorTerm) {
-        const matchesAuthor = !!book.author && book.author.toLocaleLowerCase().includes(authorTerm);
-        if (!matchesAuthor) {
-          return false;
-        }
-      }
-
-      if (!range) {
-        return true;
-      }
-
-      const year = this.getBookYear(book);
-      return year !== null && this.isYearInRange(year, range);
-    });
-  });
-
   getYearRanges(): YearRange[] {
     return this.yearRanges;
   }
@@ -215,107 +176,18 @@ export class HomeComponent {
     this.selectedYearRange.set(filters.yearRangeId);
     this.authorQuery.set(filters.authorQuery);
     this.publisherQuery.set(filters.publisherQuery);
-    this.refreshRemoteDatasets(filters);
+    this.currentPage.set(0);
   }
 
-  private refreshRemoteDatasets(filters: HomeFilterState): void {
-    this.fetchBooksByAuthor(filters.authorQuery);
-    this.fetchBooksByPublisher(filters.publisherQuery);
-    this.fetchBooksByCategories(filters.categories);
-  }
-
-  private fetchBooksByAuthor(author: string | null): void {
-    const trimmed = author?.trim();
-    if (!trimmed) {
-      this.authorBooks.set(null);
-      return;
+  private getYearBounds(rangeId: string | null): { from: number | null; to: number | null } {
+    if (!rangeId) {
+      return { from: null, to: null };
     }
 
-    console.log('[Filtros] Buscando libros por autor:', trimmed);
-    this._bookService
-      .getBooksByAuthor(trimmed)
-      .pipe(
-        catchError(() => {
-          this.snackBar.openErrorSnackBar('No se pudieron cargar los libros para ese autor.');
-          return of([] as Book[]);
-        })
-      )
-      .subscribe((books) => this.authorBooks.set(books));
-  }
-
-  private fetchBooksByPublisher(publisher: string | null): void {
-    const trimmed = publisher?.trim();
-    if (!trimmed) {
-      this.publisherBooks.set(null);
-      return;
-    }
-
-    console.log('[Filtros] Buscando libros por editorial:', trimmed);
-    this._bookService
-      .getBooksByPublisher(trimmed)
-      .pipe(
-        catchError(() => {
-          this.snackBar.openErrorSnackBar('No se pudieron cargar los libros para esa editorial.');
-          return of([] as Book[]);
-        })
-      )
-      .subscribe((books) => this.publisherBooks.set(books));
-  }
-
-  private fetchBooksByCategories(categories: Category[]): void {
-    if (!categories || !categories.length) {
-      this.categoryBooks.set(null);
-      return;
-    }
-
-    this.categoryBooks.set([]);
-    let hadError = false;
-    const requests = categories.map((category) =>
-      this._bookService
-        .getBooksByCategory(category)
-        .pipe(
-          catchError(() => {
-            hadError = true;
-            return of([] as Book[]);
-          })
-        )
-    );
-
-    forkJoin(requests).subscribe((results) => {
-      if (hadError) {
-        this.snackBar.openErrorSnackBar('No se pudieron cargar algunos libros para esa categoría.');
-      }
-
-      const merged = results.flat();
-      const map = new Map<string | number, Book>();
-      merged.forEach((book) => {
-        if (book && book.id !== undefined && book.id !== null) {
-          map.set(book.id, book);
-        }
-      });
-      this.categoryBooks.set(Array.from(map.values()));
-    });
-  }
-
-  private getBookYear(book: Book): number | null {
-    if (!book.releaseDate) {
-      return null;
-    }
-
-    const date = new Date(book.releaseDate);
-    const year = date.getFullYear();
-    return Number.isNaN(year) ? null : year;
-  }
-
-  private isYearInRange(year: number, range: YearRange): boolean {
-    if (range.from !== undefined && year < range.from) {
-      return false;
-    }
-
-    if (range.to !== undefined && year > range.to) {
-      return false;
-    }
-
-    return true;
+    const range = this.yearRanges.find((r) => r.id === rangeId);
+    return {
+      from: range?.from ?? null,
+      to: range?.to ?? null,
+    };
   }
 }
