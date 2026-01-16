@@ -54,7 +54,6 @@
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Ver por que no se aplica este estilo*/
 .cover-initials {
     width: 40px;
     height: 40px;
@@ -71,7 +70,7 @@
 }
 
 .btn-reviews {
-  background-color: #007bff;
+  background-color: var(--main-red);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -82,11 +81,11 @@
 }
 
 .btn-reviews:hover {
-  background-color: #0056b3;
+  background-color: var(--darker-red);
 }
 
 .text-center {
-  text-align: center;
+  text-align: center !important;
 }
 
 .col-actions {
