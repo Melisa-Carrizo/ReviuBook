@@ -48,7 +48,7 @@ export class EditUser {
       };
       this.userService.updateUserProfile(updatedUser).subscribe({
         next: (user) => {
-          console.log('Perfil actualizado:', user);
+          // perfil actualizado
           this.authService.refreshCurrentUser();
           this.cancel.emit();
         }

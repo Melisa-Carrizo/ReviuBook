@@ -85,7 +85,7 @@ export class BookSheetComponent {
       else {
         this.reviews.set([]);
       }
-      console.log(this.pageMetadata());
+      // page metadata logged
       if(currentBook && currentBook.id) {
 
         this._bookStage.getBookStage(currentBook.id).subscribe({

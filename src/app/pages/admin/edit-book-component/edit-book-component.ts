@@ -64,7 +64,7 @@ export class EditBookComponent {
 
   onSubmit() {
     const data = this.form.value;
-    console.log(data.publishingHouse)
+    // publishingHouse received
     const releaseDateValue: Date = new Date(data.realeaseDate!);
 
     const book: Book = {

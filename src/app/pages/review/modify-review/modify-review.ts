@@ -87,7 +87,7 @@ export class ModifyReview {
         this.cambiarVista(),
         this.reviewUpdate.emit(data);
       },
-      error: (err) => console.log('Error al actualizar la review: ' + err), // snackbar error
+      error: (err) => { /* error al actualizar la review */ },
     });
   }
 
@@ -111,7 +111,7 @@ export class ModifyReview {
               this.reviewDelete.emit(this.review()!.idReview);
             },
             error: (err) => {
-              console.log('Error al eliminar la Review, ' + err.message);
+              // error al eliminar la Review
             },
           });
         }
@@ -122,7 +122,7 @@ export class ModifyReview {
               this.reviewDelete.emit(this.review()!.idReview);
             },
             error: (err) => {
-              console.log('Error al eliminar la Review, ' + err.message);
+              // error al eliminar la Review
             },
           });
         }
