@@ -18,6 +18,32 @@ export class BookService {
     return this.http.get<Page<Book>>(`${this.baseUrl}/all?page=${page}`);
   }
 
+  searchAdminBooks(options: { page: number; size?: number | null; title?: string | null; active?: boolean | null; author?: string | null; category?: string | null; }) {
+    let params = new HttpParams().set('page', options.page);
+
+    if (options.size !== undefined && options.size !== null) {
+      params = params.set('size', options.size);
+    }
+
+    if (options.title) {
+      params = params.set('title', options.title.trim());
+    }
+
+    if (options.author) {
+      params = params.set('author', options.author.trim());
+    }
+
+    if (options.category) {
+      params = params.set('category', options.category.trim().toUpperCase());
+    }
+
+    if (options.active !== undefined && options.active !== null) {
+      params = params.set('active', options.active);
+    }
+
+    return this.http.get<Page<Book>>(`${this.baseUrl}/admin/all`, { params });
+  }
+
   getBookById(id:string){
     return this.http.get<Book>(`${this.baseUrl}/${id}`);
   }
