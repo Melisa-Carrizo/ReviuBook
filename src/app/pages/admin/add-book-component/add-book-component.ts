@@ -35,7 +35,7 @@ export class AddBookComponent {
       title: ['', [Validators.required, Validators.maxLength(100)]],
       author: ['', [Validators.required, Validators.maxLength(30)]],
       category: ['', [Validators.required]],
-      description: ['', [Validators.required, Validators.maxLength(150)]],
+      description: ['', [Validators.required, Validators.maxLength(1000)]],
       releaseDate: ['', [Validators.required, noFutureDateValidator]], 
       publishingHouse: ['', [Validators.required, Validators.maxLength(30)]],
       ISBN: ['', [Validators.required, isbnValidator]], 
