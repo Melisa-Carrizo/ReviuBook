@@ -1,39 +1,62 @@
-<div class="book-management-container">
-    <header class="header">
-        <h1>Gestionar Libros</h1>
+<div class="card-container">
+    <div class="card-header">
+        <div class="title-group">
+            <i class="icon-books fa-solid fa-book-open"></i>
+            <h2>Gestión de Libros</h2>
+        </div>
         <button (click)="goToAddBook()" class="new-book-button">
             <span class="icon-plus">+</span> Añadir libro
         </button>
-    </header>
-
-    @if (isLoading()) {
-        <div class="loader-message">Cargando libros...</div>
-    } @else if (!hasBooks()) {
-        <div class="no-books-message">
-            <p>No se encontraron libros. ¡Intenta añadir uno nuevo!</p>
-        </div>
-    } @else {
-        <div class="book-table">
-            <div class="row header-row">
-            <div class="column cover">PORTADA</div>
-            <div class="column title">TITULO</div>
-            <div class="column author">AUTOR</div>
-            <div class="column isbn">ISBN</div>
-            <div class="column published">FECHA DE PUBLICACIÓN</div>
-            <div class="column status">ESTADO</div>
-            <div class="column actions">ACCIONES</div>
     </div>
-            <div class="row header-row">
-                </div>
 
-            @for (book of booksPage().content; track book.id) {
-                <app-book-preview-component
-                    [book]="book"
-                    (editBook)="onEditBook($event)"
-                    (deleteBook)="onDeleteBook($event)">
-                </app-book-preview-component>
+    <div class="layout-grid">
+        <app-filter-panel
+            [text]="titleDraft()"
+            [secondaryText]="authorDraft()"
+            secondaryLabel="Autor"
+            [category]="categoryDraft()"
+            [categoryOptions]="availableCategories"
+            categoryLabel="Categoría"
+            [status]="statusDraft()"
+            textPlaceholder="Título del libro"
+            statusLabel="Estado"
+            applyLabel="Aplicar filtros"
+            (textChange)="onTitleDraftChange($event)"
+            (secondaryTextChange)="onAuthorDraftChange($event)"
+            (categoryChange)="onCategoryDraftChange($event)"
+            (statusChange)="onStatusDraftChange($event)"
+            (apply)="onApplyFilters()">
+        </app-filter-panel>
+
+        <main class="main-panel">
+            @if (isLoading()) {
+                <div class="loader-message">Cargando libros...</div>
+            } @else if (!hasBooks()) {
+                <div class="no-books-message">
+                    <p>No se encontraron libros con los filtros seleccionados.</p>
+                </div>
+            } @else {
+                <div class="book-table">
+                    <div class="row header-row">
+                        <div class="column cover">PORTADA</div>
+                        <div class="column title">TITULO</div>
+                        <div class="column author">AUTOR</div>
+                        <div class="column isbn">ISBN</div>
+                        <div class="column published">FECHA DE PUBLICACIÓN</div>
+                        <div class="column status">ESTADO</div>
+                        <div class="column actions">ACCIONES</div>
+                    </div>
+
+                    @for (book of booksPage().content; track book.id) {
+                        <app-book-preview-component
+                            [book]="book"
+                            (editBook)="onEditBook($event)"
+                            (deleteBook)="onDeleteBook($event)">
+                        </app-book-preview-component>
+                    }
+                </div>
             }
-        </div>
-    }
-        <app-pagination-bar [data]="pageMetaData()"(pageChange)="onPageChange($event)"></app-pagination-bar>
+            <app-pagination-bar [data]="pageMetaData()" (pageChange)="onPageChange($event)"></app-pagination-bar>
+        </main>
+    </div>
 </div>

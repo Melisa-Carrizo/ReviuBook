@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { Book } from '../../../core/models/Book';
 import { BookPreviewComponent } from "../book-preview-component/book-preview-component";
@@ -7,12 +7,19 @@ import { Router } from '@angular/router';
 import { SnackbarService } from '../../../core/services/snackbar-service';
 import { Page } from '../../../core/models/Page';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { catchError, of, switchMap } from 'rxjs';
+import { catchError, combineLatest, finalize, map, of, switchMap } from 'rxjs';
 import { PaginationBar } from "../../../shared/components/pagination-bar/pagination-bar";
+import { FilterPanelComponent } from '../../../shared/components/filter-panel/filter-panel.component';
+import { Category } from '../../home/home-filter.types';
+
+const EMPTY_BOOK_PAGE: Page<Book> = {
+    content: [],
+    page: { number: 0, totalPages: 0, totalElements: 0, size: 0 }
+};
 
 @Component({
     selector: 'app-manage-books-component',
-    imports: [BookPreviewComponent, PaginationBar],
+    imports: [BookPreviewComponent, PaginationBar, FilterPanelComponent],
     templateUrl: './manage-books-component.html',
     styleUrl: './manage-books-component.css',
 })
@@ -21,27 +28,52 @@ export class ManageBooksComponent {
     private router = inject(Router);
     snackBar = inject(SnackbarService);
     currentPage = signal(0);
-    booksPage = toSignal(
-        toObservable(this.currentPage).pipe(
-            switchMap(page =>
-            this.bookService.getAll(page).pipe(
-                catchError(err => {
-                console.error(err);
-                this.snackBar.openErrorSnackBar('Error al cargar la lista de libros.');
-                return of({
-                    content: [],
-                    page: { number: 0, totalPages: 0, totalElements: 0, size: 0 }
-                });
-                })
-            )
-            )
-        ),
-        { initialValue: { content: [], page: { number: 0, totalPages: 0, totalElements: 0, size: 0 } } }
+
+    titleDraft = signal<string>('');
+    authorDraft = signal<string>('');
+    categoryDraft = signal<string>('');
+    statusDraft = signal<'all' | 'active' | 'inactive'>('all');
+
+    titleFilter = signal<string | null>(null);
+    authorFilter = signal<string | null>(null);
+    categoryFilter = signal<string | null>(null);
+    statusFilter = signal<'all' | 'active' | 'inactive'>('all');
+
+    private loading = signal<boolean>(false);
+
+    private readonly filters$ = combineLatest([
+        toObservable(this.currentPage),
+        toObservable(this.titleFilter),
+        toObservable(this.authorFilter),
+        toObservable(this.categoryFilter),
+        toObservable(this.statusFilter)
+    ]).pipe(
+        map(([page, title, author, category, status]) => ({
+            page,
+            title: title?.trim() || null,
+            author: author?.trim() || null,
+            category: category?.trim() || null,
+            active: status === 'all' ? null : status === 'active'
+        }))
     );
-    isLoading = computed(() => {
-        return this.booksPage().content.length === 0
-        && this.booksPage().page.totalElements === 0;
-    });
+
+    booksPage = toSignal(
+        this.filters$.pipe(
+            switchMap((filters) => {
+                this.loading.set(true);
+                return this.bookService.searchAdminBooks(filters).pipe(
+                    catchError(err => {
+                        console.error(err);
+                        this.snackBar.openErrorSnackBar('Error al cargar la lista de libros.');
+                        return of(EMPTY_BOOK_PAGE);
+                    }),
+                    finalize(() => this.loading.set(false))
+                );
+            })
+        ),
+        { initialValue: EMPTY_BOOK_PAGE }
+    );
+    isLoading = computed(() => this.loading());
 
     hasBooks = computed(() => {
         return this.booksPage().content.length > 0;
@@ -105,4 +137,34 @@ export class ManageBooksComponent {
             }
         });
     }
+
+    onTitleDraftChange(value: string) {
+        this.titleDraft.set(value ?? '');
+    }
+
+    onStatusDraftChange(value: string) {
+        const v = value === 'active' ? 'active' : (value === 'inactive' ? 'inactive' : 'all');
+        this.statusDraft.set(v as 'all' | 'active' | 'inactive');
+    }
+
+    onAuthorDraftChange(value: string) {
+        this.authorDraft.set(value ?? '');
+    }
+
+    onCategoryDraftChange(value: string) {
+        this.categoryDraft.set(value ?? '');
+    }
+
+    onApplyFilters() {
+        const title = this.titleDraft().trim();
+        this.titleFilter.set(title ? title : null);
+        const author = this.authorDraft().trim();
+        this.authorFilter.set(author ? author : null);
+        const category = this.categoryDraft().trim();
+        this.categoryFilter.set(category ? category : null);
+        this.statusFilter.set(this.statusDraft());
+        this.currentPage.set(0);
+    }
+
+    readonly availableCategories: string[] = Object.values(Category);
 }
