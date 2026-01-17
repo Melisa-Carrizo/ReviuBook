@@ -4,69 +4,149 @@
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
+    max-width: 1100px;
     margin: 40px auto;
-    padding: 20px 30px;
+    padding: 24px 32px;
 }
 
 .card-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 15px 0 25px 0;
-    margin-bottom: 5px;
+    gap: 12px;
+    padding: 8px 0 18px 0;
+    margin-bottom: 8px;
 }
 
 .card-header h2 {
     font-size: 1.35rem;
-    font-weight: 600;
+    font-weight: 700;
     margin: 0;
+    color: #3a3a3a;
 }
 
 .header-icon {
     font-size: 1.5rem;
-    color: #3f51b5;
-}
-
-.user-list-grid {
-    display: grid;
-    grid-template-columns: 40% 30% 30% ; 
-    gap: 0; 
-}
-
-.grid-header {
-    display: contents; 
-    font-weight: 500;
-    color: #777;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.5px;
-}
-
-.header-item {
-    padding: 10px 0;
-    text-align: left;
-    border-bottom: 1px solid #f0f0f0;
+    color: #b22222; /* rojo bordó */
 }
 
 .icon-users{
     font-size: 1.4rem;
 }
 
+/* Layout con sidebar */
+.layout-grid{
+    display:flex;
+    gap:20px;
+    align-items: flex-start; /* evita que el sidebar se desplace con el alto del main */
+}
+
+.sidebar-filters{
+    flex: 0 0 240px;
+    background: #f2f2f2; /* gris claro */
+    padding: 14px 12px;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 20px;
+}
+
+.sidebar-filters .filter-group{
+    margin-bottom: 14px;
+}
+
+.sidebar-filters label{
+    display:block;
+    font-size: 0.82rem;
+    color: #5a5a5a;
+    margin-bottom:6px;
+    font-weight: 600;
+}
+
+.sidebar-filters input,
+.sidebar-filters select{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid #d4d4d4;
+    border-radius:6px;
+    background: #fff;
+    font-size: 0.92rem;
+    color: #333;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sidebar-filters input:focus,
+.sidebar-filters select:focus{
+    border-color: #b22222; /* rojo bordó */
+    box-shadow: 0 0 0 2px rgba(178,34,34,0.12);
+    outline: none;
+}
+
+.filter-actions .btn-apply{
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 8px;
+    background: #b22222; /* color sólido rojo/bordó */
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.12s ease;
+    box-shadow: none;
+}
+
+.filter-actions .btn-apply:hover{
+    background: #991a1a; /* tono ligeramente más oscuro al pasar */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.filter-actions .btn-apply:active{
+    transform: translateY(0);
+    background: #861616;
+}
+
+.main-panel{ flex:1; }
+
+/* Grid de usuarios */
+.user-list-grid {
+    display: grid;
+    grid-template-columns: 40% 30% 30%;
+    gap: 0;
+}
+
+.grid-header {
+    display: contents;
+    font-weight: 600;
+    color: #6b6b6b;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    letter-spacing: 0.6px;
+}
+
+.header-item {
+    padding: 12px 0;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
 /* --- 2. MEDIA QUERY PARA DISPOSITIVOS PEQUEÑOS (MÓVILES) --- */
-
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 900px) {
     .card-container {
-        margin: 20px;
-        padding: 15px;
-        box-shadow: none;
+        margin: 24px 16px;
+        padding: 18px;
+        max-width: 100%;
     }
-
+    .layout-grid{
+        flex-direction: column;
+    }
+    .sidebar-filters{
+        position: static;
+        width: 100%;
+        flex: 1 1 auto;
+    }
     .user-list-grid{
         grid-template-columns: 100%;
     }
-
-    /* Ocultar los encabezados de la grid en móvil */
     .grid-header {
         display: none;
     }
