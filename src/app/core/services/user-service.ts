@@ -50,6 +50,25 @@ export class UserService {
     return this.http.get<Page<User>>(`${this.apiUrl}/all?page=${page}`);
   }
 
+  searchUsers(options: { username?: string | null; active?: boolean | null; page?: number; size?: number }){
+    const params: Record<string,string> = {};
+    if (options.username) {
+      params['username'] = options.username;
+    }
+    if (options.active !== undefined && options.active !== null) {
+      params['active'] = String(options.active);
+    }
+    if (options.page !== undefined && options.page !== null) {
+      params['page'] = String(options.page);
+    }
+    if (options.size !== undefined && options.size !== null) {
+      params['size'] = String(options.size);
+    }
+    const query = Object.entries(params).map(([k,v])=>`${k}=${encodeURIComponent(v)}`).join('&');
+    const url = query ? `${this.apiUrl}/search?${query}` : `${this.apiUrl}/search`;
+    return this.http.get<Page<User>>(url);
+  }
+
   updateUserProfile(user: User): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}`, user);
   }
