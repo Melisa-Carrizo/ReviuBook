@@ -4,6 +4,13 @@
     <input type="text" [value]="text" (input)="onTextChange($any($event.target).value)" />
   </div>
 
+  @if (secondaryLabel) {
+    <div class="filter-group">
+      <label>{{ secondaryLabel }}</label>
+      <input type="text" [value]="secondaryText" [placeholder]="secondaryPlaceholder" (input)="onSecondaryTextChange($any($event.target).value)" />
+    </div>
+  }
+
   <div class="filter-group">
     <label>{{ statusLabel }}</label>
     <select [value]="status" (change)="onStatusChange($any($event.target).value)">
@@ -12,6 +19,18 @@
       <option value="inactive">Inactivos</option>
     </select>
   </div>
+
+  @if (categoryOptions?.length) {
+    <div class="filter-group">
+      <label>{{ categoryLabel }}</label>
+      <select [value]="category" (change)="onCategoryChange($any($event.target).value)">
+        <option value="">Todas</option>
+        @for (option of categoryOptions; track option) {
+          <option [value]="option">{{ formatCategory(option) }}</option>
+        }
+      </select>
+    </div>
+  }
 
   <div class="filter-actions">
     <button class="btn-apply" (click)="onApply()">{{ applyLabel }}</button>
