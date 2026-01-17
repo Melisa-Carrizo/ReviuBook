@@ -1,0 +1,19 @@
+<aside class="sidebar-filters">
+  <div class="filter-group">
+    <label>{{ textPlaceholder }}</label>
+    <input type="text" [value]="text" (input)="onTextChange($any($event.target).value)" />
+  </div>
+
+  <div class="filter-group">
+    <label>{{ statusLabel }}</label>
+    <select [value]="status" (change)="onStatusChange($any($event.target).value)">
+      <option value="all">Todos</option>
+      <option value="active">Activos</option>
+      <option value="inactive">Inactivos</option>
+    </select>
+  </div>
+
+  <div class="filter-actions">
+    <button class="btn-apply" (click)="onApply()">{{ applyLabel }}</button>
+  </div>
+</aside>

@@ -4,23 +4,36 @@
         <h2>Gestión de Usuarios</h2>
     </div>
 
-    @if (usersPage().content.length > 0) {
-        <div class="user-list-grid">
-        <div class="grid-header">
-            <div class="header-item">NOMBRE</div>
-            <div class="header-item">ROL</div>
-            <div class="header-item">ESTADO</div>
-        </div>
-        
-        @for (user of usersPage().content; track user.email) {
-            <app-user-row [user]="user"></app-user-row>
-        }
-        </div>
-    } @else if (usersPage().content.length === 0) {
-        <div class="loading-message">
-        No hay usuarios registrados o la carga falló.
-        </div>
-    }
+    <div class="layout-grid">
+        <app-filter-panel
+            [text]="usernameDraft()"
+            [status]="statusDraft()"
+            textPlaceholder="Nombre del Usuario"
+            statusLabel="Estado"
+            applyLabel="Aplicar filtros"
+            (textChange)="onUsernameDraftChange($event)"
+            (statusChange)="onStatusDraftChange($event)"
+            (apply)="onApplyFilters()">
+        </app-filter-panel>
 
-    <app-pagination-bar [data]="pageMetaData()" (pageChange)="onPageChange($event)"></app-pagination-bar>
+        <main class="main-panel">
+            @if (usersPage().content.length > 0) {
+                <div class="user-list-grid">
+                    <div class="grid-header">
+                        <div class="header-item">NOMBRE</div>
+                        <div class="header-item">ROL</div>
+                        <div class="header-item">ESTADO</div>
+                    </div>
+
+                    @for (user of usersPage().content; track user.email) {
+                        <app-user-row [user]="user"></app-user-row>
+                    }
+                </div>
+            } @else if (usersPage().content.length === 0) {
+                <div class="loading-message">No hay usuarios registrados o la carga falló.</div>
+            }
+
+            <app-pagination-bar [data]="pageMetaData()" (pageChange)="onPageChange($event)"></app-pagination-bar>
+        </main>
+    </div>
 </div>
