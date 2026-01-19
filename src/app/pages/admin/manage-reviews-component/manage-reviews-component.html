@@ -1,45 +1,72 @@
-<div class="main-container">
-  <header class="header">
-    <h1>Gestion de Reseñas </h1>
-  </header>
+<div class="card-container">
+  <div class="card-header">
+    <div class="title-group">
+      <i class="icon-reviews fa-solid fa-star"></i>
+      <h2>Gestión de Reseñas</h2>
+    </div>
+  </div>
 
-  <div class="table-container">
-    @if (isLoading()) {
-      <div class="loading">Cargando libros...</div>
-    } @else {
-      <table class="custom-table">
-        <thead>
-          <tr>
-            <th>PORTADA</th>
-            <th>TÍTULO</th>
-            <th>AUTOR</th>
-            <th>ISBN</th>
-            <th class="text-center">ACCIONES</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (book of booksPage().content; track book.id) {
-            <tr>
-              @if (book.urlImage) {
-                <td class="col-img">
-                    <img [src]="book.urlImage" alt="Portada" class="book-cover">
-                </td>
-              } @else {
-                <td class="cover-initials">{{ book.title.slice(0, 2).toUpperCase() }}</td>
-              }
-              <td class="col-title">{{ book.title }}</td>
-              <td class="col-author">{{ book.author }}</td>
-              <td class="col-isbn">{{ book.ISBN }}</td>
-              <td class="col-actions">
-                <button class="btn-reviews" (click)="goToReviews(book.id)">
-                  Ver Reviews
-                </button>
-              </td>
-            </tr>
+  <div class="layout-grid">
+    <aside class="sidebar-filters">
+      <div class="filter-group">
+        <label for="filterType">Filtrar por</label>
+        <select id="filterType" [value]="filterTypeDraft()" (change)="onFilterTypeDraftChange($any($event.target).value)">
+          <option value="title">Título del libro</option>
+          <option value="word">Por palabra</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filterTerm">Término</label>
+        <input
+          id="filterTerm"
+          type="text"
+          [placeholder]="placeholderForFilter()"
+          [value]="termDraft()"
+          (input)="onTermDraftChange($any($event.target).value)" />
+      </div>
+
+      <div class="hint-pop">
+        <div class="hint-badge">i</div>
+        <p>{{ filterHint() }}</p>
+      </div>
+
+      <div class="filter-actions">
+        <button class="btn-apply" (click)="onApplyFilters()">Aplicar filtros</button>
+      </div>
+    </aside>
+
+    <main class="main-panel">
+      @if (shouldPromptToApply()) {
+        <div class="no-results">Aplica un filtro para comenzar.</div>
+      } @else if (isLoading()) {
+        <div class="loader-message">Cargando reseñas...</div>
+      } @else if (!hasBooks()) {
+        <div class="no-results">No se encontraron libros con reseñas que coincidan con el filtro.</div>
+      } @else {
+        <div class="book-list">
+          @for (book of books(); track book.id) {
+            <div class="book-card">
+              <div class="book-cover">
+                <img [src]="book.urlImage || 'https://via.placeholder.com/80x110?text=Sin+foto'" [alt]="book.title" />
+              </div>
+              <div class="book-info">
+                <h3>{{ book.title }}</h3>
+                <p class="meta">Autor: {{ book.author }} | ID: {{ book.id }}</p>
+              </div>
+              <button class="btn-secondary btn-view" (click)="goToReviews(book.id)">Ver panel de reseñas</button>
+            </div>
           }
-        </tbody>
-      </table>
-    }
-    <app-pagination-bar [data]="pageMetaData()" (pageChange)="onPageChange($event)"></app-pagination-bar>
+        </div>
+
+        @if (showPagination()) {
+          <div class="pagination-bar">
+            <button class="page-btn" (click)="onPrevPage()" [disabled]="!hasPrev()">Anterior</button>
+            <span class="page-info">Página {{ currentPage() + 1 }} de {{ totalPages() }}</span>
+            <button class="page-btn" (click)="onNextPage()" [disabled]="!hasNext()">Siguiente</button>
+          </div>
+        }
+      }
+    </main>
   </div>
 </div>
