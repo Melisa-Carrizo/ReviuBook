@@ -62,9 +62,14 @@ export class Navbar {
     return this.authService.isAdmin();
   }
 
+  clearSearch() {
+    this.currentSearchTerm = ''; // Limpia el input visualmente
+    this._searchService.setSearchTerm(''); // Notifica al Home para mostrar todo
+  }
+
   onSearchInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const term = input.value;
-    this._searchService.setSearchTerm(term); // setea el termino del servicio
+    event.preventDefault(); // Evita que la página se recargue
+    // Solo enviamos el término al servicio cuando el usuario da Enter
+    this._searchService.setSearchTerm(this.currentSearchTerm);
   }
 } 
