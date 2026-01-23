@@ -82,6 +82,7 @@ export class BookService {
  
 
   searchBooks(options: {
+    title?: string | null;
     author?: string | null;
     category?: string | null;
     publishingHouse?: string | null;
@@ -94,6 +95,9 @@ export class BookService {
       .set('page', options.page)
       .set('size', options.size);
 
+    if (options.title) {
+      params = params.set('title', options.title.trim());
+    }
     if (options.author) {
       params = params.set('author', options.author);
     }
