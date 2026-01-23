@@ -67,7 +67,7 @@ export class Navbar {
     this._searchService.setSearchTerm(''); // Notifica al Home para mostrar todo
   }
 
-  onSearchInput(event: Event) {
+  onSearchSubmit(event: Event) {
     event.preventDefault(); // Evita que la página se recargue
     // Solo enviamos el término al servicio cuando el usuario da Enter
     this._searchService.setSearchTerm(this.currentSearchTerm);
