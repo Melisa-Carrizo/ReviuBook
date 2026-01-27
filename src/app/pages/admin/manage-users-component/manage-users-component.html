@@ -26,7 +26,8 @@
                     </div>
 
                     @for (user of usersPage().content; track user.email) {
-                        <app-user-row [user]="user"></app-user-row>
+                        <app-user-row [user]="user" 
+                        (statusChanged)="onUserStatusChanged($event)"></app-user-row>
                     }
                 </div>
             } @else if (usersPage().content.length === 0) {

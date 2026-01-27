@@ -15,8 +15,8 @@
     <label>{{ statusLabel }}</label>
     <select [value]="status" (change)="onStatusChange($any($event.target).value)">
       <option value="all">Todos</option>
-      <option value="active">Activos</option>
-      <option value="inactive">Inactivos</option>
+      <option value="active">Habilitado</option>
+      <option value="inactive">Deshabilitado</option>
     </select>
   </div>
 

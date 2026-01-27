@@ -21,11 +21,11 @@
     
     <div class="cell status-edit-cell" data-label="ESTADO">
         <span 
-        class="status-tag"  
+        class="status-tag user-status"  
         [class.enabled]="user().status"  
         [class.disabled]="!user().status" >
         {{ user().status ? "Habilitado" :  "Desabilitado"}}
         </span>
-        <button class="edit-btn" (click)="openEditModal()">Editar</button>
+        <button class="edit-btn" [hidden]="user().role === 'ADMIN'" [disabled]="user().role === 'ADMIN'" (click)="openEditModal()">Editar</button>
     </div>
 </div>

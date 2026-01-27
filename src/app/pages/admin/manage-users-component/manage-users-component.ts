@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, output, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { UserService } from '../../../core/services/user-service';
 import { SnackbarService } from '../../../core/services/snackbar-service';
@@ -34,7 +34,9 @@ export class ManageUsersComponent {
 
   usernameFilter = signal<string | null>(null);
   statusFilter = signal<'all' | 'active' | 'inactive'>('all');
-
+  
+  refresh = signal(0);
+  
   private filtersSignal = computed(() => ({
     page: this.currentPage(),
     username: this.usernameFilter(),
@@ -45,7 +47,8 @@ export class ManageUsersComponent {
     combineLatest([
       toObservable(this.currentPage),
       toObservable(this.usernameFilter).pipe(map(s => s)),
-      toObservable(this.statusFilter).pipe(map(s => (s === 'all' ? null : (s === 'active'))))
+      toObservable(this.statusFilter).pipe(map(s => (s === 'all' ? null : (s === 'active')))),
+      toObservable(this.refresh)
     ]).pipe(
       switchMap(([page, username, active]) =>
         this._userService.searchUsers({ username, active, page }).pipe(
@@ -91,5 +94,9 @@ export class ManageUsersComponent {
     this.usernameFilter.set(username ? username : null);
     this.statusFilter.set(this.statusDraft());
     this.currentPage.set(0);
+  }
+  
+  onUserStatusChanged(_: { email: string; status: boolean }) {
+  this.refresh.update(v => v + 1);
   }
 }
