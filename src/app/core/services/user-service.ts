@@ -136,4 +136,12 @@ export class UserService {
       publishingHouse: source.publishingHouse ?? source.editorial ?? entry.publishingHouse ?? entry.editorial ?? ''
     };
   }
+
+  deleteUser(id : number){
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  activateUser(id : number){
+    return this.http.post<User>(`${this.apiUrl}/activate/${id}`, null);
+  }
 }
