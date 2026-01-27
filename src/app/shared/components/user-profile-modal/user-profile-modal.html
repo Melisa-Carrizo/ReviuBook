@@ -22,6 +22,16 @@
       <h2 class="username">{{ username() }}</h2>
       <p class="email">{{ email() }}</p>
     </div>
+
+    <div>
+      <span 
+        class="status-tag user-status"  
+        [class.enabled]="!status()"  
+        [class.disabled]="status()"
+        (click)="changeStatus()" >
+        {{ status() ? "Deshabilitar cuenta" :  "Habilitar cuenta"}}
+        </span>
+    </div>
   </header>
 
   <!-- Favoritos -->

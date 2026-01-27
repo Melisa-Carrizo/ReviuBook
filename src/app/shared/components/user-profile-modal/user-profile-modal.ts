@@ -1,4 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
+import { SnackbarService } from './../../../core/services/snackbar-service';
+import { Component, inject, signal, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,6 +13,7 @@ import { BookService } from '../../../core/services/book-service';
 import { Book } from '../../../core/models/Book';
 import { Review } from '../../../core/models/Review';
 import { FavoritesCarouselComponent } from '../favorites-carousel/favorites-carousel.component';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 
 type ReviewCard = {
   id: number;
@@ -37,14 +39,15 @@ export class UserProfileModalComponent {
   private userService = inject(UserService);
   private reviewService = inject(ReviewService);
   private bookService = inject(BookService);
+  private snackbarService = inject(SnackbarService);
   defaultCover = 'assets/img/default-book.png';
-
 
   username = signal(this.data?.username ?? 'Nombre del usuario');
   email = signal(this.data?.email ?? 'Correo electrónico');
   id = signal(this.data?.id ?? 0);
   favorites = signal<Book[]>([]);
   reviews = signal<ReviewCard[]>([]);
+  status = signal<boolean>(true);
 
   constructor() {
     const email = this.email();
@@ -78,6 +81,7 @@ export class UserProfileModalComponent {
       next: user => {
         this.username.set(user?.username ?? this.username());
         this.email.set(user?.email ?? this.email());
+        this.status.set(user?.status ?? this.status());
 
         const userId = providedId ?? this.extractUserId(user);
         if (userId) {
@@ -165,4 +169,57 @@ export class UserProfileModalComponent {
       catchError(() => of(baseCard))
     );
   }
+
+changeStatus() {
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: '¡No podrás revertir esto!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#dc3545',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Sí',
+    cancelButtonText: 'Cancelar'
+  }).then((result: SweetAlertResult<any>) => {
+    if (result.isConfirmed) {
+      if (this.status()) {
+        this.userService.deleteUser(this.id()).subscribe({
+          next: () => {
+            this.snackbarService.openSuccessSnackBar('¡Cuenta deshabilitada!');
+            this.status.set(false);
+            this.dialogRef.close({
+              userId: this.email(),
+              status: false
+            });
+          },
+          error: (err) => {
+            let errorMessage = 'Error desconocido al borrar el libro.';
+                            if (err.status === 400) {
+                                errorMessage = 'No tienes permisos para realizar esta acción.';
+                            }
+            this.snackbarService.openErrorSnackBar(
+              errorMessage
+            );
+          }
+        });
+      } else {
+        this.userService.activateUser(this.id()).subscribe({
+          next: () => {
+            this.snackbarService.openSuccessSnackBar('¡Cuenta habilitada!');
+            this.status.set(true);
+            this.dialogRef.close({
+              email: this.email(),
+              status: true
+            });
+          },
+          error: () => {
+            this.snackbarService.openErrorSnackBar(
+              'Error desconocido al habilitar la cuenta.'
+            );
+          }
+        });
+      }
+    }
+  });
+}
 }
