@@ -1,56 +1,61 @@
 <form [formGroup]="userForm" class="edit-user-form" (ngSubmit)="onSubmit()">
-	<h2>Editar perfil</h2>
-
-
-	<div class="form-row">
-		<label for="username">Nombre de usuario</label>
-		<input id="username" type="text" formControlName="username" />
-		@if (userForm.get('username')?.touched && userForm.get('username')?.invalid) {
-			<div class="error">
-				@if (userForm.get('username')?.hasError('required')) { <div>El nombre de usuario es obligatorio.</div> }
-				@if (userForm.get('username')?.hasError('minlength')) { <div>El nombre de usuario debe tener al menos 2 caracteres.</div> }
-			</div>
-		}
+	<div class="form-header">
+		<div>
+			<p class="eyebrow">Modo edición</p>
+			<h2>Editar perfil</h2>
+		</div>
+		<button type="button" class="close-edit" (click)="onCancel()" aria-label="Cerrar edición">X</button>
 	</div>
 
-	<div class="form-row">
-		<label for="email">Email</label>
-		<input id="email" type="email" formControlName="email" />
-		@if (userForm.get('email')?.touched && userForm.get('email')?.invalid) {
-			<div class="error">
-				@if (userForm.get('email')?.hasError('required')) { <div>El email es obligatorio.</div> }
-				@if (userForm.get('email')?.hasError('email')) { <div>Formato de email inválido.</div> }
-				@if (userForm.get('email')?.hasError('maxlength')) { <div>El email puede tener hasta 30 caracteres.</div> }
-			</div>
-		}
-	</div>
-	
+	<div class="fields-grid">
+		<div class="form-row">
+			<label for="username">Nombre de usuario</label>
+			<input id="username" type="text" formControlName="username" />
+			@if (userForm.get('username')?.touched && userForm.get('username')?.invalid) {
+				<div class="error">
+					@if (userForm.get('username')?.hasError('required')) { <div>El nombre de usuario es obligatorio.</div> }
+					@if (userForm.get('username')?.hasError('minlength')) { <div>El nombre de usuario debe tener al menos 2 caracteres.</div> }
+				</div>
+			}
+		</div>
 
-	<div class="form-row">
-		<label for="password">Contraseña</label>
-		<input id="password" type="password" formControlName="password" autocomplete="new-password" />
-		@if (userForm.get('password')?.touched && userForm.get('password')?.invalid) {
-			<div class="error">
-				@if (userForm.get('password')?.hasError('required')) { <div>La contraseña es obligatoria.</div> }
-				@if (userForm.get('password')?.hasError('minlength')) { <div>La contraseña debe tener al menos 6 caracteres.</div> }
-				@if (userForm.get('password')?.hasError('maxlength')) { <div>La contraseña puede tener hasta 20 caracteres.</div> }
-				@if (userForm.get('password')?.hasError('passwordPolicy')) { <div>Debe contener al menos 1 mayúscula y 1 número.</div> }
-			</div>
-		}
+		<div class="form-row">
+			<label for="email">Email</label>
+			<input id="email" type="email" formControlName="email" />
+			@if (userForm.get('email')?.touched && userForm.get('email')?.invalid) {
+				<div class="error">
+					@if (userForm.get('email')?.hasError('required')) { <div>El email es obligatorio.</div> }
+					@if (userForm.get('email')?.hasError('email')) { <div>Formato de email inválido.</div> }
+					@if (userForm.get('email')?.hasError('maxlength')) { <div>El email puede tener hasta 30 caracteres.</div> }
+				</div>
+			}
+		</div>
+
+		<div class="form-row">
+			<label for="password">Contraseña</label>
+			<input id="password" type="password" formControlName="password" autocomplete="new-password" />
+			@if (userForm.get('password')?.touched && userForm.get('password')?.invalid) {
+				<div class="error">
+					@if (userForm.get('password')?.hasError('required')) { <div>La contraseña es obligatoria.</div> }
+					@if (userForm.get('password')?.hasError('minlength')) { <div>La contraseña debe tener al menos 6 caracteres.</div> }
+					@if (userForm.get('password')?.hasError('maxlength')) { <div>La contraseña puede tener hasta 20 caracteres.</div> }
+					@if (userForm.get('password')?.hasError('passwordPolicy')) { <div>Debe contener al menos 1 mayúscula y 1 número.</div> }
+				</div>
+			}
+		</div>
+
+		<div class="form-row">
+			<label for="confirmPassword">Confirmar contraseña</label>
+			<input id="confirmPassword" type="password" formControlName="confirmPassword" autocomplete="new-password" />
+			@if (userForm.get('confirmPassword')?.touched && userForm.get('confirmPassword')?.invalid) {
+				<div class="error">
+					@if (userForm.get('confirmPassword')?.hasError('required')) { <div>Confirmar la contraseña es obligatorio.</div> }
+					@if (userForm.get('confirmPassword')?.hasError('passwordPolicy')) { <div>Debe contener al menos 1 mayúscula y 1 número.</div> }
+				</div>
+			}
+		</div>
 	</div>
 
-	<div class="form-row">
-		<label for="confirmPassword">Confirmar contraseña</label>
-		<input id="confirmPassword" type="password" formControlName="confirmPassword" autocomplete="new-password" />
-		@if (userForm.get('confirmPassword')?.touched && userForm.get('confirmPassword')?.invalid) {
-			<div class="error">
-				@if (userForm.get('confirmPassword')?.hasError('required')) { <div>Confirmar la contraseña es obligatorio.</div> }
-				@if (userForm.get('confirmPassword')?.hasError('passwordPolicy')) { <div>Debe contener al menos 1 mayúscula y 1 número.</div> }
-			</div>
-		}
-	</div>
-
-	<!-- Mensaje de error del grupo (contraseñas no coinciden) -->
 	@if (userForm.hasError('passwordsMismatch') && (userForm.get('confirmPassword')?.touched || userForm.get('confirmPassword')?.dirty)) {
 		<div class="error">Las contraseñas no coinciden.</div>
 	}

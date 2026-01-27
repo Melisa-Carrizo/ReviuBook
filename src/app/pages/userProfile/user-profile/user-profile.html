@@ -1,36 +1,53 @@
 
-<!-- Contenido principal: Tarjeta de perfil -->
 <div class="main-content-profile">
   <mat-card class="profile-card">
-    
-    <!-- Banner de Perfil (El área gris de la imagen) -->
-    <div class="profile-banner"></div>
-
-    <!-- Contenedor del avatar y nombre de usuario -->
-    <div class="user-info-header">
-        
-        <div class="profile-avatar-wrapper">
-    <!-- SVG de perfil genérico que llena el círculo -->
-    <svg viewBox="0 0 24 24">
-        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-    </svg>
-</div>
-
-        <!-- Nombre de usuario -->
-        <h2 class="user-name-display">{{ currentUser()?.username || 'user.name' }}</h2>
-    </div>
-
-
-    <!-- Botón de "editar perfil" enmarcado -->
-    <button mat-button class="edit-profile-button" (click)="showEdit.set(true)">
-      editar perfil
-    </button>
-
-    <div class="profile-details">
-      @if (showEdit()) {
-        <app-edit-user (cancel)="showEdit.set(false)"></app-edit-user>
-      } @else {
+    <div class="profile-banner">
+      @if (!showEdit()) {
+        <button mat-icon-button class="edit-profile-button" (click)="toggleEdit()" aria-label="Editar perfil">
+          <mat-icon>settings</mat-icon>
+        </button>
       }
     </div>
+
+    <div class="user-info-header">
+      <div class="profile-avatar-wrapper">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+      </div>
+
+      <div class="user-name-block">
+        <h2 class="user-name-display">{{ currentUser()?.username || 'Usuario' }}</h2>
+      </div>
+    </div>
+
+    @if (showEdit()) {
+      <div class="profile-body editing">
+        <app-edit-user (cancel)="showEdit.set(false)"></app-edit-user>
+      </div>
+    } @else {
+      <div class="profile-body">
+        <div class="info-grid">
+          <div class="info-card">
+            <span class="info-label">Mail</span>
+            <span class="info-value">{{ currentUser()?.email || 'No especificado' }}</span>
+          </div>
+
+          <div class="info-card">
+            <span class="info-label">Rol</span>
+            <span
+              class="info-tag"
+              [ngClass]="(currentUser()?.role || '').toUpperCase() === 'ADMIN' ? 'role-admin' : 'role-user'"
+            >
+              {{ (currentUser()?.role || '').toUpperCase() === 'ADMIN' ? 'Administrador' : 'Usuario' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="actions-row">
+          <button mat-raised-button color="warn" class="favorites-button" routerLink="/favourite">Ver mis favoritos</button>
+        </div>
+      </div>
+    }
   </mat-card>
 </div>

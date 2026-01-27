@@ -1,187 +1,332 @@
-:root {
-  --primary-red: #d00000;
-  --light-text: #888;
-  --toolbar-text-color: #333;
-  --secondary-gray: #f5f5f5;
+  :root {
+    --primary-red: #d00000;
+    --light-text: #888;
+    --toolbar-text-color: #333;
+    --secondary-gray: #f5f5f5;
 
-  --bg-color-white: #F9FAFC;
-  --line-gray: #ECECEC;
-  --main-red: #d60000;
-  --darker-red: #b00000;
-  --gray-filter: #f5f5f5;
-  --text-gray: #666;
-  --bg-gray: #cccbcb;
-}
+    --bg-color-white: #F9FAFC;
+    --line-gray: #ECECEC;
+    --main-red: #d60000;
+    --darker-red: #b00000;
+    --gray-filter: #f5f5f5;
+    --text-gray: #666;
+    --bg-gray: #cccbcb;
+  }
 
-.control-icon {
-  color: var(--toolbar-text-color);
-  cursor: pointer;
-  font-size: 20px;
-}
+  .control-icon {
+    color: var(--toolbar-text-color);
+    cursor: pointer;
+    font-size: 20px;
+  }
 
-.welcome-message {
-  font-size: 14px;
-  color: var(--toolbar-text-color);
-  font-weight: 500;
-}
+  .welcome-message {
+    font-size: 14px;
+    color: var(--toolbar-text-color);
+    font-weight: 500;
+  }
 
-/* ----------------------------------- */
-/* --- MAIN CONTENT (PROFILE VIEW) --- */
-/* ----------------------------------- */
-.main-content-profile {
-  display: flex;
-  justify-content: center;
-  padding-top: 50px;
-  padding-bottom: 50px;
-}
-
-.profile-card {
-  width: 80%;
-  max-width: 1000px;
-  min-height: 400px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
-  padding: 0;
-  position: relative;
-  overflow: visible;
-  border-radius: 4px;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* permite colocar el botón al fondo */
-}
-
-/* 1. BANNER */
-.profile-banner {
-  width: 100%;
-  height: 160px;
-  background-color: #8d8d8d;
-  border-radius: 4px 4px 0 0;
-}
-
-/* 2. INFO DEL USUARIO */
-.user-info-header {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  top: 130px;
-  left: 30px;
-}
-
-/* 3. AVATAR */
-.profile-avatar-wrapper {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #f3f3f3;
-  border: 3px solid #a7a7a7;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 20px;
-  fill: #a0a0a0;
-}
-
-.user-name-display {
-  font-size: 24px;
-  font-weight: 500;
-  color: #333;
-  margin: 0;
-}
-
-/* 4. BOTÓN DE EDITAR PERFIL */
-.edit-profile-button {
-  position: absolute;
-  top: 21vh;
-  right: 5vh;
-  border: none;
-  border-radius: 25px;
-  background-color: var(--main-red);
-  color: white;
-  padding: 8px 20px;
-  line-height: 1.5;
-  text-transform: capitalize;
-  font-weight: 600;
-  font-size: 15px;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.edit-profile-button:hover {
-  background-color: var(--darker-red);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.profile-details {
-  padding: 60px 30px 30px 30px;
-  margin-top: 50px;
-}
-
-/* ------------------------------ */
-/* --- RESPONSIVE DESIGN --- */
-/* ------------------------------ */
-
-
-/* Celulares */
-@media (max-width: 600px) {
+ 
   .main-content-profile {
-    padding: 30px 10px;
+    display: flex;
+    justify-content: center;
+    padding-top: 48px;
+    padding-bottom: 48px;
+    background: #f7f7f9;
   }
 
   .profile-card {
-    width: 100%;
-    border-radius: 0;
-    box-shadow: none;
+    width: 90%;
+    max-width: 1300px;
+    min-height: 420px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+    padding: 0;
+    position: relative;
+    overflow: visible;
+    border-radius: 14px;
+    background-color: white;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    position: relative;
   }
 
+  /* 1. BANNER */
   .profile-banner {
-    height: 120px;
-    border-radius: 0;
+    width: 100%;
+    height: 170px;
+    background: linear-gradient(135deg, #a6a6a6, #7d7d7d);
+    border-radius: 14px 14px 0 0;
+    position: relative;
   }
 
+  /* 2. INFO DEL USUARIO */
   .user-info-header {
-    position: relative;
-    top: -40px;
-    left: 0;
-    flex-direction: column;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding:20px;
+    margin-top: -28px;
+  }
+
+  /* 3. AVATAR */
+  .profile-avatar-wrapper {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #f3f3f3;
+    border: 3px solid #ffffff;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    text-align: center;
+    margin-right: 20px;
+    fill: #a0a0a0;
+    transform: translateY(-40px);
   }
 
-  .profile-avatar-wrapper {
-    width: 75px;
-    height: 75px;
-    margin: 0 auto 10px auto;
+  .user-name-block {
+    display: flex;
+    flex-direction: column;
+    transform: translateY(-12px);
   }
 
   .user-name-display {
-    font-size: 18px;
-    text-align: center;
-    margin-top: 5px;
+    font-size: 26px;
+    font-weight: 600;
+    color: #1f1f1f;
+    margin: 0;
   }
 
-  /* Botón centrado al fondo */
+  .user-email {
+    margin: 0;
+    color: #4c4c4c;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* 4. BOTÓN DE EDITAR PERFIL */
   .edit-profile-button {
-    position: relative;
-    margin: 25px auto 20px auto;
-    top: 0;
-    right: 0;
-    font-size: 13px;
-    padding: 7px 18px;
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    color: #555;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  }
+
+  .edit-profile-button:hover {
+    background-color: #e6e6e6;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
+  }
+
+  .edit-profile-button mat-icon {
+    color: #5b5b5b; 
+    font-size: 20px;
+  }
+
+  .edit-profile-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(0,0,0,0.04);
+  }
+
+  .profile-body {
+    padding: 20px 30px 16px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Cuando el usuario entra en modo edición: el panel ocupa todo el área blanca */
+  .profile-body.editing {
     display: block;
-    align-self: center;
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 20px; 
+  }
+
+  /* Forzar que el formulario de edición ocupe todo el ancho disponible dentro del área blanca */
+  .profile-body.editing .edit-user-form {
+  width: 100%;
+  max-width: 100%;      
+  margin: 0;
+  
+  /* Quitamos estilos de "tarjeta" para que se integre al fondo blanco padre */
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+  /* Ajustes para que los botones mantengan su posición pero el formulario quede centrado */
+  .profile-body.editing .form-actions {
+  justify-content: flex-end;
+  padding-right: 0;
+}
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .info-card {
+    background: #f9f9fb;
+    border: 1px solid #ededf2;
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+  }
+
+  .info-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--toolbar-text-color);
+    font-weight: 700;
+  }
+
+  .info-value {
+    font-size: 16px;
+    color: #1f1f1f;
+    font-weight: 600;
+  }
+
+  .info-tag {
+    align-self: flex-start;
+    padding: 6px 10px;
+    border-radius: 20px;
+    background: rgba(214, 0, 0, 0.08);
+    color: var(--main-red);
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .role-user {
+    background: rgba(0, 122, 255, 0.12);
+    color: #0b63d1;
+  }
+
+  .role-admin {
+    background: rgba(255, 165, 0, 0.18);
+    color: #c25a00;
+  }
+
+  .actions-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .favorites-button {
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    padding: 10px 22px !important;
+    background: var(--main-red) !important;
+    color: #ffffff !important;
+    box-shadow: 0 10px 18px rgba(214, 0, 0, 0.22) !important;
+    border: none !important;
+  }
+
+  .favorites-button:hover {
+    background: var(--darker-red) !important;
+    box-shadow: 0 12px 22px rgba(176, 0, 0, 0.28) !important;
   }
 
   .profile-details {
-    padding: 30px 15px 20px 15px;
-    margin-top: 10px;
-    width: 100%;
+    padding: 0 30px 32px 30px;
+    margin-top: 8px;
   }
-}
+
+  /* ------------------------------ */
+  /* --- RESPONSIVE DESIGN --- */
+  /* ------------------------------ */
+
+
+  /* Celulares */
+  @media (max-width: 600px) {
+    .main-content-profile {
+      padding: 30px 10px;
+    }
+
+    .profile-card {
+      width: 100%;
+      border-radius: 0;
+      box-shadow: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .profile-banner {
+      height: 120px;
+      border-radius: 0;
+    }
+
+    .user-info-header {
+      position: relative;
+      top: 0;
+      left: 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      text-align: center;
+      padding: 0 16px;
+      margin-top: -18px;
+    }
+
+    .profile-avatar-wrapper {
+      width: 75px;
+      height: 75px;
+      margin: 0 auto 10px auto;
+      transform: translateY(-34px);
+    }
+
+    .user-name-display {
+      font-size: 18px;
+      text-align: center;
+      margin-top: -6px;
+    }
+
+    .user-name-block {
+      transform: translateY(-16px);
+    }
+
+    .edit-profile-button {
+      position: relative;
+      margin: 14px auto 0 auto;
+      top: 0;
+      right: 0;
+      font-size: 18px;
+      padding: 0;
+      display: block;
+      align-self: center;
+    }
+
+    .profile-body {
+      padding: 24px 16px 12px 16px;
+    }
+
+    .info-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .actions-row {
+      justify-content: center;
+    }
+
+    .profile-details {
+      padding: 20px 16px 24px 16px;
+      width: 100%;
+    }
+  }
