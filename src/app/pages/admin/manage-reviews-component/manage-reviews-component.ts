@@ -1,60 +1,153 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BookService } from '../../../core/services/book-service';
 import { Router } from '@angular/router';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { catchError, of, switchMap } from 'rxjs';
+import { catchError, combineLatest, finalize, map, of, switchMap } from 'rxjs';
 import { SnackbarService } from '../../../core/services/snackbar-service';
-import { PaginationBar } from '../../../shared/components/pagination-bar/pagination-bar';
+import { ReviewService } from '../../../core/services/review-service';
+import { BookService } from '../../../core/services/book-service';
+import { Book } from '../../../core/models/Book';
+import { Page } from '../../../core/models/Page';
+
+type ReviewFilterType = 'title' | 'word';
 
 @Component({
   selector: 'app-manage-reviews-component',
-  imports: [FormsModule, PaginationBar],
+  imports: [FormsModule],
   templateUrl: './manage-reviews-component.html',
   styleUrl: './manage-reviews-component.css',
 })
 export class ManageReviewsComponent {
-  private _bookService = inject(BookService);
-  private _snackBarService = inject(SnackbarService);
-  private _router = inject(Router);
-  currentPage = signal(0);
+  private reviewService = inject(ReviewService);
+  private snackBarService = inject(SnackbarService);
+  private router = inject(Router);
+  private bookService = inject(BookService);
+
+  filterTypeDraft = signal<ReviewFilterType>('title');
+  termDraft = signal<string>('');
+
+  filterType = signal<ReviewFilterType>('title');
+  termFilter = signal<string | null>(null);
+  filtersApplied = signal(false);
+
+  page = signal(0);
+  readonly pageSize = 10;
+
+  private loading = signal(false);
+
+  private readonly filters$ = combineLatest([
+    toObservable(this.filterType),
+    toObservable(this.termFilter),
+    toObservable(this.filtersApplied),
+    toObservable(this.page)
+  ]).pipe(
+    map(([filter, term, applied, page]) => ({
+      filter,
+      term: term?.trim() || null,
+      applied,
+      page
+    }))
+  );
+
   booksPage = toSignal(
-    toObservable(this.currentPage).pipe(
-      switchMap((page) =>
-        this._bookService.getAll(page).pipe(
+    this.filters$.pipe(
+      switchMap((filters) => {
+        if (!filters.applied || !filters.term) {
+          return of(this.emptyPage(filters.page));
+        }
+        this.loading.set(true);
+        const term = filters.term;
+        const request$ = filters.filter === 'title'
+          ? this.bookService.searchBooksByTitlePaged(term, filters.page, this.pageSize)
+          : this.bookService.searchBooksByContentPaged(term, filters.page, this.pageSize);
+
+        return request$.pipe(
           catchError((err) => {
             console.error(err);
-            this._snackBarService.openErrorSnackBar('Error al cargar la lista de libros.');
-            return of({
-              content: [],
-              page: { number: 0, totalPages: 0, totalElements: 0, size: 0 },
-            });
-          })
-        )
-      )
+            this.snackBarService.openErrorSnackBar('Error al cargar los libros.');
+            return of(this.emptyPage(filters.page));
+          }),
+          finalize(() => this.loading.set(false))
+        );
+      })
     ),
-    { initialValue: { content: [], page: { number: 0, totalPages: 0, totalElements: 0, size: 0 } } }
+    { initialValue: this.emptyPage(0) }
   );
-  isLoading = computed(() => {
-    return this.booksPage().content.length === 0 && this.booksPage().page.totalElements === 0;
+
+  books = computed(() => this.booksPage().content ?? []);
+  currentPage = computed(() => this.booksPage().page?.number ?? 0);
+  totalPages = computed(() => this.booksPage().page?.totalPages ?? 0);
+
+  isLoading = computed(() => this.loading());
+
+  hasBooks = computed(() => this.books().length > 0);
+  hasPrev = computed(() => this.currentPage() > 0);
+  hasNext = computed(() => this.currentPage() + 1 < this.totalPages());
+  showPagination = computed(() => this.totalPages() > 1 || this.books().length >= this.pageSize);
+
+  filterHint = computed(() => {
+    const filter = this.filterTypeDraft();
+    if (filter === 'title') {
+      return 'Busca reseñas asociadas a libros cuyo título coincide total o parcialmente con tu búsqueda.';
+    }
+    return 'Filtra reseñas cuyo contenido incluya la palabra clave ingresada.';
   });
 
-  pageMetaData = computed(() => {
-    const page = this.booksPage().page;
+  shouldShowHint = computed(() => true);
 
-    return {
-      number: page.number,
-      totalPages: page.totalPages,
-      totalElements: page.totalElements,
-      size: page.size,
-    };
+  placeholderForFilter = computed(() => {
+    const filter = this.filterTypeDraft();
+    if (filter === 'title') return 'Ej: El señor de los anillos';
+    return 'Palabra clave dentro de la reseña';
   });
 
-  onPageChange(page: number) {
-    this.currentPage.set(page);
+  shouldPromptToApply = computed(() => !this.filtersApplied());
+
+  onFilterTypeDraftChange(value: string) {
+    const type: ReviewFilterType = value === 'word' ? 'word' : 'title';
+    this.filterTypeDraft.set(type);
+    this.filtersApplied.set(false);
   }
 
-  goToReviews(idBook: number) {
-    this._router.navigate(['admin/review-panel', idBook]);
+  onTermDraftChange(value: string) {
+    this.termDraft.set(value ?? '');
+    this.filtersApplied.set(false);
+  }
+
+  onApplyFilters() {
+    const term = this.termDraft().trim();
+    this.filterType.set(this.filterTypeDraft());
+    this.termFilter.set(term ? term : null);
+    this.filtersApplied.set(true);
+    this.page.set(0);
+    this.loading.set(false);
+  }
+
+  goToReviews(bookId: number) {
+    this.router.navigate(['admin/review-panel', bookId]);
+  }
+
+  onPrevPage() {
+    if (this.hasPrev()) {
+      this.page.update((p) => Math.max(p - 1, 0));
+    }
+  }
+
+  onNextPage() {
+    if (this.hasNext()) {
+      this.page.update((p) => p + 1);
+    }
+  }
+
+  private emptyPage(page: number): Page<Book> {
+    return {
+      content: [],
+      page: {
+        number: page,
+        totalPages: 0,
+        totalElements: 0,
+        size: this.pageSize
+      }
+    };
   }
 }

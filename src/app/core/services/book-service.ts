@@ -55,9 +55,34 @@ export class BookService {
   getBookByTitle(title: string) {
     return this.http.get<Book[]>(`${this.baseUrl}/search/title/${title}`);
   }
+
+  searchBooksByContent(term: string) {
+    const safeTerm = term.trim();
+    return this.http.get<Book[]>(`${this.baseUrl}/search/content/${encodeURIComponent(safeTerm)}`);
+  }
+
+  // Paginado (10 por página por defecto)
+  searchBooksByTitlePaged(title: string, page: number, size = 10) {
+    const safeTitle = title.trim();
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', size)
+      .set('title', safeTitle);
+    return this.http.get<Page<Book>>(`${this.baseUrl}/search/title`, { params });
+  }
+
+  searchBooksByContentPaged(term: string, page: number, size = 10) {
+    const safeTerm = term.trim();
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', size)
+      .set('term', safeTerm);
+    return this.http.get<Page<Book>>(`${this.baseUrl}/search/content`, { params });
+  }
  
 
   searchBooks(options: {
+    title?: string | null;
     author?: string | null;
     category?: string | null;
     publishingHouse?: string | null;
@@ -70,6 +95,9 @@ export class BookService {
       .set('page', options.page)
       .set('size', options.size);
 
+    if (options.title) {
+      params = params.set('title', options.title.trim());
+    }
     if (options.author) {
       params = params.set('author', options.author);
     }

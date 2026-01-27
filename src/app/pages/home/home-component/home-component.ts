@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal, untracked } from '@angular/core';
 import { BookService } from '../../../core/services/book-service';
 import { BookCardComponent } from "../book-card-component/book-card-component";
 import { catchError, of } from 'rxjs';
@@ -119,6 +119,13 @@ export class HomeComponent {
   //cargo los libros al cargar la pagina
     constructor() {
       effect(() => {
+        this._searchService.searchTerm();
+        untracked(() => this.currentPage.set(0));
+      })
+      effect(() => {
+        const term = this._searchService.searchTerm().trim();
+        const hasSearch = term.length > 0;
+
         const page = this.currentPage();
         const filters = this.currentFilters();
         const hasFilters = this.hasActiveFilters();
@@ -126,8 +133,9 @@ export class HomeComponent {
 
         const categoryParam = filters.categories[0] ? filters.categories[0].toString().trim().toUpperCase() : undefined;
 
-        const request$ = hasFilters
+        const request$ = (hasFilters || hasSearch)
           ? this._bookService.searchBooks({
+              title: term || undefined,
               author: filters.authorQuery?.trim() || undefined,
               category: categoryParam,
               publishingHouse: filters.publisherQuery?.trim() || undefined,

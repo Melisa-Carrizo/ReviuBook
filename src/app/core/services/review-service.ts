@@ -1,8 +1,18 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Review } from '../models/Review';
 import { map, Observable, tap } from 'rxjs';
 import { Page } from '../models/Page';
+
+export interface AdminReviewSummary {
+  idReview: number;
+  bookId: number;
+  bookTitle: string;
+  username: string;
+  rating: number;
+  content: string;
+  status: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +31,24 @@ export class ReviewService {
 
   getAllActiveByBookId(idBook:string, page : number):Observable<Page<Review>>{
     return this.http.get<Page<Review>>(`${this.apiUrl}/active/${idBook}?page=${page}`);
+  }
+
+  searchReviewsByBookTitle(options: { page: number; title: string; }) {
+    const params = new HttpParams().set('page', options.page);
+    const title = options.title.trim();
+    return this.http.get<Page<Review>>(
+      `${this.apiUrl}/by-book-title/${encodeURIComponent(title)}`,
+      { params }
+    );
+  }
+
+  searchReviewsByContent(options: { page: number; term: string; }) {
+    const params = new HttpParams().set('page', options.page);
+    const term = options.term.trim();
+    return this.http.get<Page<Review>>(
+      `${this.apiUrl}/search-content/${encodeURIComponent(term)}`,
+      { params }
+    );
   }
 
   // ID del libro para obtener reseña activa del usuario
