@@ -10,6 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 import { ApiConnectionAuth } from '../../../core/services/auth-service';
 import { Router } from '@angular/router';
 import { SessionExpiredService } from '../../../core/services/session-expired-service';
@@ -31,6 +32,7 @@ import { EditUser } from '../edit-user/edit-user/edit-user';
     MatListModule,
     MatDividerModule,
   MatButtonModule,
+  RouterModule,
   EditUser
    ],
   templateUrl: './user-profile.html',
@@ -59,6 +61,10 @@ export class UserProfile {
         this.router.navigate(['/home']);
       }
     });
+  }
+
+  toggleEdit(): void {
+    this.showEdit.update((current) => !current);
   }
 
 }
