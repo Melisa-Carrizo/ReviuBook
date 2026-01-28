@@ -7,6 +7,9 @@
         </p>
     </div>
 }
+@else if (isAdmin()) {
+  
+}
 @else if (userReview()) {
   <app-modify-review
     [review]="userReview()"

@@ -25,13 +25,13 @@ export class ReviewList {
 
   //Signal de escritura, para realizarle modificaciones
   userReview: WritableSignal<Review | undefined> = signal(undefined);
-
+  isAdmin: WritableSignal<boolean> = signal(false);
   // effect para mantener el signal con informacion
   constructor() {
     effect(() => {
       const bookId = this.idBook();
       const loggedIn = this._authService.isLoggedIn();
-
+      this.isAdmin.set(this._authService.isAdmin());
       if (!bookId || !loggedIn) {
         this.userReview.set(undefined);
         return;
