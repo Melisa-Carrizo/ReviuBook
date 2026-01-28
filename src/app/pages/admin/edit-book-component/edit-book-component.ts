@@ -25,12 +25,12 @@ export class EditBookComponent {
 
   form = this.fb.group(
     {
-      title: [this.book()?.title ?? '',[Validators.required,Validators.maxLength(100)]],
-      author:[this.book()?.author ?? '',[Validators.required, Validators.maxLength(30)]],
+      title: [this.book()?.title ?? '',[Validators.required,Validators.maxLength(150)]],
+      author:[this.book()?.author ?? '',[Validators.required, Validators.maxLength(150)]],
       category:[this.book()?.category ?? '',[Validators.required]],
       description:[this.book()?.description ?? '',[Validators.required, Validators.maxLength(1000)]],
       realeaseDate:[this.book()?.releaseDate ?? '',[Validators.required, noFutureDateValidator]],
-      publishingHouse:[this.book()?.publishingHouse ?? '',[Validators.required,Validators.maxLength(30)]],
+      publishingHouse:[this.book()?.publishingHouse ?? '',[Validators.required,Validators.maxLength(150)]],
       status: [this.book()?.status,[Validators.required]]
     }
   );
