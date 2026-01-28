@@ -43,10 +43,11 @@
             </span>
           </div>
         </div>
-
-        <div class="actions-row">
+        @if (!isAdmin()) {
+          <div class="actions-row">
           <button mat-raised-button color="warn" class="favorites-button" routerLink="/favourite">Ver mis favoritos</button>
         </div>
+        }
       </div>
     }
   </mat-card>

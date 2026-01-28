@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Necesario en standalone
 
 // --- IMPORTS DE ANGULAR MATERIAL ---
@@ -50,9 +50,10 @@ export class UserProfile {
 
   // Mostrar/ocultar formulario de edición
   showEdit = signal(false);
-
+  isAdmin:WritableSignal<boolean> = signal(false);
   constructor() {
     this.authService.syncSessionFromStorage();
+    this.isAdmin.set(this.authService.isAdmin());
     effect(() => {
       const loggedIn = this.authService.isLoggedIn();
       if (!loggedIn && !this.hasPrompted) {
