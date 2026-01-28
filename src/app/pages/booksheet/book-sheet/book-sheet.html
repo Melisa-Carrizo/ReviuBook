@@ -9,8 +9,11 @@
         {{book()?.description}}
       </p>
       <div class="book-meta">
-        <span class="book-author">By {{book()?.author}}</span>
-        <span class="book-date">Published: {{book()?.releaseDate}}</span>
+        <span class="book-author"> {{book()?.author}}</span>
+        <span class="book-date">Publicado: {{book()?.releaseDate}}</span>
+      </div>
+      <div class="book-meta">
+        <span class="book-publisher"> Editorial: {{book()?.publishingHouse}}</span>
       </div>
       @if (isFavourite() === true) {
         <button class="delete-from-favorites-btn" (click)="deleteFromFavourite()">
