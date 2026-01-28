@@ -15,7 +15,8 @@
       <div class="book-meta">
         <span class="book-publisher"> Editorial: {{book()?.publishingHouse}}</span>
       </div>
-      @if (isFavourite() === true) {
+      @if (!isAdmin()) {
+        @if (isFavourite() === true) {
         <button class="delete-from-favorites-btn" (click)="deleteFromFavourite()">
           <i class="fas fa-star"></i> Eliminar de favoritos
         </button>
@@ -24,6 +25,7 @@
         <button class="add-to-favorites-btn" (click)="addToFavourite()">
           <i class="fas fa-star"></i> Agregar a favoritos
         </button>
+      }
       }
     </div>
   </div>

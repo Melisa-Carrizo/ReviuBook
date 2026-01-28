@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, OnInit, signal, WritableSignal, ɵunwrapWritableSignal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, Signal, signal, WritableSignal, ɵunwrapWritableSignal } from '@angular/core';
 import { BookService } from '../../../core/services/book-service';
 import { BookSheet } from '../../../core/models/BookSheet';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
@@ -11,6 +11,8 @@ import { ReviewService } from '../../../core/services/review-service';
 import { PaginationBar } from "../../../shared/components/pagination-bar/pagination-bar";
 import { PageMeta } from '../../../core/models/PageMeta';
 import { Page } from '../../../core/models/Page';
+import { ApiConnectionAuth } from '../../../core/services/auth-service';
+import { SnackbarService } from '../../../core/services/snackbar-service';
 
 const EMPTY_REVIEW_PAGE: Page<Review> = {
   content: [],
@@ -32,6 +34,8 @@ export class BookSheetComponent {
   private _bookService = inject(BookService);
   private _bookStage = inject(BookStageService);
   private _reviewService = inject(ReviewService);
+  private _authService = inject(ApiConnectionAuth);
+  private _snackBarService = inject(SnackbarService);
   private route = inject(ActivatedRoute);
   currentPage = signal<number>(0);
   book = toSignal(
@@ -57,8 +61,8 @@ export class BookSheetComponent {
   reviews: WritableSignal<Review[]> = signal([]);
   isFavourite: WritableSignal<boolean> = signal(false);
   idBookStage: WritableSignal<number|undefined> = signal(undefined);
-  
-  
+  isAdmin: WritableSignal<boolean> = signal(false);
+  isLoggedIn: WritableSignal<boolean> = signal(false);
   //separo los metadatos de la pagina
   pageMetadata = computed<PageMeta>(() => {
     const page = this.reviewsDTO().page;
@@ -77,6 +81,8 @@ export class BookSheetComponent {
   }
 
   constructor() {
+    this.isAdmin.set(this._authService.isAdmin());
+    this.isLoggedIn.set(this._authService.isLoggedIn());
     effect(() => {
       const currentBook = this.book();
       if (currentBook && this.reviewsDTO()?.content) {
@@ -87,8 +93,8 @@ export class BookSheetComponent {
       }
       // page metadata logged
       if(currentBook && currentBook.id) {
-
-        this._bookStage.getBookStage(currentBook.id).subscribe({
+        if(!this.isAdmin() && this.isLoggedIn()){
+          this._bookStage.getBookStage(currentBook.id).subscribe({
           next: (bookStage) => {
             if (bookStage) {
               this.isFavourite.set(true);
@@ -105,6 +111,10 @@ export class BookSheetComponent {
             this.idBookStage.set(undefined);
           }
         })
+        }else{
+          this.isFavourite.set(false);
+          this.idBookStage.set(undefined);
+        }
       }
 
     }, {allowSignalWrites: true})
@@ -124,7 +134,9 @@ export class BookSheetComponent {
   }
 
   addToFavourite() {
-    this._bookStage.createBookStage(this.book()!.id).subscribe({
+    if(this.isLoggedIn())
+    {
+      this._bookStage.createBookStage(this.book()!.id).subscribe({
       next: (data) => {
         this.isFavourite.set(true);
         this.idBookStage.set(data.id);
@@ -133,11 +145,15 @@ export class BookSheetComponent {
         console.error("Error al agregar el libro: ", err);
       }
     });
+    }else{
+      this._snackBarService.openErrorSnackBar("Debes iniciar sesión");
+    }
+    
   }
 
   deleteFromFavourite() {
     const bookStageIdToDelete = this.idBookStage();
-
+    
     if (bookStageIdToDelete === undefined) {
         console.error("No se puede eliminar: El ID del BookStage no está definido.");
         return;
