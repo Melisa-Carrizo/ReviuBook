@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiConnectionAuth } from '../../../core/services/auth-service';
 import { MatButton } from '@angular/material/button';
@@ -10,6 +10,7 @@ import { catchError, of, switchMap, tap } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SnackbarService } from '../../../core/services/snackbar-service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-register-form',
@@ -21,7 +22,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     MatLabel, 
     MatInputModule, 
     MatFormFieldModule, 
-    MatSnackBarModule 
+    MatSnackBarModule
   ],
   templateUrl: './register-form.html',
   styleUrl: './register-form.css',    

@@ -65,6 +65,20 @@ export class ModifyReview {
 
   cambiarVista() {
     this.editar = !this.editar;
+
+    // si se le da a cancelar el form vuelve a su forma original
+    if (!this.editar) {
+      const currentReview = this.review();
+      if (currentReview) {
+        this.edit.patchValue({
+          content: currentReview.content,
+          rating: currentReview.rating,
+        });
+        // marcar como no tocado para que desaparezcan los mensajes de error
+        this.edit.markAsPristine();
+        this.edit.markAsUntouched();
+      }
+    }
   }
 
   editReview() {
