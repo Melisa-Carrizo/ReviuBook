@@ -1,4 +1,4 @@
-import { Component, inject, Output, EventEmitter } from '@angular/core';
+import { Component, inject, Output, EventEmitter, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiConnectionAuth } from '../../../core/services/auth-service';
 import { LoginRequest } from '../../../core/models/login-request';
@@ -7,6 +7,7 @@ import { MatError, MatFormField, MatLabel ,MatFormFieldModule } from '@angular/m
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackbarService } from '../../../core/services/snackbar-service';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login-form',
@@ -18,7 +19,8 @@ import { SnackbarService } from '../../../core/services/snackbar-service';
     MatError, 
     MatInputModule, 
     MatFormFieldModule, 
-    MatSnackBarModule 
+    MatSnackBarModule,
+    MatIcon
   ],
   templateUrl: './login-form.html',
   styleUrl: './login-form.css',
@@ -30,6 +32,8 @@ export class LoginForm {
   private snackBar = inject(SnackbarService); 
   private apiConnection = inject(ApiConnectionAuth)
   private fb = inject(FormBuilder);
+
+  hidePassword = signal(true);
 
   loginForm = this.fb.group({
 
@@ -60,6 +64,12 @@ export class LoginForm {
 
     }
 
+  }
+
+  togglePassword(event: MouseEvent) {
+    this.hidePassword.set(!this.hidePassword());
+    event.stopPropagation();
+    event.preventDefault();
   }
 
 }
