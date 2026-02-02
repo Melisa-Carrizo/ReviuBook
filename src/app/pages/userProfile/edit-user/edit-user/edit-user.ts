@@ -1,3 +1,4 @@
+import { SnackbarService } from './../../../../core/services/snackbar-service';
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../../core/services/user-service';
@@ -15,6 +16,7 @@ export class EditUser {
 
   private userService = inject(UserService);
   private authService = inject(ApiConnectionAuth);
+  private SnackbarService = inject(SnackbarService);
   currentUser = this.authService.currentUser;
 
   private fb = inject(FormBuilder);
@@ -49,8 +51,12 @@ export class EditUser {
       this.userService.updateUserProfile(updatedUser).subscribe({
         next: (user) => {
           // perfil actualizado
-          this.authService.refreshCurrentUser();
+          this.SnackbarService.openSuccessSnackBar("Perfil actualizado! Vuelva a iniciar sesión");
+          this.authService.logout();
           this.cancel.emit();
+        },
+        error: (err) => {
+            this.SnackbarService.openErrorSnackBar("Error al actualizar usuario");
         }
       });
     }
