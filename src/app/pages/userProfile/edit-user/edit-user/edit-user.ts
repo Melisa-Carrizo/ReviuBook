@@ -54,7 +54,8 @@ export class EditUser {
           this.SnackbarService.openSuccessSnackBar("Perfil actualizado! Vuelva a iniciar sesión");
           this.authService.logout();
           this.cancel.emit();
-        },
+        }
+        ,
         error: (err) => {
             this.SnackbarService.openErrorSnackBar("Error al actualizar usuario");
         }
