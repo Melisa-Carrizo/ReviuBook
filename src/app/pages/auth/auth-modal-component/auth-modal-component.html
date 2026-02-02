@@ -10,13 +10,13 @@
   
   <mat-tab-group #tabGroup mat-stretch-tabs="false" animationDuration="500ms" [selectedIndex]="selectedTabIndex">
     
-    <mat-tab label="Login">
+    <mat-tab label="Inicia Sesión">
       <app-login-form 
         (loginSuccess)="onLoginSuccess($event)">
       </app-login-form>
     </mat-tab>
     
-    <mat-tab label="Register">
+    <mat-tab label="Registrarse">
       <app-register-form 
         (registerSuccess)="onRegisterSuccess($event)">
       </app-register-form>
