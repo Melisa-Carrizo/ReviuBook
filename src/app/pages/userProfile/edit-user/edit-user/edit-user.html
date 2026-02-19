@@ -15,6 +15,7 @@
 				<div class="error">
 					@if (userForm.get('username')?.hasError('required')) { <div>El nombre de usuario es obligatorio.</div> }
 					@if (userForm.get('username')?.hasError('minlength')) { <div>El nombre de usuario debe tener al menos 2 caracteres.</div> }
+					@if (userForm.get('username')?.hasError('maxlength'))  { <div>El nombre de usuario no puede tener más de 20 caracteres</div> }
 				</div>
 			}
 		</div>
@@ -33,7 +34,22 @@
 
 		<div class="form-row">
 			<label for="password">Contraseña</label>
-			<input id="password" type="password" formControlName="password" autocomplete="new-password" />
+			<div class="password-wrapper">
+				<input 
+					id="password" 
+					[type]="showPassword ? 'text' : 'password'" 
+					formControlName="password" 
+					autocomplete="new-password" 
+				/>
+				<button type="button" class="toggle-password" (click)="togglePasswordVisibility()">
+					@if (showPassword) {
+						<i class="fa-solid fa-eye-slash"></i>
+					} @else {
+						<i class="fa-solid fa-eye"></i>
+					}
+				</button>
+			</div>
+			<!-- <input id="password" type="password" formControlName="password" autocomplete="new-password" /> -->
 			@if (userForm.get('password')?.touched && userForm.get('password')?.invalid) {
 				<div class="error">
 					@if (userForm.get('password')?.hasError('required')) { <div>La contraseña es obligatoria.</div> }
@@ -46,7 +62,15 @@
 
 		<div class="form-row">
 			<label for="confirmPassword">Confirmar contraseña</label>
-			<input id="confirmPassword" type="password" formControlName="confirmPassword" autocomplete="new-password" />
+			<div class="password-wrapper">
+				<input 
+					id="confirmPassword" 
+					[type]="showPassword ? 'text' : 'password'" 
+					formControlName="confirmPassword" 
+					autocomplete="new-password" 
+				/>
+			</div>
+			<!-- <input id="confirmPassword" type="password" formControlName="confirmPassword" autocomplete="new-password" /> -->
 			@if (userForm.get('confirmPassword')?.touched && userForm.get('confirmPassword')?.invalid) {
 				<div class="error">
 					@if (userForm.get('confirmPassword')?.hasError('required')) { <div>Confirmar la contraseña es obligatorio.</div> }

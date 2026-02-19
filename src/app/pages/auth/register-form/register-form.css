@@ -12,39 +12,6 @@
   gap: 1rem;
 }
 
-/* 1. Ajuste del contenedor del sufijo */
-mat-form-field ::ng-deep .mat-mdc-form-field-icon-suffix {
-  display: flex !important;
-  align-items: center !important;
-  padding: 0 !important;
-}
-
-/* 2. Ajuste del botón para que no genere un recuadro raro */
-button[mat-icon-button][matSuffix] {
-  width: 40px !important;
-  height: 40px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  background: transparent !important; /* Quita fondos inesperados */
-}
-
-/* 3. Asegurar que el icono esté centrado dentro del botón */
-mat-icon {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 24px !important; /* Tamaño estándar de Material Icons */
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-}
-
-/* 4. IMPORTANTE: Ajuste de la etiqueta flotante */
-/* Al reducir la altura a 55px, la etiqueta suele quedar mal posicionada */
-mat-form-field ::ng-deep .mat-mdc-form-field-label-wrapper {
-  top: -6px !important; /* Ajusta según veas necesario para centrar la etiqueta */
-}
-
 /* estilos para mat-form-field */
 mat-form-field {
   width: 100%;
