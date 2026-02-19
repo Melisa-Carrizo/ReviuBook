@@ -1,11 +1,5 @@
 <div class="favorites-container">
-  @if(favouriteBooks().length === 0) {
-    <div class="empty-state">
-      <i class="fas fa-book-open"></i>
-      <p>Aún no tienes libros en tus favoritos</p>
-    </div>
-  }
-
+  
   <div class="filter-controls">
     <button [class.active]="filterStatus() === 'ALL'" (click)="setFilter('ALL')">Todos</button>
     <button [class.active]="filterStatus() === 'PENDIENTE'" (click)="setFilter('PENDIENTE')">Pendientes</button>

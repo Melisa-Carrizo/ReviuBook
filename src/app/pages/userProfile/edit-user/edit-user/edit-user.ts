@@ -18,6 +18,7 @@ export class EditUser {
   private authService = inject(ApiConnectionAuth);
   private SnackbarService = inject(SnackbarService);
   currentUser = this.authService.currentUser;
+  showPassword = false;
 
   private fb = inject(FormBuilder);
 
@@ -27,17 +28,17 @@ export class EditUser {
   cancelSignal: WritableSignal<boolean> = signal(false);
 
   userForm = this.fb.group({
-        username: [this.currentUser()?.username || '', [Validators.required, Validators.minLength(2)]],
+        username: [this.currentUser()?.username || '', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
         email: [this.currentUser()?.email || '', [Validators.required, Validators.email, Validators.maxLength(30)]],
         password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20), passwordPolicyValidator]],
         // Se añaden los Validators de longitud a confirmPassword
         confirmPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20), passwordPolicyValidator]],
     }, { validators: passwordsMatchValidator });
 
+
   onCancel(): void {
     this.cancel.emit();
   }
-
 
   onSubmit(): void {
     if (this.userForm.valid) {
@@ -57,14 +58,19 @@ export class EditUser {
         }
         ,
         error: (err) => {
-            this.SnackbarService.openErrorSnackBar("Error al actualizar usuario");
+
+          const errorMessage = err.error?.message || err.error || "Error al actualizar usuario";
+          this.SnackbarService.openErrorSnackBar(errorMessage);
+          console.log("Error: ", err);
+
         }
       });
     }
-        
+  }
 
-
-}
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
 
 }
