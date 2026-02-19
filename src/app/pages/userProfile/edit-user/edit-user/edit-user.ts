@@ -58,7 +58,11 @@ export class EditUser {
         }
         ,
         error: (err) => {
-            this.SnackbarService.openErrorSnackBar("Error al actualizar usuario");
+
+          const errorMessage = err.error?.message || err.error || "Error al actualizar usuario";
+          this.SnackbarService.openErrorSnackBar(errorMessage);
+          console.log("Error: ", err);
+
         }
       });
     }
